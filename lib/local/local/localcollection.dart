@@ -264,8 +264,7 @@ class LocalCollection extends Collection<LocalDocument>
     if (this.data.containsKey(document.id)) this.data.remove(document.id);
     this._saveInternal();
   }
-
-  bool _isUpdating;
+  bool _isUpdating = false;
 
   /// Get the protocol of the path.
   @override
