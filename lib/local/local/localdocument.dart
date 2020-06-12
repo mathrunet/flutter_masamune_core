@@ -49,12 +49,6 @@ class LocalDocument extends Document<DataField>
       Log.error("Path is invalid.");
       return null;
     }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 0));
-    if (length <= 0 || length % 2 != 0) {
-      Log.error("Path is not document path.");
-      return null;
-    }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document != null) return document;
     Log.warning(
@@ -81,12 +75,6 @@ class LocalDocument extends Document<DataField>
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
       Log.error("Path is invalid.");
-      return null;
-    }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 0));
-    if (length <= 0 || length % 2 != 0) {
-      Log.error("Path is not document path.");
       return null;
     }
     LocalDocument document = PathMap.get<LocalDocument>(path);
@@ -120,12 +108,6 @@ class LocalDocument extends Document<DataField>
       Log.error("Path is invalid.");
       return null;
     }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 0));
-    if (length <= 0 || length % 2 != 0) {
-      Log.error("Path is not document path.");
-      return null;
-    }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document != null) {
       if (data != null) document.set(_convertData(path, data));
@@ -155,12 +137,6 @@ class LocalDocument extends Document<DataField>
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
       Log.error("Path is invalid.");
-      return;
-    }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 0));
-    if (length <= 0 || length % 2 != 0) {
-      Log.error("Path is not document path.");
       return;
     }
     LocalDocument document = PathMap.get<LocalDocument>(path);

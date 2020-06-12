@@ -17,3 +17,4 @@ export 'data/data.dart';
 export 'task/task.dart';
 export 'auth/auth.dart';
 export 'local/local.dart';
+export 'asset/asset.dart';

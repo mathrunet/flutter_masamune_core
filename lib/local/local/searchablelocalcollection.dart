@@ -71,12 +71,6 @@ class SearchableLocalCollection extends Collection<LocalDocument>
       Log.error("Path is invalid.");
       return null;
     }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 1));
-    if (length <= 0 || length % 2 != 1) {
-      Log.error("Path is not document path.");
-      return null;
-    }
     SearchableLocalCollection collection =
         PathMap.get<SearchableLocalCollection>(path);
     if (collection != null) return collection;
@@ -117,12 +111,6 @@ class SearchableLocalCollection extends Collection<LocalDocument>
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
       Log.error("Path is invalid.");
-      return null;
-    }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 1));
-    if (length <= 0 || length % 2 != 1) {
-      Log.error("Path is not document path.");
       return null;
     }
     SearchableLocalCollection collection =
