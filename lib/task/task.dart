@@ -22,6 +22,7 @@ part 'core/extensions.dart';
 part 'interface/itask.dart';
 
 part 'component/task.dart';
+part 'component/taskunit.dart';
 part 'component/tasklist.dart';
 part 'component/taskdocument.dart';
 part 'component/taskcollection.dart';

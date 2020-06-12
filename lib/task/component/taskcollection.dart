@@ -18,7 +18,7 @@ abstract class TaskCollection<TChild extends IChild> extends Collection<TChild>
   ///
   /// Do not use from external class
   @protected
-  Completer createCompleter() => Completer<Task>();
+  Completer createCompleter();
 
   /// Collection class with task management function.
   ///

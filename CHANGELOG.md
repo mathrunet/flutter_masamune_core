@@ -1,3 +1,8 @@
+## [0.2.9] - Update README (2020.06.12)
+
+* Separated Task into abstract class TaskUnit.
+* Changed not to predefine required methods in abstract class.
+
 ## [0.2.8] - Update README (2020.06.09)
 
 * Moved the mobile part function to masamune_mobile.

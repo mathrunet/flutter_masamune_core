@@ -123,7 +123,7 @@ abstract class Document<TChild extends IChild>
   }
 
   /// Get the protocol of the path.
-  String get protocol => Protocol.tmp;
+  String get protocol;
 
   /// Get the path.
   String get path => this._path.url;

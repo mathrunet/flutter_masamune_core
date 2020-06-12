@@ -9,7 +9,7 @@ part of masamune.task;
 /// If an error occurs, [isError] is True and the associated error flag is True.
 ///
 /// Everything is built into the Path system and treated as a Unit.
-class Task<T extends Object> extends Unit<T> with TaskMixin implements ITask {
+class Task<T extends Object> extends TaskUnit<T> {
   /// Create a Completer that matches the class.
   ///
   /// Do not use from external class.
@@ -106,13 +106,15 @@ class Task<T extends Object> extends Unit<T> with TaskMixin implements ITask {
       bool isTemporary = false,
       int group = 0,
       int order = 10})
-      : super(path,
+      : super(path:path,
             value: value,
             isTemporary: isTemporary,
             group: group,
             order: order) {
     this._completer = this.createCompleter();
   }
+
+  
 
   /// Wait for all tasks.
   ///
@@ -139,4 +141,8 @@ class Task<T extends Object> extends Unit<T> with TaskMixin implements ITask {
   /// [tasks]: Task to execute (Future).
   static Future<T> waitAny<T extends ITask>(Iterable<Future<T>> tasks) =>
       Future.any<T>(tasks);
+
+  /// Get the protocol of the path.
+  @override
+  String get protocol => Protocol.tmp;
 }

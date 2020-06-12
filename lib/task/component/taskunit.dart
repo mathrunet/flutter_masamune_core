@@ -1,6 +1,6 @@
 part of masamune.task;
 
-/// Document class with task management function.
+/// Abstract class for tasks.
 ///
 /// The task performed is usually the [Future<T>] is returned.
 ///
@@ -8,18 +8,17 @@ part of masamune.task;
 ///
 /// If an error occurs, [isError] is True and the associated error flag is True.
 ///
-/// Everything is built into the Path system and treated as a Document.
-///
-/// Please inherit and use.
-abstract class TaskDocument<TChild extends IChild> extends Document<TChild>
-    with TaskMixin
-    implements ITask {
+/// Everything is built into the Path system and treated as a Unit.
+/// 
+/// Please inherit and use it.
+abstract class TaskUnit<T extends Object> extends Unit<T> with TaskMixin implements ITask {
   /// Create a Completer that matches the class.
-  /// Do not use from external class
+  ///
+  /// Do not use from external class.
   @protected
   Completer createCompleter();
 
-  /// Document class with task management function.
+  /// Abstract class for tasks.
   ///
   /// The task performed is usually the [Future<T>] is returned.
   ///
@@ -27,22 +26,24 @@ abstract class TaskDocument<TChild extends IChild> extends Document<TChild>
   ///
   /// If an error occurs, [isError] is True and the associated error flag is True.
   ///
-  /// Everything is built into the Path system and treated as a Document.
+  /// Everything is built into the Path system and treated as a Unit.
+  /// 
+  /// Please inherit and use it.
   ///
-  /// [path]: Document path.
-  /// [children]: Initial document data, using TChild array.
+  /// [path]: Unit path.
+  /// [value]: Unit value.
   /// [isTemporary]: True if it is temporary data.
   /// [group]: Unit group (0 or more).
   /// [order]: Unit order.
   @protected
-  TaskDocument(
+  TaskUnit(
       {String path,
-      Iterable<TChild> children,
+      dynamic value,
       bool isTemporary = false,
       int group = 0,
       int order = 10})
       : super(path,
-            children: children,
+            value: value,
             isTemporary: isTemporary,
             group: group,
             order: order) {
