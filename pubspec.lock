@@ -106,7 +106,7 @@ packages:
       path: "../masamune_localize"
       relative: true
     source: path
-    version: "0.2.5"
+    version: "0.2.5+1"
   masamune_test:
     dependency: "direct dev"
     description:
