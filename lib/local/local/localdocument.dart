@@ -14,9 +14,9 @@ class LocalDocument extends Document<DataField>
     with DataDocumentMixin<DataField>
     implements IDataDocument<DataField> {
   static Map<String, dynamic> get _root {
-    if( __root == null ) {
+    if (__root == null) {
       String text = Prefs.getString("local://".toSHA1());
-      if( isEmpty( text ) ) {
+      if (isEmpty(text)) {
         __root = MapPool.get();
       } else {
         __root = Json.decodeAsMap(text);
@@ -24,10 +24,12 @@ class LocalDocument extends Document<DataField>
     }
     return __root;
   }
-  static void _save( ){
-    String json = Json.encode( _root );
+
+  static void _save() {
+    String json = Json.encode(_root);
     Prefs.set("local://".toSHA1(), json);
   }
+
   static Map<String, dynamic> __root;
   static Timer _timer;
   static Queue<LocalDocument> _updateStack = QueuePool.get();
@@ -46,6 +48,7 @@ class LocalDocument extends Document<DataField>
       _save();
     });
   }
+
   /// Process to create a new instance.
   ///
   /// Do not use from outside the class.
@@ -218,7 +221,7 @@ class LocalDocument extends Document<DataField>
 
   void _loadFromPrefs() {
     try {
-      Map<String, dynamic> data = LocalDocument._root.readFromPath( this.path );
+      Map<String, dynamic> data = LocalDocument._root.readFromPath(this.path);
       this._setInternal(data);
       this.notifyUpdate();
     } catch (e) {
@@ -244,13 +247,14 @@ class LocalDocument extends Document<DataField>
   @override
   Future<T> save<T extends IDataDocument>() {
     if (this.isDisposed) return Future.delayed(Duration.zero);
-    Map<String,dynamic> data = MapPool.get();
-    for( MapEntry<String, DataField> tmp in this.data.entries ){
-      if( isEmpty( tmp.key ) || tmp.value == null || tmp.value.data == null ) continue;
+    Map<String, dynamic> data = MapPool.get();
+    for (MapEntry<String, DataField> tmp in this.data.entries) {
+      if (isEmpty(tmp.key) || tmp.value == null || tmp.value.data == null)
+        continue;
       data[tmp.key] = tmp.value.data;
     }
     _root.writeToPath(this.path, data);
-    if( _timer == null ) _startUpdate();
+    if (_timer == null) _startUpdate();
     _updateStack.add(this);
     return this.asFuture();
   }

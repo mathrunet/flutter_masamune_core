@@ -478,11 +478,13 @@ abstract class Document<TChild extends IChild>
     if (this.isDisposed || !this.isDisposable) return;
     this._isDisposed = true;
     if (this._onDispose != null) this._onDispose();
-    for (IParent parent in this._parent.toList()) parent._removeChildInternal(this);
+    for (IParent parent in this._parent.toList())
+      parent._removeChildInternal(this);
     for (TChild child in this.data.values.toList()) this.unsetInternal(child);
     this._parent.clear();
     this.data.clear();
     PathMap.remove(this);
+    PathListener._updateNotify(this);
     Log.ast("Disposed object: %s", [this.path]);
   }
 }

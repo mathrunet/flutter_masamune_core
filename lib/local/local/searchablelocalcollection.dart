@@ -178,19 +178,24 @@ class SearchableLocalCollection extends Collection<LocalDocument>
 
   void _loadFromPrefs() {
     try {
-      Map<String, dynamic> data = LocalDocument._root.readFromPath( this.path );
+      Map<String, dynamic> data = LocalDocument._root.readFromPath(this.path);
       this.data.clear();
       if (data != null) {
         List<LocalDocument> addData = ListPool.get();
         for (MapEntry<String, dynamic> tmp in data.entries) {
-          if (isEmpty( tmp.key ) || !( tmp.value is Map<String,dynamic> ) ) continue;
+          if (isEmpty(tmp.key) || !(tmp.value is Map<String, dynamic>))
+            continue;
           if (!tmp.value.containsKey(this.queryKey)) continue;
-          if (!(tmp.value[this.queryKey]?.toString()?.contains(this.searchText) ??
+          if (!(tmp.value[this.queryKey]
+                  ?.toString()
+                  ?.contains(this.searchText) ??
               false)) continue;
-          if (this.data.containsKey(tmp.key) && this.data[tmp.key] is LocalDocument) {
+          if (this.data.containsKey(tmp.key) &&
+              this.data[tmp.key] is LocalDocument) {
             this.data[tmp.key]?._setInternal(tmp.value);
           } else {
-            addData.add(LocalDocument.create(Paths.child(this.path, tmp.key), tmp.value));
+            addData.add(LocalDocument.create(
+                Paths.child(this.path, tmp.key), tmp.value));
           }
         }
         this._setInternal(addData);

@@ -106,15 +106,14 @@ class Task<T extends Object> extends TaskUnit<T> {
       bool isTemporary = false,
       int group = 0,
       int order = 10})
-      : super(path:path,
+      : super(
+            path: path,
             value: value,
             isTemporary: isTemporary,
             group: group,
             order: order) {
     this._completer = this.createCompleter();
   }
-
-  
 
   /// Wait for all tasks.
   ///

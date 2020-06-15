@@ -7,6 +7,7 @@
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune.asset;
+
 import 'dart:async';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';

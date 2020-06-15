@@ -89,6 +89,7 @@ class Paths {
     } catch (e) {}
     return null;
   }
+
   /// Returns one deep path with [child] appended to [path].
   ///
   /// By entering [separator], it can be used for purposes other than paths.
@@ -106,14 +107,14 @@ class Paths {
     } catch (e) {}
     return null;
   }
+
   /// Divides the [path] and returns it as an array.
   ///
   /// By entering [separator], it can be used for purposes other than paths.
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
-  static List<String> split(String path,
-      {String separator = Const.slash}) {
+  static List<String> split(String path, {String separator = Const.slash}) {
     try {
       if (isEmpty(child)) return ListPool.get();
       path = path?.trimString(separator);
@@ -122,6 +123,4 @@ class Paths {
     } catch (e) {}
     return null;
   }
-
-  
 }

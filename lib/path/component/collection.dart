@@ -534,6 +534,7 @@ abstract class Collection<TChild extends IChild>
     for (TChild child in this.data.values.toList()) this.unsetInternal(child);
     this.data.clear();
     PathMap.remove(this);
+    PathListener._updateNotify(this);
     Log.ast("Disposed object: %s", [this.path]);
   }
 }

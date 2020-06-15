@@ -9,9 +9,11 @@ part of masamune.task;
 /// If an error occurs, [isError] is True and the associated error flag is True.
 ///
 /// Everything is built into the Path system and treated as a Unit.
-/// 
+///
 /// Please inherit and use it.
-abstract class TaskUnit<T extends Object> extends Unit<T> with TaskMixin implements ITask {
+abstract class TaskUnit<T extends Object> extends Unit<T>
+    with TaskMixin
+    implements ITask {
   /// Create a Completer that matches the class.
   ///
   /// Do not use from external class.
@@ -27,7 +29,7 @@ abstract class TaskUnit<T extends Object> extends Unit<T> with TaskMixin impleme
   /// If an error occurs, [isError] is True and the associated error flag is True.
   ///
   /// Everything is built into the Path system and treated as a Unit.
-  /// 
+  ///
   /// Please inherit and use it.
   ///
   /// [path]: Unit path.
