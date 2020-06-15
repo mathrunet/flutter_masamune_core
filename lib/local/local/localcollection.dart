@@ -135,31 +135,19 @@ class LocalCollection extends Collection<LocalDocument>
 
   void _loadFromPrefs() {
     try {
-      String json = Prefs.getString("local://" + this.path);
-      if (isEmpty(json)) return;
-      List<dynamic> data = Json.decodeAsList(json);
+      Map<String, dynamic> data = LocalDocument._root.readFromPath( this.path );
+      this.data.clear();
       if (data != null) {
         List<LocalDocument> addData = ListPool.get();
-        for (dynamic tmp in data) {
-          if (!(tmp is String)) continue;
-          String key = tmp as String;
-          if (isEmpty(key)) continue;
-          String path = Paths.child(this.path, key);
-          String dicJson = Prefs.getString("local://" + path);
-          if (isEmpty(dicJson)) continue;
-          Map map = Json.decodeAsMap(dicJson);
-          if (this.data.containsKey(key) && this.data[key] is LocalDocument) {
-            this.data[key]?._setInternal(map);
+        for (MapEntry<String, dynamic> tmp in data.entries) {
+          if (isEmpty( tmp.key ) || !( tmp.value is Map<String,dynamic> ) ) continue;
+          if (this.data.containsKey(tmp.key) && this.data[tmp.key] is LocalDocument) {
+            this.data[tmp.key]?._setInternal(tmp.value);
           } else {
-            addData.add(LocalDocument.create(path, map));
+            addData.add(LocalDocument.create(Paths.child(this.path, tmp.key), tmp.value));
           }
         }
         this._setInternal(addData);
-        for (int i = this.data.length - 1; i >= 0; i--) {
-          LocalDocument doc = this.data[i];
-          if (doc == null) continue;
-          if (!data.any((key) => doc.id == (key as String))) this.remove(doc);
-        }
         Log.ast("Updated data: %s (%s)", [this.path, this.runtimeType]);
       }
       this.sort();
@@ -180,40 +168,7 @@ class LocalCollection extends Collection<LocalDocument>
 
   /// Apply the changed collection data to the local database.
   void save() {
-    this._isUpdating = true;
     for (LocalDocument tmp in this.data.values) tmp?.save();
-    this._isUpdating = false;
-    this._saveInternal();
-    this.notifyUpdate();
-  }
-
-  void _saveInternal([LocalDocument document]) {
-    if (this._isUpdating) return;
-    if (document != null && !this.data.containsKey(document.id))
-      this.data[document.id] = document;
-    List<String> keys = List.from(this.data.keys);
-    String jsonList = Prefs.getString("local://" + this.path);
-    if (isNotEmpty(jsonList)) {
-      List<dynamic> data = Json.decodeAsList(jsonList);
-      if (data != null) {
-        for (dynamic tmp in data) {
-          if (!(tmp is String)) continue;
-          String key = tmp as String;
-          if (isEmpty(key) || keys.contains(key)) continue;
-          Prefs.remove("local://" + Paths.child(this.path, key));
-        }
-      }
-    }
-    if (keys == null || keys.length <= 0) {
-      Prefs.remove("local://" + this.path);
-    } else {
-      String json = Json.encode(keys);
-      if (isEmpty(json)) {
-        Prefs.remove("local://" + this.path);
-      } else {
-        Prefs.set("local://" + this.path, json);
-      }
-    }
   }
 
   /// Delete this FirestoreCollection path from the local database.
@@ -221,38 +176,14 @@ class LocalCollection extends Collection<LocalDocument>
   /// This object itself is also [dispose()].
   void delete() {
     if (this.isDisposed) return;
-    this._isUpdating = true;
-    List<String> keys = List.from(this.data.keys);
-    for (String key in keys) {
-      if (isEmpty(key)) continue;
-      LocalDocument doc = this.data[key];
+    for (int i = this.data.length - 1; i >= 0; i--) {
+      LocalDocument doc = this.data[i];
       if (doc == null) continue;
       doc.delete();
-      this.data.remove(key);
+      this.data.removeAt(i);
     }
-    this._isUpdating = false;
-    String jsonList = Prefs.getString("local://" + this.path);
-    if (isNotEmpty(jsonList)) {
-      List<dynamic> data = Json.decodeAsList(jsonList);
-      if (data != null) {
-        for (dynamic tmp in data) {
-          if (!(tmp is String)) continue;
-          String key = tmp as String;
-          if (isEmpty(key)) continue;
-          Prefs.remove("local://" + Paths.child(this.path, key));
-        }
-      }
-    }
-    Prefs.remove("local://" + this.path);
     this.dispose();
   }
-
-  void _deleteInternal([LocalDocument document]) {
-    if (document == null) return;
-    if (this.data.containsKey(document.id)) this.data.remove(document.id);
-    this._saveInternal();
-  }
-  bool _isUpdating = false;
 
   /// Get the protocol of the path.
   @override

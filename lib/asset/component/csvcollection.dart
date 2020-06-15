@@ -43,17 +43,18 @@ class CSVCollection extends TaskCollection<DataDocument> {
     Log.warning(
         "No data was found from the pathmap. Please execute [load()] first.");
     return null;
+
   }
 
   /// Get data from CSV and get it as a collection.
   /// 
   /// Get the columns as elements of the document and the rows into a collection.
   /// 
-  /// [path]: CSV file path.
-  /// [offsetX]: Offset X.
-  /// [offsetY]: Offset Y.
+  /// [path]: CSV path.
+  /// [offsetX]: Offset in the X direction of CSV.
+  /// [offsetY]: Offset in the Y direction of CSV.
   /// [labels]: Document label.
-  /// [timeout]: Timeout setting.
+  /// [timeout]: Timeout time.
   static Future<CSVCollection> load(
     String path,
     {
@@ -108,7 +109,6 @@ class CSVCollection extends TaskCollection<DataDocument> {
         return;
       }
       List<List> converted = const CsvToListConverter().convert(csv);
-      Log.msg( converted.length );
       if( converted.length <= offsetY || labels.length <= 0 ) {
         this.done();
         return;
@@ -117,7 +117,9 @@ class CSVCollection extends TaskCollection<DataDocument> {
         List line = converted[y];
         if (line == null) continue;
         if( line.length <= offsetX ) continue;
-        DataDocument doc = DataDocument( Paths.child( this.path, line[offsetX].toString() ) );
+        String id = line[offsetX].toString();
+        if( isEmpty( id ) ) continue;
+        DataDocument doc = DataDocument( Paths.child( this.path, id ) );
         for (int x = offsetX; x < line.length; x++) {
           int i = x - offsetX;
           if( i >= labels.length ) continue;

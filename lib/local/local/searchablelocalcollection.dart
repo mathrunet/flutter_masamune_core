@@ -178,34 +178,22 @@ class SearchableLocalCollection extends Collection<LocalDocument>
 
   void _loadFromPrefs() {
     try {
-      String json = Prefs.getString("local://" + this.path);
-      if (isEmpty(json)) return;
-      List<dynamic> data = Json.decodeAsList(json);
+      Map<String, dynamic> data = LocalDocument._root.readFromPath( this.path );
+      this.data.clear();
       if (data != null) {
         List<LocalDocument> addData = ListPool.get();
-        for (dynamic tmp in data) {
-          if (!(tmp is String)) continue;
-          String key = tmp as String;
-          if (isEmpty(key)) continue;
-          String path = Paths.child(this.path, key);
-          String dicJson = Prefs.getString("local://" + path);
-          if (isEmpty(dicJson)) continue;
-          Map map = Json.decodeAsMap(dicJson);
-          if (!map.containsKey(this.queryKey)) continue;
-          if (!(map[this.queryKey]?.toString()?.contains(this.searchText) ??
+        for (MapEntry<String, dynamic> tmp in data.entries) {
+          if (isEmpty( tmp.key ) || !( tmp.value is Map<String,dynamic> ) ) continue;
+          if (!tmp.value.containsKey(this.queryKey)) continue;
+          if (!(tmp.value[this.queryKey]?.toString()?.contains(this.searchText) ??
               false)) continue;
-          if (this.data.containsKey(key) && this.data[key] is LocalDocument) {
-            this.data[key]?._setInternal(map);
+          if (this.data.containsKey(tmp.key) && this.data[tmp.key] is LocalDocument) {
+            this.data[tmp.key]?._setInternal(tmp.value);
           } else {
-            addData.add(LocalDocument.create(path, map));
+            addData.add(LocalDocument.create(Paths.child(this.path, tmp.key), tmp.value));
           }
         }
         this._setInternal(addData);
-        for (int i = this.data.length - 1; i >= 0; i--) {
-          LocalDocument doc = this.data[i];
-          if (doc == null) continue;
-          if (!data.any((key) => doc.id == (key as String))) this.remove(doc);
-        }
         Log.ast("Updated data: %s (%s)", [this.path, this.runtimeType]);
       }
       this.sort();

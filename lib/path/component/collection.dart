@@ -477,7 +477,7 @@ abstract class Collection<TChild extends IChild>
       updatedTime = DateTime.now().frameMillisecondsSinceEpoch;
     if (updatedTime <= this._updatedTime) return;
     this._updatedTime = updatedTime;
-    for (IChild tmp in this.data.values) tmp?.notifyUpdate(updatedTime);
+    //for (IChild tmp in this.data.values) tmp?.notifyUpdate(updatedTime);
     PathListener._updateNotify(this);
   }
 

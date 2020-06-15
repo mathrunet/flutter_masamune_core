@@ -190,7 +190,7 @@ extension BoolExtension on bool {
 extension DateTimeExtension on DateTime {
   /// Gets the time per frame in UnixTime in milliseconds.
   int get frameMillisecondsSinceEpoch =>
-      (this.millisecondsSinceEpoch / 10).round() * 10;
+      (this.millisecondsSinceEpoch / 30).round() * 30;
 }
 
 /// Future extension methods
@@ -326,5 +326,76 @@ extension ListExtension<T extends Object> on List<T> {
     }
     this.insert(0, insert);
     return this;
+  }
+}
+
+
+/// Map extension methods.
+extension StringMapExtension on Map<String, dynamic> {
+  /// Reads data from a tree-structured map using paths.
+  ///
+  /// If there is no data, null is returned.
+  /// 
+  /// [path]: The data path to read.
+  dynamic readFromPath( String path ) {
+    if( isEmpty( path ) ) return null;
+    List<String> paths = Paths.split( path );
+    if( paths == null || paths.length <= 0 ) return null;
+    return this._readFromPathInternal(paths, 0);
+  }
+  dynamic _readFromPathInternal( List<String> paths, int index ) {
+    if( paths.length <= index ) return this;
+    String p = paths[index];
+    if( isEmpty( p ) || !this.containsKey( p ) ) return null;
+    if( this[p] is Map<String, dynamic> ) return (this[p] as Map<String, dynamic>)._readFromPathInternal(paths, index + 1);
+    return this[p];
+  }
+  /// Writes data to the tree structure map.
+  ///
+  /// A map will be created even if there is no intermediate tree.
+  /// 
+  /// [path]: The path of data to write.
+  /// [value]: The data to write.
+  void writeToPath( String path, dynamic value ){
+    if( isEmpty( path ) ) return;
+    List<String> paths = Paths.split( path );
+    if( paths == null || paths.length <= 0 ) return;
+    this._writeToPathInternal(paths, 0, value);
+  }
+  void _writeToPathInternal(List<String> paths, int index, dynamic value){
+    if( paths.length - 1 <= index ){
+      this.remove( paths[index] );
+      this[paths[index]] = value;
+      return;
+    }
+    String p = paths[index];
+    if( isEmpty( p ) ) return;
+    if( !this.containsKey( p ) || this[p] == null || !(this[p] is Map<String, dynamic>) ) {
+      this[p] = MapPool.get<String,dynamic>();
+    } 
+    (this[p] as Map<String, dynamic>)._writeToPathInternal(paths, index + 1, value);
+  }
+  /// Deletes the data of the specified path from the tree structure data.
+  ///
+  /// All data under that path will be deleted.
+  /// 
+  /// [path]: The path of data to delete.
+  void deleteFromPath( String path ){
+    if( isEmpty( path ) ) return;
+    List<String> paths = Paths.split( path );
+    if( paths == null || paths.length <= 0 ) return;
+    this._deleteFromPathInternal(paths, 0);
+  }
+  void _deleteFromPathInternal(List<String> paths, int index){
+    if( paths.length - 1 <= index ){
+      this.remove( paths[index] );
+      return;
+    }
+    String p = paths[index];
+    if( isEmpty( p ) ) return;
+    if( !this.containsKey( p ) || this[p] == null || !(this[p] is Map<String, dynamic>) ) {
+      return;
+    } 
+    (this[p] as Map<String, dynamic>)._deleteFromPathInternal(paths, index + 1);
   }
 }

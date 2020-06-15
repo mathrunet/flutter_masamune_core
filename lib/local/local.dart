@@ -8,6 +8,9 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune.local;
 
+import 'dart:async';
+import 'dart:collection';
+
 import 'package:flutter/widgets.dart';
 import 'package:masamune_core/dartcore/dartcore.dart';
 import 'package:masamune_core/data/data.dart';

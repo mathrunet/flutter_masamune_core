@@ -424,7 +424,7 @@ abstract class Document<TChild extends IChild>
     if (updatedTime <= this._updatedTime) return;
     this._updatedTime = updatedTime;
     this._parent?.notifyUpdate(updatedTime);
-    for (TChild tmp in this.data.values) tmp?.notifyUpdate(updatedTime);
+    //for (TChild tmp in this.data.values) tmp?.notifyUpdate(updatedTime);
     PathListener._updateNotify(this);
   }
 
@@ -478,7 +478,7 @@ abstract class Document<TChild extends IChild>
     if (this.isDisposed || !this.isDisposable) return;
     this._isDisposed = true;
     if (this._onDispose != null) this._onDispose();
-    for (IParent parent in this._parent) parent._removeChildInternal(this);
+    for (IParent parent in this._parent.toList()) parent._removeChildInternal(this);
     for (TChild child in this.data.values.toList()) this.unsetInternal(child);
     this._parent.clear();
     this.data.clear();

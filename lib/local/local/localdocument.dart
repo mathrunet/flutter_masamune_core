@@ -13,6 +13,39 @@ part of masamune.local;
 class LocalDocument extends Document<DataField>
     with DataDocumentMixin<DataField>
     implements IDataDocument<DataField> {
+  static Map<String, dynamic> get _root {
+    if( __root == null ) {
+      String text = Prefs.getString("local://".toSHA1());
+      if( isEmpty( text ) ) {
+        __root = MapPool.get();
+      } else {
+        __root = Json.decodeAsMap(text);
+      }
+    }
+    return __root;
+  }
+  static void _save( ){
+    String json = Json.encode( _root );
+    Prefs.set("local://".toSHA1(), json);
+  }
+  static Map<String, dynamic> __root;
+  static Timer _timer;
+  static Queue<LocalDocument> _updateStack = QueuePool.get();
+  static void _startUpdate() {
+    if (_timer != null) return;
+    _timer = Timer.periodic(Config.periodicExecutionTime, (timer) async {
+      if (_updateStack.length <= 0) return;
+      LocalDocument doc;
+      List<LocalDocument> applied = ListPool.get();
+      while (_updateStack.length > 0 &&
+          (doc = _updateStack.removeLast()) != null) {
+        if (applied.contains(doc)) continue;
+        applied.add(doc);
+      }
+      applied.release();
+      _save();
+    });
+  }
   /// Process to create a new instance.
   ///
   /// Do not use from outside the class.
@@ -108,6 +141,12 @@ class LocalDocument extends Document<DataField>
       Log.error("Path is invalid.");
       return null;
     }
+    int length = Paths.length(path);
+    assert(!(length <= 0 || length % 2 != 0));
+    if (length <= 0 || length % 2 != 0) {
+      Log.error("Path is not document path.");
+      return null;
+    }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document != null) {
       if (data != null) document.set(_convertData(path, data));
@@ -137,6 +176,12 @@ class LocalDocument extends Document<DataField>
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
       Log.error("Path is invalid.");
+      return;
+    }
+    int length = Paths.length(path);
+    assert(!(length <= 0 || length % 2 != 0));
+    if (length <= 0 || length % 2 != 0) {
+      Log.error("Path is not document path.");
       return;
     }
     LocalDocument document = PathMap.get<LocalDocument>(path);
@@ -173,10 +218,8 @@ class LocalDocument extends Document<DataField>
 
   void _loadFromPrefs() {
     try {
-      String json = Prefs.getString("local://" + this.path);
-      if (isEmpty(json)) return;
-      Map<String, dynamic> map = Json.decodeAsMap(json);
-      this._setInternal(map);
+      Map<String, dynamic> data = LocalDocument._root.readFromPath( this.path );
+      this._setInternal(data);
       this.notifyUpdate();
     } catch (e) {
       Log.error(e.toString());
@@ -201,19 +244,14 @@ class LocalDocument extends Document<DataField>
   @override
   Future<T> save<T extends IDataDocument>() {
     if (this.isDisposed) return Future.delayed(Duration.zero);
-    if (this.data == null || this.data.length <= 0) {
-      Prefs.remove("local://" + this.path);
-    } else {
-      String json = Json.encode(this.data.keys);
-      if (isEmpty(json)) {
-        Prefs.remove("local://" + this.path);
-      } else {
-        Prefs.set("local://" + this.path, json);
-      }
+    Map<String,dynamic> data = MapPool.get();
+    for( MapEntry<String, DataField> tmp in this.data.entries ){
+      if( isEmpty( tmp.key ) || tmp.value == null || tmp.value.data == null ) continue;
+      data[tmp.key] = tmp.value.data;
     }
-    LocalCollection collection = LocalCollection.load(Paths.parent(this.path));
-    if (collection != null) collection._saveInternal(this);
-    this.notifyUpdate();
+    _root.writeToPath(this.path, data);
+    if( _timer == null ) _startUpdate();
+    _updateStack.add(this);
     return this.asFuture();
   }
 
@@ -223,9 +261,8 @@ class LocalDocument extends Document<DataField>
   @override
   Future delete() {
     if (this.isDisposed) return Future.delayed(Duration.zero);
-    Prefs.remove("local://" + this.path);
-    LocalCollection collection = LocalCollection.load(Paths.parent(this.path));
-    if (collection != null) collection._deleteInternal(this);
+    _root.deleteFromPath(this.path);
+    _save();
     this.dispose();
     return Future.delayed(Duration.zero);
   }

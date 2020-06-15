@@ -330,7 +330,7 @@ abstract class Unit<TValue extends Object>
     if (this.isDisposed || !this.isDisposable) return;
     this._isDisposed = true;
     if (this._onDispose != null) this._onDispose();
-    this._parent?.forEach((parent) => parent._removeChildInternal(this));
+    for( IParent parent in this._parent.toList() ) parent._removeChildInternal(this);
     this.unsetInternal();
     PathMap.remove(this);
     Log.ast("Disposed object: %s", [this.path]);

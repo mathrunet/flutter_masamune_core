@@ -2,7 +2,7 @@ name: masamune_core
 description: >-
   Library that provides the core part of the Masamune framework.
   It provides Path map, data management, task management and utility.
-version: 0.2.9
+version: 0.2.9+2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune_core
 
@@ -15,7 +15,8 @@ dependencies:
   # Web
   http: ^0.12.1
   # Data
-  shared_preferences: ^0.5.6+3
+  csv: ^4.0.3
+  shared_preferences: 0.5.6+3
   # Utility
   uuid: ^2.0.4
   crypto: ^2.1.3
