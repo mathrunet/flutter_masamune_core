@@ -21,7 +21,6 @@ class Path {
     if (isNotEmpty(this.scheme)) this._url += this.scheme + "://";
     this._url += this.path;
     if (isNotEmpty(this.query)) this._url += "?" + this.query;
-    if (isNotEmpty(this.anchor)) this._url += "#" + this.anchor;
     return this._url;
   }
 
@@ -32,21 +31,21 @@ class Path {
   /// [value]: URL to change.
   set url(String value) {
     if (isEmpty(value)) {
-      this._url = this.scheme = this.path =
-          this.file = this.extension = this.query = this.anchor = null;
+      this._url = this.scheme =
+          this.path = this.file = this.extension = this.query = null;
     } else {
-      RegExpMatch match = _uriPattern.firstMatch(url);
+      Uri match = Uri.tryParse(url);
       if (match != null) {
         this._url = url;
-        this._scheme = match.group(2) ?? Const.empty;
-        this._path = match.group(3) ?? Const.empty;
+        this._scheme = match.scheme ?? Const.empty;
+        this._path = match.path ?? Const.empty;
         this._file = isEmpty(this._path) ? Const.empty : Paths.last(this._path);
-        this._extension = match.group(7) ?? Const.empty;
-        this._query = match.group(9) ?? Const.empty;
-        this._anchor = match.group(11) ?? Const.empty;
+        this._extension =
+            Paths.last(this._file, separator: Const.dot) ?? Const.empty;
+        this._query = match.query ?? Const.empty;
       } else {
-        this._scheme = this._url = this._path =
-            this._file = this._extension = this._query = this._anchor = null;
+        this._scheme = this._url =
+            this._path = this._file = this._extension = this._query = null;
       }
     }
   }
@@ -128,21 +127,6 @@ class Path {
 
   String _query;
 
-  /// Get URL anchor.
-  String get anchor => this._anchor;
-
-  /// Set the URL anchor.
-  ///
-  /// If you change it, the URL will also change.
-  ///
-  /// [value]: Anchor to change.
-  set anchor(String value) {
-    this._url = null;
-    this._anchor = value;
-  }
-
-  String _anchor;
-
   /// Defines the path structure of the path system.
   ///
   /// Same as URL or file system path.
@@ -155,21 +139,21 @@ class Path {
   /// [url]: URL to parse.
   Path([String url]) {
     if (isEmpty(url)) {
-      this._scheme = this._url = this._path =
-          this._file = this._extension = this._query = this._anchor = null;
+      this._scheme = this._url =
+          this._path = this._file = this._extension = this._query = null;
     } else {
-      RegExpMatch match = _uriPattern.firstMatch(url);
+      Uri match = Uri.tryParse(url);
       if (match != null) {
         this._url = url;
-        this._scheme = match.group(2) ?? Const.empty;
-        this._path = match.group(3) ?? Const.empty;
+        this._scheme = match.scheme ?? Const.empty;
+        this._path = match.path ?? Const.empty;
         this._file = isEmpty(this._path) ? Const.empty : Paths.last(this._path);
-        this._extension = match.group(7) ?? Const.empty;
-        this._query = match.group(9) ?? Const.empty;
-        this._anchor = match.group(11) ?? Const.empty;
+        this._extension =
+            Paths.last(this._file, separator: Const.dot) ?? Const.empty;
+        this._query = match.query ?? Const.empty;
       } else {
-        this._scheme = this._url = this._path =
-            this._file = this._extension = this._query = this._anchor = null;
+        this._scheme = this._url =
+            this._path = this._file = this._extension = this._query = null;
       }
     }
   }
@@ -182,7 +166,6 @@ class Path {
     path.file = this.file;
     path.extension = this.extension;
     path.query = this.query;
-    path.anchor = this.anchor;
     return path;
   }
 }

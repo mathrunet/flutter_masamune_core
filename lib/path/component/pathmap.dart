@@ -105,11 +105,9 @@ class PathMap {
     }
     _data[path] = data;
     if (data is IChild) {
-      for (MapEntry<String, IPath> tmp in _data.entries) {
-        if (!(tmp.value is IParent)) continue;
-        if (Paths.parent(data.path) != tmp.value.path) continue;
-        tmp.value.asType<IParent>()._addChildInernal(data);
-      }
+      String parent = Paths.parent(data.path);
+      if (!_data.containsKey(parent) || !(_data[parent] is IParent)) return;
+      _data[parent].asType<IParent>()._addChildInernal(data);
     }
   }
 
@@ -163,11 +161,9 @@ class PathMap {
   static void remove(IPath path) => removePath(path?.path);
   static void _removeInternal(IPath path) {
     if (!(path is IChild)) return;
-    for (MapEntry<String, IPath> data in _data.entries) {
-      if (!(data.value is IParent)) continue;
-      if (Paths.parent(path.path) != data.key) continue;
-      (data.value as IParent)._removeChildInternal(path);
-    }
+    String parent = Paths.parent(path.path);
+    if (!_data.containsKey(parent) || !(_data[parent] is IParent)) return;
+    _data[parent].asType<IParent>()._removeChildInternal(path);
   }
 
   /// Removes an object from the pathmap given its type.

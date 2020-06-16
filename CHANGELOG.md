@@ -1,3 +1,7 @@
+## [0.2.10] - Update README (2020.06.16)
+
+* Change the behavior of notifyUpdate.
+
 ## [0.2.9] - Update README (2020.06.12)
 
 * Separated Task into abstract class TaskUnit.
