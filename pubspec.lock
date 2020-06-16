@@ -103,10 +103,10 @@ packages:
   masamune_localize:
     dependency: "direct main"
     description:
-      path: "../masamune_localize"
-      relative: true
-    source: path
-    version: "0.2.5+1"
+      name: masamune_localize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.6"
   masamune_test:
     dependency: "direct dev"
     description:

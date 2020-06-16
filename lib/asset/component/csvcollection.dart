@@ -87,7 +87,8 @@ class CSVCollection extends TaskCollection<DataDocument> {
         this.error("CSV data is empty.");
         return;
       }
-      List<List> converted = const CsvToListConverter().convert(csv);
+      csv = csv.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+      List<List> converted = const CsvToListConverter().convert(csv, eol: "\n");
       if (converted.length <= offsetY || labels.length <= 0) {
         this.done();
         return;
