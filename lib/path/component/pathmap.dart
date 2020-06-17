@@ -12,6 +12,7 @@ part of masamune.path;
 class PathMap {
   static Map<String, IPath> _data = MapPool.get();
   static Map<String, String> _link = MapPool.get();
+  static Map<Type, String> _typeCache = MapPool.get();
 
   /// Gets the object at the specified path.
   ///
@@ -22,9 +23,15 @@ class PathMap {
   static T get<T extends Object>([String path]) {
     path = path?.applyTags();
     if (isEmpty(path)) {
+      if( _typeCache.containsKey(T) ) {
+        path = _typeCache[T];
+        if( _data.containsKey(path) ) return _data[path] as T;
+        _typeCache.remove(T);
+      }
       for (MapEntry<String, IPath> tmp in _data.entries) {
         if (tmp.value == null) continue;
         if (!(tmp.value is T)) continue;
+        _typeCache[T] = tmp.value.path;
         return tmp.value as T;
       }
       return null;
