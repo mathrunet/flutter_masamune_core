@@ -8,6 +8,9 @@ class Protocol {
   /// The data.
   static const String data = "data";
 
+  /// The widget.
+  static const String widget = "widget";
+
   /// The local.
   static const String local = "local";
 

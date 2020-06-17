@@ -23,9 +23,9 @@ class PathMap {
   static T get<T extends Object>([String path]) {
     path = path?.applyTags();
     if (isEmpty(path)) {
-      if( _typeCache.containsKey(T) ) {
+      if (_typeCache.containsKey(T)) {
         path = _typeCache[T];
-        if( _data.containsKey(path) ) return _data[path] as T;
+        if (_data.containsKey(path)) return _data[path] as T;
         _typeCache.remove(T);
       }
       for (MapEntry<String, IPath> tmp in _data.entries) {
