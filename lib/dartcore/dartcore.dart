@@ -20,6 +20,7 @@ import 'package:sprintf/sprintf.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 part 'pool/list.dart';
 part 'pool/map.dart';

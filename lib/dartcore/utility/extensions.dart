@@ -142,6 +142,16 @@ extension IntExtention on int {
     if (this > max) return max;
     return this;
   }
+
+  /// Represents a number in format.
+  ///
+  /// The format depends on NumberFormat.
+  ///
+  /// [format]: Number format.
+  String format(String format) {
+    if (isEmpty(format)) return Const.empty;
+    return NumberFormat(format).format(this);
+  }
 }
 
 /// Double extension methods.
@@ -170,6 +180,16 @@ extension DoubleExtention on double {
   double limitHigh(double max) {
     if (this > max) return max;
     return this;
+  }
+
+  /// Represents a number in format.
+  ///
+  /// The format depends on NumberFormat.
+  ///
+  /// [format]: Number format.
+  String format(String format) {
+    if (isEmpty(format)) return Const.empty;
+    return NumberFormat(format).format(this);
   }
 }
 
