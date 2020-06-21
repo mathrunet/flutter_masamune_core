@@ -18,7 +18,7 @@ bool isNotEmpty(Object object) => !isEmpty(object);
 /// Open a new external URL.
 ///
 /// [url]: URL to open.
-openURL(String url) async {
+Future openURL(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
