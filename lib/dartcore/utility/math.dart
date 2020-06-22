@@ -18,4 +18,9 @@ class Math {
     while (a < 0) a += b;
     return a;
   }
+
+  /// Get a random object.
+  static Random get random {
+    return Random();
+  } 
 }
