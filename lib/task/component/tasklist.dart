@@ -13,7 +13,7 @@ part of masamune.task;
 /// list += Task.waitFor( Duration(seconds:3) );
 /// await list.waitAll();
 /// ```
-class TaskList<T extends ITask> extends Task with IterableMixin<Future<T>> {
+class TaskList<T extends ITask> extends TaskUnit with IterableMixin<Future<T>> {
   List<Future<T>> _data = ListPool.get();
 
   /// Iterator.
@@ -166,4 +166,19 @@ class TaskList<T extends ITask> extends Task with IterableMixin<Future<T>> {
     this.init();
     this._data.clear();
   }
+
+  /// Create a Completer that matches the class.
+  /// 
+  /// Do not use from external class.
+  @override
+  Completer createCompleter() => Completer<TaskList>();
+
+  @override
+  T createInstance<T extends IClonable>(String path, bool isTemporary) => TaskList(
+    this._data
+  ) as T;
+
+  /// Get the protocol of the path.
+  @override
+  String get protocol => Protocol.tmp;
 }

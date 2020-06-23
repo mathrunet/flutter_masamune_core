@@ -6,7 +6,7 @@ part of masamune.auth;
 /// an ID can be assigned at the end of the task.
 ///
 /// Please inherit and use.
-abstract class Auth extends Task implements IAuth {
+abstract class Auth extends TaskUnit implements IAuth {
   /// Create a Completer that matches the class.
   ///
   /// Do not use from external class.
