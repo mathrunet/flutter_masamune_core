@@ -64,8 +64,7 @@ class PathListener {
   }
 
   static void _updateNotify(IPath path) {
-    Log.ast(
-        "Enqueue to invoking action: %s", [path.path]);
+    Log.ast("Enqueue to invoking action: %s", [path.path]);
     _updateStack.add(path);
   }
 

@@ -123,7 +123,7 @@ class Const {
   static const String whiteCode = "#ffffff";
 
   /// Time out
-  static const Duration timeout = Duration(seconds: 5);
+  static const Duration timeout = Duration(seconds: 30);
 
   /// You can get the icon list as a string.
   static const Map<String, IconData> icons = {
@@ -168,7 +168,8 @@ class Const {
     "account_balance": const IconData(0xe84f, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">account_balance_wallet</i> &#x2014, material icon named "account balance wallet".
-    "account_balance_wallet": const IconData(0xe850, fontFamily: 'MaterialIcons'),
+    "account_balance_wallet":
+        const IconData(0xe850, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">account_box</i> &#x2014, material icon named "account box".
     "account_box": const IconData(0xe851, fontFamily: 'MaterialIcons'),
@@ -231,14 +232,16 @@ class Const {
     "airline_seat_flat": const IconData(0xe630, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_flat_angled</i> &#x2014, material icon named "airline seat flat angled".
-    "airline_seat_flat_angled": const IconData(0xe631, fontFamily: 'MaterialIcons'),
+    "airline_seat_flat_angled":
+        const IconData(0xe631, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_individual_suite</i> &#x2014, material icon named "airline seat individual suite".
     "airline_seat_individual_suite":
         const IconData(0xe632, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_legroom_extra</i> &#x2014, material icon named "airline seat legroom extra".
-    "airline_seat_legroom_extra": const IconData(0xe633, fontFamily: 'MaterialIcons'),
+    "airline_seat_legroom_extra":
+        const IconData(0xe633, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_legroom_normal</i> &#x2014, material icon named "airline seat legroom normal".
     "airline_seat_legroom_normal":
@@ -249,7 +252,8 @@ class Const {
         const IconData(0xe635, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_recline_extra</i> &#x2014, material icon named "airline seat recline extra".
-    "airline_seat_recline_extra": const IconData(0xe636, fontFamily: 'MaterialIcons'),
+    "airline_seat_recline_extra":
+        const IconData(0xe636, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airline_seat_recline_normal</i> &#x2014, material icon named "airline seat recline normal".
     "airline_seat_recline_normal":
@@ -259,7 +263,8 @@ class Const {
     "airplanemode_active": const IconData(0xe195, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airplanemode_inactive</i> &#x2014, material icon named "airplanemode inactive".
-    "airplanemode_inactive": const IconData(0xe194, fontFamily: 'MaterialIcons'),
+    "airplanemode_inactive":
+        const IconData(0xe194, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">airplay</i> &#x2014, material icon named "airplay".
     "airplay": const IconData(0xe055, fontFamily: 'MaterialIcons'),
@@ -304,12 +309,12 @@ class Const {
     "archive": const IconData(0xe149, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">arrow_back</i> &#x2014, material icon named "arrow back".
-    "arrow_back":
-        const IconData(0xe5c4, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_back": const IconData(0xe5c4,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_back_ios</i> &#x2014, material icon named "arrow back ios".
-    "arrow_back_ios":
-        const IconData(0xe5e0, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_back_ios": const IconData(0xe5e0,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_downward</i> &#x2014, material icon named "arrow downward".
     "arrow_downward": const IconData(0xe5db, fontFamily: 'MaterialIcons'),
@@ -318,26 +323,27 @@ class Const {
     "arrow_drop_down": const IconData(0xe5c5, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">arrow_drop_down_circle</i> &#x2014, material icon named "arrow drop down circle".
-    "arrow_drop_down_circle": const IconData(0xe5c6, fontFamily: 'MaterialIcons'),
+    "arrow_drop_down_circle":
+        const IconData(0xe5c6, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">arrow_drop_up</i> &#x2014, material icon named "arrow drop up".
     "arrow_drop_up": const IconData(0xe5c7, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">arrow_forward</i> &#x2014, material icon named "arrow forward".
-    "arrow_forward":
-        const IconData(0xe5c8, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_forward": const IconData(0xe5c8,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_forward_ios</i> &#x2014, material icon named "arrow forward ios".
-    "arrow_forward_ios":
-        const IconData(0xe5e1, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_forward_ios": const IconData(0xe5e1,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_left</i> &#x2014, material icon named "arrow left".
-    "arrow_left":
-        const IconData(0xe5de, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_left": const IconData(0xe5de,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_right</i> &#x2014, material icon named "arrow right".
-    "arrow_right":
-        const IconData(0xe5df, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "arrow_right": const IconData(0xe5df,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">arrow_upward</i> &#x2014, material icon named "arrow upward".
     "arrow_upward": const IconData(0xe5d8, fontFamily: 'MaterialIcons'),
@@ -352,8 +358,8 @@ class Const {
     "assessment": const IconData(0xe85c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">assignment</i> &#x2014, material icon named "assignment".
-    "assignment":
-        const IconData(0xe85d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "assignment": const IconData(0xe85d,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">assignment_ind</i> &#x2014, material icon named "assignment ind".
     "assignment_ind": const IconData(0xe85e, fontFamily: 'MaterialIcons'),
@@ -362,8 +368,8 @@ class Const {
     "assignment_late": const IconData(0xe85f, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">assignment_return</i> &#x2014, material icon named "assignment return".
-    "assignment_return":
-        const IconData(0xe860, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "assignment_return": const IconData(0xe860,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">assignment_returned</i> &#x2014, material icon named "assignment returned".
     "assignment_returned": const IconData(0xe861, fontFamily: 'MaterialIcons'),
@@ -399,8 +405,8 @@ class Const {
     "av_timer": const IconData(0xe01b, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">backspace</i> &#x2014, material icon named "backspace".
-    "backspace":
-        const IconData(0xe14a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "backspace": const IconData(0xe14a,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">backup</i> &#x2014, material icon named "backup".
     "backup": const IconData(0xe864, fontFamily: 'MaterialIcons'),
@@ -409,7 +415,8 @@ class Const {
     "battery_alert": const IconData(0xe19c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">battery_charging_full</i> &#x2014, material icon named "battery charging full".
-    "battery_charging_full": const IconData(0xe1a3, fontFamily: 'MaterialIcons'),
+    "battery_charging_full":
+        const IconData(0xe1a3, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">battery_full</i> &#x2014, material icon named "battery full".
     "battery_full": const IconData(0xe1a4, fontFamily: 'MaterialIcons'),
@@ -418,8 +425,8 @@ class Const {
     "battery_std": const IconData(0xe1a5, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">battery_unknown</i> &#x2014, material icon named "battery unknown".
-    "battery_unknown":
-        const IconData(0xe1a6, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "battery_unknown": const IconData(0xe1a6,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">beach_access</i> &#x2014, material icon named "beach access".
     "beach_access": const IconData(0xeb3e, fontFamily: 'MaterialIcons'),
@@ -581,28 +588,28 @@ class Const {
     "call_end": const IconData(0xe0b1, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">call_made</i> &#x2014, material icon named "call made".
-    "call_made":
-        const IconData(0xe0b2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_made": const IconData(0xe0b2,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_merge</i> &#x2014, material icon named "call merge".
-    "call_merge":
-        const IconData(0xe0b3, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_merge": const IconData(0xe0b3,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_missed</i> &#x2014, material icon named "call missed".
-    "call_missed":
-        const IconData(0xe0b4, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_missed": const IconData(0xe0b4,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_missed_outgoing</i> &#x2014, material icon named "call missed outgoing".
-    "call_missed_outgoing":
-        const IconData(0xe0e4, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_missed_outgoing": const IconData(0xe0e4,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_received</i> &#x2014, material icon named "call received".
-    "call_received":
-        const IconData(0xe0b5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_received": const IconData(0xe0b5,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_split</i> &#x2014, material icon named "call split".
-    "call_split":
-        const IconData(0xe0b6, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "call_split": const IconData(0xe0b6,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">call_to_action</i> &#x2014, material icon named "call to action".
     "call_to_action": const IconData(0xe06c, fontFamily: 'MaterialIcons'),
@@ -674,7 +681,8 @@ class Const {
     "check_box": const IconData(0xe834, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">check_box_outline_blank</i> &#x2014, material icon named "check box outline blank".
-    "check_box_outline_blank": const IconData(0xe835, fontFamily: 'MaterialIcons'),
+    "check_box_outline_blank":
+        const IconData(0xe835, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">check_circle</i> &#x2014, material icon named "check circle".
     "check_circle": const IconData(0xe86c, fontFamily: 'MaterialIcons'),
@@ -683,12 +691,12 @@ class Const {
     "check_circle_outline": const IconData(0xe92d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">chevron_left</i> &#x2014, material icon named "chevron left".
-    "chevron_left":
-        const IconData(0xe5cb, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "chevron_left": const IconData(0xe5cb,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">chevron_right</i> &#x2014, material icon named "chevron right".
-    "chevron_right":
-        const IconData(0xe5cc, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "chevron_right": const IconData(0xe5cc,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">child_care</i> &#x2014, material icon named "child care".
     "child_care": const IconData(0xeb41, fontFamily: 'MaterialIcons'),
@@ -697,8 +705,8 @@ class Const {
     "child_friendly": const IconData(0xeb42, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">chrome_reader_mode</i> &#x2014, material icon named "chrome reader mode".
-    "chrome_reader_mode":
-        const IconData(0xe86d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "chrome_reader_mode": const IconData(0xe86d,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">class</i> &#x2014, material icon named "class".
     "class_": const IconData(0xe86e, fontFamily: 'MaterialIcons'),
@@ -788,7 +796,8 @@ class Const {
     "control_point": const IconData(0xe3ba, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">control_point_duplicate</i> &#x2014, material icon named "control point duplicate".
-    "control_point_duplicate": const IconData(0xe3bb, fontFamily: 'MaterialIcons'),
+    "control_point_duplicate":
+        const IconData(0xe3bb, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">copyright</i> &#x2014, material icon named "copyright".
     "copyright": const IconData(0xe90c, fontFamily: 'MaterialIcons'),
@@ -887,8 +896,8 @@ class Const {
     "device_hub": const IconData(0xe335, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">device_unknown</i> &#x2014, material icon named "device unknown".
-    "device_unknown":
-        const IconData(0xe339, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "device_unknown": const IconData(0xe339,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">devices</i> &#x2014, material icon named "devices".
     "devices": const IconData(0xe1b1, fontFamily: 'MaterialIcons'),
@@ -981,8 +990,8 @@ class Const {
     "drive_eta": const IconData(0xe613, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">dvr</i> &#x2014, material icon named "dvr".
-    "dvr":
-        const IconData(0xe1b2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "dvr": const IconData(0xe1b2,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">edit</i> &#x2014, material icon named "edit".
     "edit": const IconData(0xe3c9, fontFamily: 'MaterialIcons'),
@@ -1027,8 +1036,8 @@ class Const {
     "event_busy": const IconData(0xe615, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">event_note</i> &#x2014, material icon named "event note".
-    "event_note":
-        const IconData(0xe616, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "event_note": const IconData(0xe616,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">event_seat</i> &#x2014, material icon named "event seat".
     "event_seat": const IconData(0xe903, fontFamily: 'MaterialIcons'),
@@ -1088,12 +1097,12 @@ class Const {
     "favorite_border": const IconData(0xe87e, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">featured_play_list</i> &#x2014, material icon named "featured play list".
-    "featured_play_list":
-        const IconData(0xe06d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "featured_play_list": const IconData(0xe06d,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">featured_video</i> &#x2014, material icon named "featured video".
-    "featured_video":
-        const IconData(0xe06e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "featured_video": const IconData(0xe06e,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">feedback</i> &#x2014, material icon named "feedback".
     "feedback": const IconData(0xe87f, fontFamily: 'MaterialIcons'),
@@ -1189,8 +1198,8 @@ class Const {
     "fingerprint": const IconData(0xe90d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">first_page</i> &#x2014, material icon named "first page".
-    "first_page":
-        const IconData(0xe5dc, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "first_page": const IconData(0xe5dc,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">fitness_center</i> &#x2014, material icon named "fitness center".
     "fitness_center": const IconData(0xeb43, fontFamily: 'MaterialIcons'),
@@ -1214,12 +1223,12 @@ class Const {
     "flight": const IconData(0xe539, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">flight_land</i> &#x2014, material icon named "flight land".
-    "flight_land":
-        const IconData(0xe904, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "flight_land": const IconData(0xe904,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">flight_takeoff</i> &#x2014, material icon named "flight takeoff".
-    "flight_takeoff":
-        const IconData(0xe905, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "flight_takeoff": const IconData(0xe905,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">flip</i> &#x2014, material icon named "flip".
     "flip": const IconData(0xe3e8, fontFamily: 'MaterialIcons'),
@@ -1273,12 +1282,12 @@ class Const {
     "format_color_text": const IconData(0xe23c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">format_indent_decrease</i> &#x2014, material icon named "format indent decrease".
-    "format_indent_decrease":
-        const IconData(0xe23d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "format_indent_decrease": const IconData(0xe23d,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">format_indent_increase</i> &#x2014, material icon named "format indent increase".
-    "format_indent_increase":
-        const IconData(0xe23e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "format_indent_increase": const IconData(0xe23e,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">format_italic</i> &#x2014, material icon named "format italic".
     "format_italic": const IconData(0xe23f, fontFamily: 'MaterialIcons'),
@@ -1287,14 +1296,15 @@ class Const {
     "format_line_spacing": const IconData(0xe240, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">format_list_bulleted</i> &#x2014, material icon named "format list bulleted".
-    "format_list_bulleted":
-        const IconData(0xe241, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "format_list_bulleted": const IconData(0xe241,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">format_list_numbered</i> &#x2014, material icon named "format list numbered".
     "format_list_numbered": const IconData(0xe242, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">format_list_numbered_rtl</i> &#x2014, material icon named "format list numbered rtl".
-    "format_list_numbered_rtl": const IconData(0xe267, fontFamily: 'MaterialIcons'),
+    "format_list_numbered_rtl":
+        const IconData(0xe267, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">format_paint</i> &#x2014, material icon named "format paint".
     "format_paint": const IconData(0xe243, fontFamily: 'MaterialIcons'),
@@ -1326,8 +1336,8 @@ class Const {
     "forum": const IconData(0xe0bf, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">forward</i> &#x2014, material icon named "forward".
-    "forward":
-        const IconData(0xe154, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "forward": const IconData(0xe154,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">forward_10</i> &#x2014, material icon named "forward 10".
     "forward_10": const IconData(0xe056, fontFamily: 'MaterialIcons'),
@@ -1348,8 +1358,8 @@ class Const {
     "fullscreen_exit": const IconData(0xe5d1, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">functions</i> &#x2014, material icon named "functions".
-    "functions":
-        const IconData(0xe24a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "functions": const IconData(0xe24a,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">g_translate</i> &#x2014, material icon named "g translate".
     "g_translate": const IconData(0xe927, fontFamily: 'MaterialIcons'),
@@ -1442,12 +1452,12 @@ class Const {
     "hearing": const IconData(0xe023, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">help</i> &#x2014, material icon named "help".
-    "help":
-        const IconData(0xe887, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "help": const IconData(0xe887,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">help_outline</i> &#x2014, material icon named "help outline".
-    "help_outline":
-        const IconData(0xe8fd, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "help_outline": const IconData(0xe8fd,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">high_quality</i> &#x2014, material icon named "high quality".
     "high_quality": const IconData(0xe024, fontFamily: 'MaterialIcons'),
@@ -1501,7 +1511,8 @@ class Const {
     "inbox": const IconData(0xe156, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">indeterminate_check_box</i> &#x2014, material icon named "indeterminate check box".
-    "indeterminate_check_box": const IconData(0xe909, fontFamily: 'MaterialIcons'),
+    "indeterminate_check_box":
+        const IconData(0xe909, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">info</i> &#x2014, material icon named "info".
     "info": const IconData(0xe88e, fontFamily: 'MaterialIcons'),
@@ -1510,8 +1521,8 @@ class Const {
     "info_outline": const IconData(0xe88f, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">input</i> &#x2014, material icon named "input".
-    "input":
-        const IconData(0xe890, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "input": const IconData(0xe890,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">insert_chart</i> &#x2014, material icon named "insert chart".
     "insert_chart": const IconData(0xe24b, fontFamily: 'MaterialIcons'),
@@ -1559,8 +1570,8 @@ class Const {
     "keyboard_arrow_up": const IconData(0xe316, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">keyboard_backspace</i> &#x2014, material icon named "keyboard backspace".
-    "keyboard_backspace":
-        const IconData(0xe317, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "keyboard_backspace": const IconData(0xe317,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">keyboard_capslock</i> &#x2014, material icon named "keyboard capslock".
     "keyboard_capslock": const IconData(0xe318, fontFamily: 'MaterialIcons'),
@@ -1572,8 +1583,8 @@ class Const {
     "keyboard_return": const IconData(0xe31b, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">keyboard_tab</i> &#x2014, material icon named "keyboard tab".
-    "keyboard_tab":
-        const IconData(0xe31c, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "keyboard_tab": const IconData(0xe31c,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">keyboard_voice</i> &#x2014, material icon named "keyboard voice".
     "keyboard_voice": const IconData(0xe31d, fontFamily: 'MaterialIcons'),
@@ -1582,16 +1593,16 @@ class Const {
     "kitchen": const IconData(0xeb47, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">label</i> &#x2014, material icon named "label".
-    "label":
-        const IconData(0xe892, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "label": const IconData(0xe892,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">label_important</i> &#x2014, material icon named "label important".
-    "label_important":
-        const IconData(0xe937, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "label_important": const IconData(0xe937,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">label_outline</i> &#x2014, material icon named "label outline".
-    "label_outline":
-        const IconData(0xe893, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "label_outline": const IconData(0xe893,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">landscape</i> &#x2014, material icon named "landscape".
     "landscape": const IconData(0xe3f7, fontFamily: 'MaterialIcons'),
@@ -1612,12 +1623,12 @@ class Const {
     "laptop_windows": const IconData(0xe321, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">last_page</i> &#x2014, material icon named "last page".
-    "last_page":
-        const IconData(0xe5dd, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "last_page": const IconData(0xe5dd,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">launch</i> &#x2014, material icon named "launch".
-    "launch":
-        const IconData(0xe895, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "launch": const IconData(0xe895,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">layers</i> &#x2014, material icon named "layers".
     "layers": const IconData(0xe53b, fontFamily: 'MaterialIcons'),
@@ -1665,12 +1676,12 @@ class Const {
     "linked_camera": const IconData(0xe438, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">list</i> &#x2014, material icon named "list".
-    "list":
-        const IconData(0xe896, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "list": const IconData(0xe896,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">live_help</i> &#x2014, material icon named "live help".
-    "live_help":
-        const IconData(0xe0c6, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "live_help": const IconData(0xe0c6,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">live_tv</i> &#x2014, material icon named "live tv".
     "live_tv": const IconData(0xe639, fontFamily: 'MaterialIcons'),
@@ -1694,7 +1705,8 @@ class Const {
     "local_car_wash": const IconData(0xe542, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">local_convenience_store</i> &#x2014, material icon named "local convenience store".
-    "local_convenience_store": const IconData(0xe543, fontFamily: 'MaterialIcons'),
+    "local_convenience_store":
+        const IconData(0xe543, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">local_dining</i> &#x2014, material icon named "local dining".
     "local_dining": const IconData(0xe556, fontFamily: 'MaterialIcons'),
@@ -1718,7 +1730,8 @@ class Const {
     "local_hotel": const IconData(0xe549, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">local_laundry_service</i> &#x2014, material icon named "local laundry service".
-    "local_laundry_service": const IconData(0xe54a, fontFamily: 'MaterialIcons'),
+    "local_laundry_service":
+        const IconData(0xe54a, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">local_library</i> &#x2014, material icon named "local library".
     "local_library": const IconData(0xe54b, fontFamily: 'MaterialIcons'),
@@ -1868,8 +1881,8 @@ class Const {
     "mms": const IconData(0xe618, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">mobile_screen_share</i> &#x2014, material icon named "mobile screen share".
-    "mobile_screen_share":
-        const IconData(0xe0e7, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "mobile_screen_share": const IconData(0xe0e7,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">mode_comment</i> &#x2014, material icon named "mode comment".
     "mode_comment": const IconData(0xe253, fontFamily: 'MaterialIcons'),
@@ -1920,8 +1933,8 @@ class Const {
     "movie_filter": const IconData(0xe43a, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">multiline_chart</i> &#x2014, material icon named "multiline chart".
-    "multiline_chart":
-        const IconData(0xe6df, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "multiline_chart": const IconData(0xe6df,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">music_note</i> &#x2014, material icon named "music note".
     "music_note": const IconData(0xe405, fontFamily: 'MaterialIcons'),
@@ -1939,12 +1952,12 @@ class Const {
     "nature_people": const IconData(0xe407, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">navigate_before</i> &#x2014, material icon named "navigate before".
-    "navigate_before":
-        const IconData(0xe408, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "navigate_before": const IconData(0xe408,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">navigate_next</i> &#x2014, material icon named "navigate next".
-    "navigate_next":
-        const IconData(0xe409, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "navigate_next": const IconData(0xe409,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">navigation</i> &#x2014, material icon named "navigation".
     "navigation": const IconData(0xe55d, fontFamily: 'MaterialIcons'),
@@ -1968,8 +1981,8 @@ class Const {
     "new_releases": const IconData(0xe031, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">next_week</i> &#x2014, material icon named "next week".
-    "next_week":
-        const IconData(0xe16a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "next_week": const IconData(0xe16a,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">nfc</i> &#x2014, material icon named "nfc".
     "nfc": const IconData(0xe1bb, fontFamily: 'MaterialIcons'),
@@ -1987,14 +2000,15 @@ class Const {
     "not_listed_location": const IconData(0xe575, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">note</i> &#x2014, material icon named "note".
-    "note":
-        const IconData(0xe06f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "note": const IconData(0xe06f,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">note_add</i> &#x2014, material icon named "note add".
     "note_add": const IconData(0xe89c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">notification_important</i> &#x2014, material icon named "notification important".
-    "notification_important": const IconData(0xe004, fontFamily: 'MaterialIcons'),
+    "notification_important":
+        const IconData(0xe004, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">notifications</i> &#x2014, material icon named "notifications".
     "notifications": const IconData(0xe7f4, fontFamily: 'MaterialIcons'),
@@ -2027,8 +2041,8 @@ class Const {
     "open_in_browser": const IconData(0xe89d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">open_in_new</i> &#x2014, material icon named "open in new".
-    "open_in_new":
-        const IconData(0xe89e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "open_in_new": const IconData(0xe89e,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">open_with</i> &#x2014, material icon named "open with".
     "open_with": const IconData(0xe89f, fontFamily: 'MaterialIcons'),
@@ -2088,13 +2102,15 @@ class Const {
     "perm_camera_mic": const IconData(0xe8a2, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">perm_contact_calendar</i> &#x2014, material icon named "perm contact calendar".
-    "perm_contact_calendar": const IconData(0xe8a3, fontFamily: 'MaterialIcons'),
+    "perm_contact_calendar":
+        const IconData(0xe8a3, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">perm_data_setting</i> &#x2014, material icon named "perm data setting".
     "perm_data_setting": const IconData(0xe8a4, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">perm_device_information</i> &#x2014, material icon named "perm device information".
-    "perm_device_information": const IconData(0xe8a5, fontFamily: 'MaterialIcons'),
+    "perm_device_information":
+        const IconData(0xe8a5, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">perm_identity</i> &#x2014, material icon named "perm identity".
     "perm_identity": const IconData(0xe8a6, fontFamily: 'MaterialIcons'),
@@ -2136,7 +2152,8 @@ class Const {
     "phone_android": const IconData(0xe324, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">phone_bluetooth_speaker</i> &#x2014, material icon named "phone bluetooth speaker".
-    "phone_bluetooth_speaker": const IconData(0xe61b, fontFamily: 'MaterialIcons'),
+    "phone_bluetooth_speaker":
+        const IconData(0xe61b, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">phone_forwarded</i> &#x2014, material icon named "phone forwarded".
     "phone_forwarded": const IconData(0xe61c, fontFamily: 'MaterialIcons'),
@@ -2190,13 +2207,16 @@ class Const {
     "photo_library": const IconData(0xe413, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">photo_size_select_actual</i> &#x2014, material icon named "photo size select actual".
-    "photo_size_select_actual": const IconData(0xe432, fontFamily: 'MaterialIcons'),
+    "photo_size_select_actual":
+        const IconData(0xe432, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">photo_size_select_large</i> &#x2014, material icon named "photo size select large".
-    "photo_size_select_large": const IconData(0xe433, fontFamily: 'MaterialIcons'),
+    "photo_size_select_large":
+        const IconData(0xe433, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">photo_size_select_small</i> &#x2014, material icon named "photo size select small".
-    "photo_size_select_small": const IconData(0xe434, fontFamily: 'MaterialIcons'),
+    "photo_size_select_small":
+        const IconData(0xe434, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">picture_as_pdf</i> &#x2014, material icon named "picture as pdf".
     "picture_as_pdf": const IconData(0xe415, fontFamily: 'MaterialIcons'),
@@ -2205,7 +2225,8 @@ class Const {
     "picture_in_picture": const IconData(0xe8aa, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">picture_in_picture_alt</i> &#x2014, material icon named "picture in picture alt".
-    "picture_in_picture_alt": const IconData(0xe911, fontFamily: 'MaterialIcons'),
+    "picture_in_picture_alt":
+        const IconData(0xe911, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">pie_chart</i> &#x2014, material icon named "pie chart".
     "pie_chart": const IconData(0xe6c4, fontFamily: 'MaterialIcons'),
@@ -2232,8 +2253,8 @@ class Const {
     "play_for_work": const IconData(0xe906, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">playlist_add</i> &#x2014, material icon named "playlist add".
-    "playlist_add":
-        const IconData(0xe03b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "playlist_add": const IconData(0xe03b,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">playlist_add_check</i> &#x2014, material icon named "playlist add check".
     "playlist_add_check": const IconData(0xe065, fontFamily: 'MaterialIcons'),
@@ -2296,8 +2317,8 @@ class Const {
     "queue": const IconData(0xe03c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">queue_music</i> &#x2014, material icon named "queue music".
-    "queue_music":
-        const IconData(0xe03d, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "queue_music": const IconData(0xe03d,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">queue_play_next</i> &#x2014, material icon named "queue play next".
     "queue_play_next": const IconData(0xe066, fontFamily: 'MaterialIcons'),
@@ -2309,7 +2330,8 @@ class Const {
     "radio_button_checked": const IconData(0xe837, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">radio_button_unchecked</i> &#x2014, material icon named "radio button unchecked".
-    "radio_button_unchecked": const IconData(0xe836, fontFamily: 'MaterialIcons'),
+    "radio_button_unchecked":
+        const IconData(0xe836, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">rate_review</i> &#x2014, material icon named "rate review".
     "rate_review": const IconData(0xe560, fontFamily: 'MaterialIcons'),
@@ -2327,8 +2349,8 @@ class Const {
     "redeem": const IconData(0xe8b1, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">redo</i> &#x2014, material icon named "redo".
-    "redo":
-        const IconData(0xe15a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "redo": const IconData(0xe15a,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">refresh</i> &#x2014, material icon named "refresh".
     "refresh": const IconData(0xe5d5, fontFamily: 'MaterialIcons'),
@@ -2340,7 +2362,8 @@ class Const {
     "remove_circle": const IconData(0xe15c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">remove_circle_outline</i> &#x2014, material icon named "remove circle outline".
-    "remove_circle_outline": const IconData(0xe15d, fontFamily: 'MaterialIcons'),
+    "remove_circle_outline":
+        const IconData(0xe15d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">remove_from_queue</i> &#x2014, material icon named "remove from queue".
     "remove_from_queue": const IconData(0xe067, fontFamily: 'MaterialIcons'),
@@ -2373,12 +2396,12 @@ class Const {
     "replay_5": const IconData(0xe05b, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">reply</i> &#x2014, material icon named "reply".
-    "reply":
-        const IconData(0xe15e, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "reply": const IconData(0xe15e,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">reply_all</i> &#x2014, material icon named "reply all".
-    "reply_all":
-        const IconData(0xe15f, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "reply_all": const IconData(0xe15f,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">report</i> &#x2014, material icon named "report".
     "report": const IconData(0xe160, fontFamily: 'MaterialIcons'),
@@ -2414,7 +2437,8 @@ class Const {
     "room_service": const IconData(0xeb49, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">rotate_90_degrees_ccw</i> &#x2014, material icon named "rotate 90 degrees ccw".
-    "rotate_90_degrees_ccw": const IconData(0xe418, fontFamily: 'MaterialIcons'),
+    "rotate_90_degrees_ccw":
+        const IconData(0xe418, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">rotate_left</i> &#x2014, material icon named "rotate left".
     "rotate_left": const IconData(0xe419, fontFamily: 'MaterialIcons'),
@@ -2462,7 +2486,8 @@ class Const {
     "score": const IconData(0xe269, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">screen_lock_landscape</i> &#x2014, material icon named "screen lock landscape".
-    "screen_lock_landscape": const IconData(0xe1be, fontFamily: 'MaterialIcons'),
+    "screen_lock_landscape":
+        const IconData(0xe1be, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">screen_lock_portrait</i> &#x2014, material icon named "screen lock portrait".
     "screen_lock_portrait": const IconData(0xe1bf, fontFamily: 'MaterialIcons'),
@@ -2474,8 +2499,8 @@ class Const {
     "screen_rotation": const IconData(0xe1c1, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">screen_share</i> &#x2014, material icon named "screen share".
-    "screen_share":
-        const IconData(0xe0e2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "screen_share": const IconData(0xe0e2,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">sd_card</i> &#x2014, material icon named "sd card".
     "sd_card": const IconData(0xe623, fontFamily: 'MaterialIcons'),
@@ -2493,11 +2518,12 @@ class Const {
     "select_all": const IconData(0xe162, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">send</i> &#x2014, material icon named "send".
-    "send":
-        const IconData(0xe163, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "send": const IconData(0xe163,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">sentiment_dissatisfied</i> &#x2014, material icon named "sentiment dissatisfied".
-    "sentiment_dissatisfied": const IconData(0xe811, fontFamily: 'MaterialIcons'),
+    "sentiment_dissatisfied":
+        const IconData(0xe811, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">sentiment_neutral</i> &#x2014, material icon named "sentiment neutral".
     "sentiment_neutral": const IconData(0xe812, fontFamily: 'MaterialIcons'),
@@ -2510,16 +2536,19 @@ class Const {
         const IconData(0xe814, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">sentiment_very_satisfied</i> &#x2014, material icon named "sentiment very satisfied".
-    "sentiment_very_satisfied": const IconData(0xe815, fontFamily: 'MaterialIcons'),
+    "sentiment_very_satisfied":
+        const IconData(0xe815, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings</i> &#x2014, material icon named "settings".
     "settings": const IconData(0xe8b8, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_applications</i> &#x2014, material icon named "settings applications".
-    "settings_applications": const IconData(0xe8b9, fontFamily: 'MaterialIcons'),
+    "settings_applications":
+        const IconData(0xe8b9, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_backup_restore</i> &#x2014, material icon named "settings backup restore".
-    "settings_backup_restore": const IconData(0xe8ba, fontFamily: 'MaterialIcons'),
+    "settings_backup_restore":
+        const IconData(0xe8ba, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_bluetooth</i> &#x2014, material icon named "settings bluetooth".
     "settings_bluetooth": const IconData(0xe8bb, fontFamily: 'MaterialIcons'),
@@ -2534,19 +2563,23 @@ class Const {
     "settings_ethernet": const IconData(0xe8be, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_input_antenna</i> &#x2014, material icon named "settings input antenna".
-    "settings_input_antenna": const IconData(0xe8bf, fontFamily: 'MaterialIcons'),
+    "settings_input_antenna":
+        const IconData(0xe8bf, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_input_component</i> &#x2014, material icon named "settings input component".
-    "settings_input_component": const IconData(0xe8c0, fontFamily: 'MaterialIcons'),
+    "settings_input_component":
+        const IconData(0xe8c0, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_input_composite</i> &#x2014, material icon named "settings input composite".
-    "settings_input_composite": const IconData(0xe8c1, fontFamily: 'MaterialIcons'),
+    "settings_input_composite":
+        const IconData(0xe8c1, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_input_hdmi</i> &#x2014, material icon named "settings input hdmi".
     "settings_input_hdmi": const IconData(0xe8c2, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_input_svideo</i> &#x2014, material icon named "settings input svideo".
-    "settings_input_svideo": const IconData(0xe8c3, fontFamily: 'MaterialIcons'),
+    "settings_input_svideo":
+        const IconData(0xe8c3, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_overscan</i> &#x2014, material icon named "settings overscan".
     "settings_overscan": const IconData(0xe8c4, fontFamily: 'MaterialIcons'),
@@ -2561,7 +2594,8 @@ class Const {
     "settings_remote": const IconData(0xe8c7, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_system_daydream</i> &#x2014, material icon named "settings system daydream".
-    "settings_system_daydream": const IconData(0xe1c3, fontFamily: 'MaterialIcons'),
+    "settings_system_daydream":
+        const IconData(0xe1c3, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">settings_voice</i> &#x2014, material icon named "settings voice".
     "settings_voice": const IconData(0xe8c8, fontFamily: 'MaterialIcons'),
@@ -2582,12 +2616,12 @@ class Const {
     "shopping_cart": const IconData(0xe8cc, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">short_text</i> &#x2014, material icon named "short text".
-    "short_text":
-        const IconData(0xe261, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "short_text": const IconData(0xe261,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">show_chart</i> &#x2014, material icon named "show chart".
-    "show_chart":
-        const IconData(0xe6e1, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "show_chart": const IconData(0xe6e1,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">shuffle</i> &#x2014, material icon named "shuffle".
     "shuffle": const IconData(0xe043, fontFamily: 'MaterialIcons'),
@@ -2596,14 +2630,16 @@ class Const {
     "shutter_speed": const IconData(0xe43d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_cellular_4_bar</i> &#x2014, material icon named "signal cellular 4 bar".
-    "signal_cellular_4_bar": const IconData(0xe1c8, fontFamily: 'MaterialIcons'),
+    "signal_cellular_4_bar":
+        const IconData(0xe1c8, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_cellular_connected_no_internet_4_bar</i> &#x2014, material icon named "signal cellular connected no internet 4 bar".
     "signal_cellular_connected_no_internet_4_bar":
         const IconData(0xe1cd, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_cellular_no_sim</i> &#x2014, material icon named "signal cellular no sim".
-    "signal_cellular_no_sim": const IconData(0xe1ce, fontFamily: 'MaterialIcons'),
+    "signal_cellular_no_sim":
+        const IconData(0xe1ce, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_cellular_null</i> &#x2014, material icon named "signal cellular null".
     "signal_cellular_null": const IconData(0xe1cf, fontFamily: 'MaterialIcons'),
@@ -2615,7 +2651,8 @@ class Const {
     "signal_wifi_4_bar": const IconData(0xe1d8, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_wifi_4_bar_lock</i> &#x2014, material icon named "signal wifi 4 bar lock".
-    "signal_wifi_4_bar_lock": const IconData(0xe1d9, fontFamily: 'MaterialIcons'),
+    "signal_wifi_4_bar_lock":
+        const IconData(0xe1d9, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">signal_wifi_off</i> &#x2014, material icon named "signal wifi off".
     "signal_wifi_off": const IconData(0xe1da, fontFamily: 'MaterialIcons'),
@@ -2657,8 +2694,8 @@ class Const {
     "snooze": const IconData(0xe046, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">sort</i> &#x2014, material icon named "sort".
-    "sort":
-        const IconData(0xe164, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "sort": const IconData(0xe164,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">sort_by_alpha</i> &#x2014, material icon named "sort by alpha".
     "sort_by_alpha": const IconData(0xe053, fontFamily: 'MaterialIcons'),
@@ -2694,23 +2731,27 @@ class Const {
     "star_border": const IconData(0xe83a, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">star_half</i> &#x2014, material icon named "star half".
-    "star_half":
-        const IconData(0xe839, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "star_half": const IconData(0xe839,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">stars</i> &#x2014, material icon named "stars".
     "stars": const IconData(0xe8d0, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">stay_current_landscape</i> &#x2014, material icon named "stay current landscape".
-    "stay_current_landscape": const IconData(0xe0d3, fontFamily: 'MaterialIcons'),
+    "stay_current_landscape":
+        const IconData(0xe0d3, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">stay_current_portrait</i> &#x2014, material icon named "stay current portrait".
-    "stay_current_portrait": const IconData(0xe0d4, fontFamily: 'MaterialIcons'),
+    "stay_current_portrait":
+        const IconData(0xe0d4, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">stay_primary_landscape</i> &#x2014, material icon named "stay primary landscape".
-    "stay_primary_landscape": const IconData(0xe0d5, fontFamily: 'MaterialIcons'),
+    "stay_primary_landscape":
+        const IconData(0xe0d5, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">stay_primary_portrait</i> &#x2014, material icon named "stay primary portrait".
-    "stay_primary_portrait": const IconData(0xe0d6, fontFamily: 'MaterialIcons'),
+    "stay_primary_portrait":
+        const IconData(0xe0d6, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">stop</i> &#x2014, material icon named "stop".
     "stop": const IconData(0xe047, fontFamily: 'MaterialIcons'),
@@ -2740,14 +2781,16 @@ class Const {
     "style": const IconData(0xe41d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">subdirectory_arrow_left</i> &#x2014, material icon named "subdirectory arrow left".
-    "subdirectory_arrow_left": const IconData(0xe5d9, fontFamily: 'MaterialIcons'),
+    "subdirectory_arrow_left":
+        const IconData(0xe5d9, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">subdirectory_arrow_right</i> &#x2014, material icon named "subdirectory arrow right".
-    "subdirectory_arrow_right": const IconData(0xe5da, fontFamily: 'MaterialIcons'),
+    "subdirectory_arrow_right":
+        const IconData(0xe5da, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">subject</i> &#x2014, material icon named "subject".
-    "subject":
-        const IconData(0xe8d2, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "subject": const IconData(0xe8d2,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">subscriptions</i> &#x2014, material icon named "subscriptions".
     "subscriptions": const IconData(0xe064, fontFamily: 'MaterialIcons'),
@@ -2759,7 +2802,8 @@ class Const {
     "subway": const IconData(0xe56f, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">supervised_user_circle</i> &#x2014, material icon named "supervised user circle".
-    "supervised_user_circle": const IconData(0xe939, fontFamily: 'MaterialIcons'),
+    "supervised_user_circle":
+        const IconData(0xe939, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">supervisor_account</i> &#x2014, material icon named "supervisor account".
     "supervisor_account": const IconData(0xe8d3, fontFamily: 'MaterialIcons'),
@@ -2774,7 +2818,8 @@ class Const {
     "swap_horiz": const IconData(0xe8d4, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">swap_horizontal_circle</i> &#x2014, material icon named "swap horizontal circle".
-    "swap_horizontal_circle": const IconData(0xe933, fontFamily: 'MaterialIcons'),
+    "swap_horizontal_circle":
+        const IconData(0xe933, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">swap_vert</i> &#x2014, material icon named "swap vert".
     "swap_vert": const IconData(0xe8d5, fontFamily: 'MaterialIcons'),
@@ -2843,10 +2888,12 @@ class Const {
     "text_rotate_vertical": const IconData(0xe93b, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">text_rotation_angledown</i> &#x2014, material icon named "text rotation angledown".
-    "text_rotation_angledown": const IconData(0xe93c, fontFamily: 'MaterialIcons'),
+    "text_rotation_angledown":
+        const IconData(0xe93c, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">text_rotation_angleup</i> &#x2014, material icon named "text rotation angleup".
-    "text_rotation_angleup": const IconData(0xe93d, fontFamily: 'MaterialIcons'),
+    "text_rotation_angleup":
+        const IconData(0xe93d, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">text_rotation_down</i> &#x2014, material icon named "text rotation down".
     "text_rotation_down": const IconData(0xe93e, fontFamily: 'MaterialIcons'),
@@ -2897,8 +2944,8 @@ class Const {
     "title": const IconData(0xe264, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">toc</i> &#x2014, material icon named "toc".
-    "toc":
-        const IconData(0xe8de, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "toc": const IconData(0xe8de,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">today</i> &#x2014, material icon named "today".
     "today": const IconData(0xe8df, fontFamily: 'MaterialIcons'),
@@ -2928,7 +2975,8 @@ class Const {
     "tram": const IconData(0xe571, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">transfer_within_a_station</i> &#x2014, material icon named "transfer within a station".
-    "transfer_within_a_station": const IconData(0xe572, fontFamily: 'MaterialIcons'),
+    "transfer_within_a_station":
+        const IconData(0xe572, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">transform</i> &#x2014, material icon named "transform".
     "transform": const IconData(0xe428, fontFamily: 'MaterialIcons'),
@@ -2940,16 +2988,16 @@ class Const {
     "translate": const IconData(0xe8e2, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">trending_down</i> &#x2014, material icon named "trending down".
-    "trending_down":
-        const IconData(0xe8e3, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "trending_down": const IconData(0xe8e3,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">trending_flat</i> &#x2014, material icon named "trending flat".
-    "trending_flat":
-        const IconData(0xe8e4, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "trending_flat": const IconData(0xe8e4,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">trending_up</i> &#x2014, material icon named "trending up".
-    "trending_up":
-        const IconData(0xe8e5, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "trending_up": const IconData(0xe8e5,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">trip_origin</i> &#x2014, material icon named "trip origin".
     "trip_origin": const IconData(0xe57b, fontFamily: 'MaterialIcons'),
@@ -2970,8 +3018,8 @@ class Const {
     "unarchive": const IconData(0xe169, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">undo</i> &#x2014, material icon named "undo".
-    "undo":
-        const IconData(0xe166, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "undo": const IconData(0xe166,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">unfold_less</i> &#x2014, material icon named "unfold less".
     "unfold_less": const IconData(0xe5d6, fontFamily: 'MaterialIcons'),
@@ -2989,10 +3037,12 @@ class Const {
     "verified_user": const IconData(0xe8e8, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">vertical_align_bottom</i> &#x2014, material icon named "vertical align bottom".
-    "vertical_align_bottom": const IconData(0xe258, fontFamily: 'MaterialIcons'),
+    "vertical_align_bottom":
+        const IconData(0xe258, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">vertical_align_center</i> &#x2014, material icon named "vertical align center".
-    "vertical_align_center": const IconData(0xe259, fontFamily: 'MaterialIcons'),
+    "vertical_align_center":
+        const IconData(0xe259, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">vertical_align_top</i> &#x2014, material icon named "vertical align top".
     "vertical_align_top": const IconData(0xe25a, fontFamily: 'MaterialIcons'),
@@ -3043,15 +3093,15 @@ class Const {
     "view_headline": const IconData(0xe8ee, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">view_list</i> &#x2014, material icon named "view list".
-    "view_list":
-        const IconData(0xe8ef, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "view_list": const IconData(0xe8ef,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">view_module</i> &#x2014, material icon named "view module".
     "view_module": const IconData(0xe8f0, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">view_quilt</i> &#x2014, material icon named "view quilt".
-    "view_quilt":
-        const IconData(0xe8f1, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "view_quilt": const IconData(0xe8f1,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">view_stream</i> &#x2014, material icon named "view stream".
     "view_stream": const IconData(0xe8f2, fontFamily: 'MaterialIcons'),
@@ -3150,8 +3200,8 @@ class Const {
     "work": const IconData(0xe8f9, fontFamily: 'MaterialIcons'),
 
     /// <i class="material-icons md-36">wrap_text</i> &#x2014, material icon named "wrap text".
-    "wrap_text":
-        const IconData(0xe25b, fontFamily: 'MaterialIcons', matchTextDirection: true),
+    "wrap_text": const IconData(0xe25b,
+        fontFamily: 'MaterialIcons', matchTextDirection: true),
 
     /// <i class="material-icons md-36">youtube_searched_for</i> &#x2014, material icon named "youtube searched for".
     "youtube_searched_for": const IconData(0xe8fa, fontFamily: 'MaterialIcons'),

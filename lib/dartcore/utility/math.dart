@@ -22,5 +22,5 @@ class Math {
   /// Get a random object.
   static Random get random {
     return Random();
-  } 
+  }
 }

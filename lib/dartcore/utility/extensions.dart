@@ -84,16 +84,16 @@ extension StringExtension on String {
     if (this.toLowerCase() == "true") return true;
     return false;
   }
-  
+
   /// Encoded in Base64.
   String toBase64() => utf8.fuse(base64).encode(this);
-  
+
   /// Decoded in Base64.
   String fromBase64() => utf8.fuse(base64).decode(this);
 
   /// Convert to SHA1 hash.
   String toSHA1() => sha1.convert(utf8.encode(this)).toString();
-  
+
   /// Convert to SHA256 hash.
   ///
   /// [password]: Password.
