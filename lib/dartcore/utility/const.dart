@@ -59,6 +59,9 @@ class Const {
   /// Newline
   static const String newlineCode = "\n";
 
+  // Question
+  static const String question = "?";
+
   /// The empty of json
   static const String emptyOfJsonList = "[]";
 
