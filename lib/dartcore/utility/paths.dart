@@ -109,7 +109,7 @@ class Paths {
         path = paths.first;
         path = path.trimString(separator);
         return path.replaceAll(_tail, Const.empty).trimStringRight(separator) +
-            paths.last;
+            querySeparator + paths.last;
       } else {
         path = path.trimString(separator);
         return path.replaceAll(_tail, Const.empty).trimStringRight(separator);
@@ -135,7 +135,7 @@ class Paths {
         path = paths.first;
         path = path?.trimString(separator);
         if (isEmpty(path)) return child + paths.last;
-        return path + Const.slash + child + paths.last;
+        return path + Const.slash + child + querySeparator + paths.last;
       } else {
         path = path?.trimString(separator);
         if (isEmpty(path)) return child;
