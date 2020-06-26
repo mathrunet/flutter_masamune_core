@@ -15,6 +15,7 @@ class Paths {
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static int length(String path,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -40,6 +41,7 @@ class Paths {
   /// [path]: Path to use.
   /// [index]: Number to get (0 shallow).
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static String get(String path, int index,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -61,6 +63,7 @@ class Paths {
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static String first(String path,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -80,6 +83,7 @@ class Paths {
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static String last(String path,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -99,6 +103,7 @@ class Paths {
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static String parent(String path,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -109,7 +114,8 @@ class Paths {
         path = paths.first;
         path = path.trimString(separator);
         return path.replaceAll(_tail, Const.empty).trimStringRight(separator) +
-            querySeparator + paths.last;
+            querySeparator +
+            paths.last;
       } else {
         path = path.trimString(separator);
         return path.replaceAll(_tail, Const.empty).trimStringRight(separator);
@@ -125,6 +131,7 @@ class Paths {
   /// [path]: Path to use.
   /// [child]: The string to add.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static String child(String path, String child,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
@@ -151,11 +158,12 @@ class Paths {
   ///
   /// [path]: Path to use.
   /// [separator]: Separator, default is [/].
+  /// [querySeparator]: Query parameter, default is [?].
   static List<String> split(String path,
       {String separator = Const.slash,
       String querySeparator = Const.question}) {
     try {
-      if (isEmpty(child)) return ListPool.get();
+      if (isEmpty(path)) return ListPool.get();
       if (path.contains(querySeparator)) {
         List<String> paths = path.split(querySeparator);
         path = paths.first;
@@ -167,6 +175,20 @@ class Paths {
         if (isEmpty(path)) return ListPool.get();
         return path.split(separator);
       }
+    } catch (e) {}
+    return null;
+  }
+
+  /// Removes the query parameter, if any.
+  ///
+  /// [path]: Path to use.
+  /// [querySeparator]: Query parameter, default is [?].
+  static String removeQuery(String path,
+      {String querySeparator = Const.question}) {
+    try {
+      if (isEmpty(path)) return path;
+      if (!path.contains(querySeparator)) return path;
+      return path.split(querySeparator).first;
     } catch (e) {}
     return null;
   }
