@@ -250,14 +250,16 @@ extension IterableExtension<T extends Object> on Iterable<T> {
   ///
   /// [callback]: Callback function used in map.
   List<TCast> mapAndRemoveEmpty<TCast extends Object>(TCast callback(T item)) {
-    List<TCast> list = this.map<TCast>(callback).toList();
+    List<TCast> list = this?.map<TCast>(callback)?.toList();
+    if (list == null) return ListPool.get();
     list.removeWhere((tmp) => tmp == null);
     return list;
   }
 
   /// If the iterator value is empty, delete the element.
   List<T> removeEmpty() {
-    List<T> list = this.toList();
+    List<T> list = this?.toList();
+    if (list == null) return ListPool.get();
     list.removeWhere((tmp) => tmp == null);
     return list;
   }
@@ -265,7 +267,7 @@ extension IterableExtension<T extends Object> on Iterable<T> {
   /// Convert the contents as Future.
   Iterable<Future<T>> asIterableFuture() {
     return this
-        .map<Future<T>>((tmp) => Future.delayed(Duration.zero, () => tmp));
+        ?.map<Future<T>>((tmp) => Future.delayed(Duration.zero, () => tmp));
   }
 
   /// Divides the array by the specified number into an array.

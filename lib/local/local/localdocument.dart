@@ -175,12 +175,6 @@ class LocalDocument extends Document<DataField>
       Log.error("Path is invalid.");
       return;
     }
-    int length = Paths.length(path);
-    assert(!(length <= 0 || length % 2 != 0));
-    if (length <= 0 || length % 2 != 0) {
-      Log.error("Path is not document path.");
-      return;
-    }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document == null) document = LocalDocument._(path: path);
     document.delete();

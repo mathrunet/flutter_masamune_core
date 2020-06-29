@@ -77,7 +77,6 @@ class PathListener {
         return true;
       }
       IPath val = PathMap.get(path);
-      if (val == null) return false;
       tmp.action(val);
       return false;
     });
