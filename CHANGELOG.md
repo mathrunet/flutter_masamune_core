@@ -1,3 +1,7 @@
+## [0.2.12] - Update README (2020.06.30)
+
+* Added asset interface.
+
 ## [0.2.11] - Update README (2020.06.16)
 
 * Fixed a bug that CSV cannot be analyzed by line feed code.

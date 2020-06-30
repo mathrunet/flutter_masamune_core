@@ -13,4 +13,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:masamune_core/masamune_core.dart';
 
+part 'interface/iasset.dart';
+part 'core/assetunit.dart';
+
 part 'component/csvcollection.dart';
