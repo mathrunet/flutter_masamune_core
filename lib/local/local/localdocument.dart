@@ -38,20 +38,24 @@ class LocalDocument extends Document<DataField>
     _timer = Timer.periodic(Config.periodicExecutionTime, (timer) async {
       if (_updateStack.length <= 0) return;
       LocalDocument doc;
+      List<LocalCollection> update = ListPool.get();
       List<LocalDocument> applied = ListPool.get();
       while (_updateStack.length > 0 &&
           (doc = _updateStack.removeLast()) != null) {
         if (applied.contains(doc)) continue;
         applied.add(doc);
-      }
-      for (LocalDocument doc in applied) {
-        if (doc == null) continue;
         String path = Paths.parent(doc.path);
         if (isEmpty(path)) continue;
         LocalCollection collection = PathMap.get<LocalCollection>(path);
-        collection?._loadFromPrefs();
+        if (collection == null || update.contains(collection)) continue;
+        update.add(collection);
+      }
+      for (LocalCollection col in update) {
+        if (col == null) continue;
+        col.reload();
       }
       applied.release();
+      update.release();
       _save();
     });
   }
