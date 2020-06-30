@@ -9,6 +9,8 @@ class Config {
   static bool _isInitialized = false;
   static final String _uidKey = "DeviceUniqueIdentifier".toSHA1();
   static String _uid;
+  static Directory _temporaryDirectory;
+  static Directory _documentDirectory;
 
   /// Initialize the configuration.
   static Future init() async {
@@ -17,6 +19,8 @@ class Config {
       Prefs.set(_uidKey, _uid = Texts.uuid);
     else
       _uid = Prefs.getString(_uidKey);
+    _temporaryDirectory = await getTemporaryDirectory();
+    _documentDirectory = await getApplicationDocumentsDirectory();
     _isInitialized = true;
   }
 
@@ -45,6 +49,12 @@ class Config {
   ///
   /// Initial value is 10.
   static int taskQueueLimit = 10;
+
+  /// The directory that stores temporary files.
+  static Directory get temporaryDirectory => _temporaryDirectory;
+
+  /// The directory where you want to save the document file.
+  static Directory get documentDirectory => _documentDirectory;
 
   /// Get the UniqueID of the device.
   static String get uid {

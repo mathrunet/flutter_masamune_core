@@ -183,9 +183,8 @@ class LocalCollection extends Collection<LocalDocument>
       LocalDocument doc = this.data[i];
       if (doc == null) continue;
       doc.delete();
-      this.data.removeAt(i);
     }
-    this.dispose();
+    this.clear();
   }
 
   /// Get the protocol of the path.

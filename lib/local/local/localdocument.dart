@@ -44,6 +44,13 @@ class LocalDocument extends Document<DataField>
         if (applied.contains(doc)) continue;
         applied.add(doc);
       }
+      for (LocalDocument doc in applied) {
+        if (doc == null) continue;
+        String path = Paths.parent(doc.path);
+        if (isEmpty(path)) continue;
+        LocalCollection collection = PathMap.get<LocalCollection>(path);
+        collection?._loadFromPrefs();
+      }
       applied.release();
       _save();
     });
