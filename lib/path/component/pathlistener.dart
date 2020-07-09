@@ -110,6 +110,7 @@ extension PathListenerExtension<T extends IPath> on T {
   /// [onUpdate]: Callback executed when [path] changes.
   /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
   T listen(void onUpdate(T path), {Observer observer}) {
+    if (this == null) return this;
     PathListener.listen(this.path, onUpdate, observer: observer);
     return this;
   }
@@ -118,6 +119,7 @@ extension PathListenerExtension<T extends IPath> on T {
   ///
   /// [onUpdate]: Processing to stop monitoring. Exit only matches.
   T unlisten(void onUpdate(T path)) {
+    if (this == null) return this;
     PathListener.unlisten(this.path, onUpdate);
     return this;
   }
