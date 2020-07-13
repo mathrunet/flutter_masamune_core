@@ -26,6 +26,9 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     return list;
   }
 
+  IDataCollection _source;
+  List<JoinEntry> _listener = ListPool.get();
+
   /// Create a Completer that matches the class.
   ///
   /// Do not use from external class
@@ -106,18 +109,52 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (collection != null) {
       if (source != null) {
         if (source != collection && source.path != collection.path) {
-          collection._setInternal(_convertData(path, source));
+          collection._setInternal(
+              source: source, children: _convertData(path, source));
         }
       }
       return collection;
     }
     collection = JoinableDataCollection._(
-        path: path, children: _convertData(path, source));
+        path: path, source: source, children: _convertData(path, source));
     return collection;
   }
 
-  void _setInternal(Iterable<DataDocument> children) {
+  void _listenUpdate(IDataCollection collection) {
+    if (this._source != null) {
+      this._source.forEach((value) {
+        if (this.data.containsKey(value.id)) {
+          IDataDocument doc = this.data[value.id];
+          value.forEach((key, val) => doc[key] = val);
+        } else {
+          IDataDocument doc = DataDocument(Paths.child(this.path, value.id));
+          value.forEach((key, val) => doc[key] = val);
+        }
+      });
+      this
+          .data
+          .removeWhere((key, value) => !this._source.data.keys.contains(key));
+      this._setInternal(
+          source: this._source,
+          children: _convertData(this.path, this._source));
+    }
+    for (JoinEntry entry in this._listener) {
+      if (entry == null ||
+          entry.collection == null ||
+          entry.collection.isDisposed) continue;
+      this._applyInternal(
+          key: entry.key, test: entry.test, collection: entry.collection);
+    }
+    this.notifyUpdate();
+  }
+
+  void _setInternal({IDataCollection source, Iterable<DataDocument> children}) {
     this.data.clear();
+    if (this._source != source) {
+      if (this._source != null) this._source.unlisten(this._listenUpdate);
+      this._source = source;
+      if (this._source != null) this._source.listen(this._listenUpdate);
+    }
     if (children != null) {
       for (DataDocument doc in children) {
         if (doc == null) continue;
@@ -128,6 +165,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
 
   JoinableDataCollection._(
       {String path,
+      IDataCollection source,
       Iterable<DataDocument> children,
       bool isTemporary = false,
       int group = 0,
@@ -142,10 +180,12 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             isTemporary: isTemporary,
             group: group,
             order: order) {
+    this._source = source;
     this.orderBy = orderBy;
     this.thenBy = thenBy;
     this.orderByKey = orderByKey;
     this.thenByKey = thenByKey;
+    if (this._source != null) this._source.listen(this._listenUpdate);
   }
 
   /// Add data to the original data.
@@ -169,6 +209,28 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (isNotEmpty(key) && test != null) return this;
     this.init();
     IDataCollection collection = await builder(this);
+    assert(collection != this && collection.path != this.path);
+    if (collection == this || collection.path == this.path) {
+      this.error("Cannot specify yourself for a joined collection.");
+      return this;
+    }
+    if (!this._listener.any((entry) =>
+        entry.collection == collection ||
+        entry.collection.path == collection.path)) {
+      collection.listen(this._listenUpdate);
+      this
+          ._listener
+          .add(JoinEntry(key: key, test: test, collection: collection));
+    }
+    this._applyInternal(key: key, test: test, collection: collection);
+    this.done();
+    return this;
+  }
+
+  void _applyInternal(
+      {String key,
+      bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      IDataCollection collection}) {
     if (isNotEmpty(key)) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null || !tmp.value.containsKey(key)) continue;
@@ -192,9 +254,15 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         }
       }
     }
-    this.done();
-    return this;
   }
+}
+
+class JoinEntry {
+  final String key;
+  final bool Function(IDataDocument newDocument, IDataDocument oldDocument)
+      test;
+  final IDataCollection collection;
+  const JoinEntry({this.key, this.test, this.collection});
 }
 
 /// Class that extends IDataCollection.
