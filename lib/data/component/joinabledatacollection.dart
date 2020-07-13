@@ -17,8 +17,11 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     List<DataDocument> list = ListPool.get();
     data?.forEach((value) {
       if (value == null) return;
-      list.add(
-          value.clone(path: Paths.child(path, value.id), isTemporary: false));
+      DataDocument doc = DataDocument(Paths.child(path, value.id));
+      for (MapEntry<String, IDataField> tmp in value.entries) {
+        doc[tmp.key] = tmp.value;
+      }
+      list.add(doc);
     });
     return list;
   }
@@ -159,19 +162,19 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       bool test(IDataDocument newDocument, IDataDocument oldDocument),
       @required
           Future<IDataCollection> builder(IDataCollection collection)}) async {
-    assert(isNotEmpty(key) && test == null);
-    assert(isEmpty(key) && test != null);
+    assert((isNotEmpty(key) && test == null) || (isEmpty(key) && test != null));
     assert(builder != null);
     if (builder == null) return this;
     if (isEmpty(key) && test == null) return this;
     if (isNotEmpty(key) && test != null) return this;
+    this.init();
     IDataCollection collection = await builder(this);
     if (isNotEmpty(key)) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null || !tmp.value.containsKey(key)) continue;
         IDataDocument doc = collection.firstWhere((element) =>
             element.containsKey(key) && tmp.value[key] == element[key]);
-        if (doc != null) continue;
+        if (doc == null) continue;
         for (MapEntry<String, IDataField> data in doc.entries) {
           if (isEmpty(data.key) || data.value == null) continue;
           tmp.value[data.key] = data.value;
@@ -182,13 +185,14 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         if (tmp.value == null) continue;
         IDataDocument doc =
             collection.firstWhere((element) => test(tmp.value, element));
-        if (doc != null) continue;
+        if (doc == null) continue;
         for (MapEntry<String, IDataField> data in doc.entries) {
           if (isEmpty(data.key) || data.value == null) continue;
           tmp.value[data.key] = data.value;
         }
       }
     }
+    this.done();
     return this;
   }
 }
@@ -216,5 +220,35 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
       return JoinableDataCollection.from(path, this)
           ?.joinFrom(key: key, test: test, builder: builder);
     }
+  }
+}
+
+/// Class that extends Future<IDataCollection>.
+extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
+    on Future<T> {
+  /// Add data to the original data.
+  ///
+  /// Specify either [key] or [test].
+  ///
+  /// [path]: Path of JoinableDataCollection.
+  /// [key]: The key of the data to compare.
+  /// If the data of this key matches, that data is added to the original data.
+  /// [test]: Callback for comparison.
+  /// If True is returned, the data will be added to the original data.
+  /// [builder]: Callback to get the data.
+  Future<JoinableDataCollection> joinFrom(String path,
+      {String key,
+      bool test(IDataDocument newField, IDataDocument oldField),
+      @required Future<IDataCollection> builder(IDataCollection collection)}) {
+    if (this == null) return null;
+    return this.then((value) {
+      IDataCollection collection = PathMap.get<IDataCollection>(path);
+      if (collection is JoinableDataCollection) {
+        return collection.joinFrom(key: key, test: test, builder: builder);
+      } else {
+        return JoinableDataCollection.from(path, value)
+            ?.joinFrom(key: key, test: test, builder: builder);
+      }
+    });
   }
 }
