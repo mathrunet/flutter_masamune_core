@@ -192,6 +192,21 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (this._source != null) this._source.listen(this._listenUpdate);
   }
 
+  /// Destroys the object.
+  ///
+  /// Destroyed objects are not allowed.
+  ///
+  /// Copied from Collection.
+  @override
+  void dispose() {
+    if (this.isDisposed || !this.isDisposable) return;
+    if (this._source != null) this._source.unlisten(this._listenUpdate);
+    this._listener?.forEach(
+        (element) => element?.collection?.unlisten(this._listenUpdate));
+    this._listener?.release();
+    super.dispose();
+  }
+
   /// Add data to the original data.
   ///
   /// [key]: The key of the data to compare.
