@@ -146,7 +146,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           key: entry.key,
           test: entry.test,
           collection: entry.collection,
-          joiner: entry.joiner);
+          onFound: entry.onFound,
+          onNotFound: entry.onNotFound);
     }
     this.notifyUpdate();
   }
@@ -196,12 +197,15 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   /// [key]: The key of the data to compare.
   /// If the data of this key matches, that data is added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinAt(
       {@required String key,
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) async {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) async {
     assert(isNotEmpty(key));
     assert(builder != null);
     if (builder == null) return this;
@@ -217,11 +221,17 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         entry.collection == collection ||
         entry.collection.path == collection.path)) {
       collection.listen(this._listenUpdate);
-      this
-          ._listener
-          .add(_JoinEntry(key: key, collection: collection, joiner: joiner));
+      this._listener.add(_JoinEntry(
+          key: key,
+          collection: collection,
+          onFound: onFound,
+          onNotFound: onNotFound));
     }
-    this._applyInternal(key: key, collection: collection, joiner: joiner);
+    this._applyInternal(
+        key: key,
+        collection: collection,
+        onFound: onFound,
+        onNotFound: onNotFound);
     this.done();
     return this;
   }
@@ -231,12 +241,15 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   /// [test]: Callback for comparison.
   /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinWhere(
       {bool test(IDataDocument newDocument, IDataDocument oldDocument),
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) async {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) async {
     assert(test != null);
     assert(builder != null);
     if (builder == null) return this;
@@ -252,11 +265,14 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         entry.collection == collection ||
         entry.collection.path == collection.path)) {
       collection.listen(this._listenUpdate);
-      this
-          ._listener
-          .add(_JoinEntry(test: test, collection: collection, joiner: joiner));
+      this._listener.add(
+          _JoinEntry(test: test, collection: collection, onFound: onFound));
     }
-    this._applyInternal(test: test, collection: collection, joiner: joiner);
+    this._applyInternal(
+        test: test,
+        collection: collection,
+        onFound: onFound,
+        onNotFound: onNotFound);
     this.done();
     return this;
   }
@@ -264,17 +280,24 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   void _applyInternal(
       {String key,
       bool test(IDataDocument newDocument, IDataDocument oldDocument),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection),
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection),
       IDataCollection collection}) {
     if (isNotEmpty(key)) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null || !tmp.value.containsKey(key)) continue;
-        IDataDocument doc = collection.firstWhere((element) =>
-            element.containsKey(key) && tmp.value[key] == element[key]);
-        if (doc == null) continue;
-        if (joiner != null) {
-          joiner(tmp.key, tmp.value, doc, collection);
+        IDataDocument doc = collection.firstWhere(
+            (element) =>
+                element.containsKey(key) && tmp.value[key] == element[key],
+            orElse: () => null);
+        if (doc == null) {
+          if (onNotFound != null) onNotFound(tmp.key, tmp.value, collection);
+          continue;
+        }
+        if (onFound != null) {
+          onFound(tmp.key, tmp.value, doc, collection);
         } else {
           for (MapEntry<String, IDataField> data in doc.entries) {
             if (isEmpty(data.key) || data.value == null) continue;
@@ -285,11 +308,15 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     } else if (test != null) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null) continue;
-        IDataDocument doc =
-            collection.firstWhere((element) => test(tmp.value, element));
-        if (doc == null) continue;
-        if (joiner != null) {
-          joiner(tmp.key, tmp.value, doc, collection);
+        IDataDocument doc = collection.firstWhere(
+            (element) => test(tmp.value, element),
+            orElse: () => null);
+        if (doc == null) {
+          if (onNotFound != null) onNotFound(tmp.key, tmp.value, collection);
+          continue;
+        }
+        if (onFound != null) {
+          onFound(tmp.key, tmp.value, doc, collection);
         } else {
           for (MapEntry<String, IDataField> data in doc.entries) {
             if (isEmpty(data.key) || data.value == null) continue;
@@ -305,10 +332,13 @@ class _JoinEntry {
   final String key;
   final bool Function(IDataDocument newDocument, IDataDocument oldDocument)
       test;
-  final void Function(String key, DataDocument sourcceDocument,
-      IDataDocument newDocument, IDataCollection newCollection) joiner;
+  final void Function(String key, DataDocument value, IDataDocument document,
+      IDataCollection collection) onFound;
+  final void Function(
+      String key, DataDocument value, IDataCollection collection) onNotFound;
   final IDataCollection collection;
-  const _JoinEntry({this.key, this.test, this.collection, this.joiner});
+  const _JoinEntry(
+      {this.key, this.test, this.collection, this.onFound, this.onNotFound});
 }
 
 /// Class that extends IDataCollection.
@@ -316,19 +346,24 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// [key]: The key of the data to compare.
+  /// If the data of this key matches, that data is added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinAt(String path,
       {@required String key,
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) {
     IDataCollection collection = PathMap.get<IDataCollection>(path);
     if (collection is JoinableDataCollection) {
       return collection.joinAt(key: key, builder: builder);
     } else {
-      return JoinableDataCollection.from(path, this)
-          ?.joinAt(key: key, builder: builder, joiner: joiner);
+      return JoinableDataCollection.from(path, this)?.joinAt(
+          key: key, builder: builder, onFound: onFound, onNotFound: onNotFound);
     }
   }
 
@@ -338,18 +373,28 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   /// [test]: Callback for comparison.
   /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinWhere(String path,
       {@required bool test(IDataDocument newField, IDataDocument oldField),
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) {
     IDataCollection collection = PathMap.get<IDataCollection>(path);
     if (collection is JoinableDataCollection) {
-      return collection.joinWhere(test: test, builder: builder, joiner: joiner);
+      return collection.joinWhere(
+          test: test,
+          builder: builder,
+          onFound: onFound,
+          onNotFound: onNotFound);
     } else {
-      return JoinableDataCollection.from(path, this)
-          ?.joinWhere(test: test, builder: builder, joiner: joiner);
+      return JoinableDataCollection.from(path, this)?.joinWhere(
+          test: test,
+          builder: builder,
+          onFound: onFound,
+          onNotFound: onNotFound);
     }
   }
 }
@@ -360,21 +405,33 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// [key]: The key of the data to compare.
+  /// If the data of this key matches, that data is added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinAt(String path,
       {@required String key,
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) {
     if (this == null) return null;
     return this.then((value) {
       IDataCollection collection = PathMap.get<IDataCollection>(path);
       if (collection is JoinableDataCollection) {
-        return collection.joinAt(key: key, builder: builder, joiner: joiner);
+        return collection.joinAt(
+            key: key,
+            builder: builder,
+            onFound: onFound,
+            onNotFound: onNotFound);
       } else {
-        return JoinableDataCollection.from(path, value)
-            ?.joinAt(key: key, builder: builder, joiner: joiner);
+        return JoinableDataCollection.from(path, value)?.joinAt(
+            key: key,
+            builder: builder,
+            onFound: onFound,
+            onNotFound: onNotFound);
       }
     });
   }
@@ -382,22 +439,33 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// [test]: Callback for comparison.
+  /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  /// [onFound]: Callback for applying data. If not, it overwrites all values.
+  /// [onNotFound]: Processing when no data is found.
   Future<JoinableDataCollection> joinWhere(String path,
       {@required bool test(IDataDocument newField, IDataDocument oldField),
       @required Future<IDataCollection> builder(IDataCollection collection),
-      void joiner(String key, DataDocument sourcceDocument,
-          IDataDocument newDocument, IDataCollection newCollection)}) {
+      void onFound(String key, DataDocument value, IDataDocument document,
+          IDataCollection collection),
+      void onNotFound(
+          String key, DataDocument value, IDataCollection collection)}) {
     if (this == null) return null;
     return this.then((value) {
       IDataCollection collection = PathMap.get<IDataCollection>(path);
       if (collection is JoinableDataCollection) {
         return collection.joinWhere(
-            test: test, builder: builder, joiner: joiner);
+            test: test,
+            builder: builder,
+            onFound: onFound,
+            onNotFound: onNotFound);
       } else {
-        return JoinableDataCollection.from(path, value)
-            ?.joinWhere(test: test, builder: builder, joiner: joiner);
+        return JoinableDataCollection.from(path, value)?.joinWhere(
+            test: test,
+            builder: builder,
+            onFound: onFound,
+            onNotFound: onNotFound);
       }
     });
   }
