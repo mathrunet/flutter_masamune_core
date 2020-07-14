@@ -27,7 +27,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   }
 
   IDataCollection _source;
-  List<JoinEntry> _listener = ListPool.get();
+  List<_JoinEntry> _listener = ListPool.get();
 
   /// Create a Completer that matches the class.
   ///
@@ -138,12 +138,15 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           source: this._source,
           children: _convertData(this.path, this._source));
     }
-    for (JoinEntry entry in this._listener) {
+    for (_JoinEntry entry in this._listener) {
       if (entry == null ||
           entry.collection == null ||
           entry.collection.isDisposed) continue;
       this._applyInternal(
-          key: entry.key, test: entry.test, collection: entry.collection);
+          key: entry.key,
+          test: entry.test,
+          collection: entry.collection,
+          joiner: entry.joiner);
     }
     this.notifyUpdate();
   }
@@ -190,23 +193,19 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
 
   /// Add data to the original data.
   ///
-  /// Specify either [key] or [test].
-  ///
   /// [key]: The key of the data to compare.
   /// If the data of this key matches, that data is added to the original data.
-  /// [test]: Callback for comparison.
-  /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  Future<JoinableDataCollection> joinFrom(
-      {String key,
-      bool test(IDataDocument newDocument, IDataDocument oldDocument),
-      @required
-          Future<IDataCollection> builder(IDataCollection collection)}) async {
-    assert((isNotEmpty(key) && test == null) || (isEmpty(key) && test != null));
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinAt(
+      {@required String key,
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) async {
+    assert(isNotEmpty(key));
     assert(builder != null);
     if (builder == null) return this;
-    if (isEmpty(key) && test == null) return this;
-    if (isNotEmpty(key) && test != null) return this;
+    if (isEmpty(key)) return this;
     this.init();
     IDataCollection collection = await builder(this);
     assert(collection != this && collection.path != this.path);
@@ -220,9 +219,44 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       collection.listen(this._listenUpdate);
       this
           ._listener
-          .add(JoinEntry(key: key, test: test, collection: collection));
+          .add(_JoinEntry(key: key, collection: collection, joiner: joiner));
     }
-    this._applyInternal(key: key, test: test, collection: collection);
+    this._applyInternal(key: key, collection: collection, joiner: joiner);
+    this.done();
+    return this;
+  }
+
+  /// Add data to the original data.
+  ///
+  /// [test]: Callback for comparison.
+  /// If True is returned, the data will be added to the original data.
+  /// [builder]: Callback to get the data.
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinWhere(
+      {bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) async {
+    assert(test != null);
+    assert(builder != null);
+    if (builder == null) return this;
+    if (test == null) return this;
+    this.init();
+    IDataCollection collection = await builder(this);
+    assert(collection != this && collection.path != this.path);
+    if (collection == this || collection.path == this.path) {
+      this.error("Cannot specify yourself for a joined collection.");
+      return this;
+    }
+    if (!this._listener.any((entry) =>
+        entry.collection == collection ||
+        entry.collection.path == collection.path)) {
+      collection.listen(this._listenUpdate);
+      this
+          ._listener
+          .add(_JoinEntry(test: test, collection: collection, joiner: joiner));
+    }
+    this._applyInternal(test: test, collection: collection, joiner: joiner);
     this.done();
     return this;
   }
@@ -230,6 +264,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   void _applyInternal(
       {String key,
       bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection),
       IDataCollection collection}) {
     if (isNotEmpty(key)) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
@@ -237,9 +273,13 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         IDataDocument doc = collection.firstWhere((element) =>
             element.containsKey(key) && tmp.value[key] == element[key]);
         if (doc == null) continue;
-        for (MapEntry<String, IDataField> data in doc.entries) {
-          if (isEmpty(data.key) || data.value == null) continue;
-          tmp.value[data.key] = data.value;
+        if (joiner != null) {
+          joiner(tmp.key, tmp.value, doc, collection);
+        } else {
+          for (MapEntry<String, IDataField> data in doc.entries) {
+            if (isEmpty(data.key) || data.value == null) continue;
+            tmp.value[data.key] = data.value;
+          }
         }
       }
     } else if (test != null) {
@@ -248,45 +288,68 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
         IDataDocument doc =
             collection.firstWhere((element) => test(tmp.value, element));
         if (doc == null) continue;
-        for (MapEntry<String, IDataField> data in doc.entries) {
-          if (isEmpty(data.key) || data.value == null) continue;
-          tmp.value[data.key] = data.value;
+        if (joiner != null) {
+          joiner(tmp.key, tmp.value, doc, collection);
+        } else {
+          for (MapEntry<String, IDataField> data in doc.entries) {
+            if (isEmpty(data.key) || data.value == null) continue;
+            tmp.value[data.key] = data.value;
+          }
         }
       }
     }
   }
 }
 
-class JoinEntry {
+class _JoinEntry {
   final String key;
   final bool Function(IDataDocument newDocument, IDataDocument oldDocument)
       test;
+  final void Function(String key, DataDocument sourcceDocument,
+      IDataDocument newDocument, IDataCollection newCollection) joiner;
   final IDataCollection collection;
-  const JoinEntry({this.key, this.test, this.collection});
+  const _JoinEntry({this.key, this.test, this.collection, this.joiner});
 }
 
 /// Class that extends IDataCollection.
 extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   /// Add data to the original data.
   ///
-  /// Specify either [key] or [test].
+  /// [path]: Path of JoinableDataCollection.
+  /// [builder]: Callback to get the data.
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinAt(String path,
+      {@required String key,
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) {
+    IDataCollection collection = PathMap.get<IDataCollection>(path);
+    if (collection is JoinableDataCollection) {
+      return collection.joinAt(key: key, builder: builder);
+    } else {
+      return JoinableDataCollection.from(path, this)
+          ?.joinAt(key: key, builder: builder, joiner: joiner);
+    }
+  }
+
+  /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
-  /// [key]: The key of the data to compare.
-  /// If the data of this key matches, that data is added to the original data.
   /// [test]: Callback for comparison.
   /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  Future<JoinableDataCollection> joinFrom(String path,
-      {String key,
-      bool test(IDataDocument newField, IDataDocument oldField),
-      @required Future<IDataCollection> builder(IDataCollection collection)}) {
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinWhere(String path,
+      {@required bool test(IDataDocument newField, IDataDocument oldField),
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) {
     IDataCollection collection = PathMap.get<IDataCollection>(path);
     if (collection is JoinableDataCollection) {
-      return collection.joinFrom(key: key, test: test, builder: builder);
+      return collection.joinWhere(test: test, builder: builder, joiner: joiner);
     } else {
       return JoinableDataCollection.from(path, this)
-          ?.joinFrom(key: key, test: test, builder: builder);
+          ?.joinWhere(test: test, builder: builder, joiner: joiner);
     }
   }
 }
@@ -296,26 +359,45 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
     on Future<T> {
   /// Add data to the original data.
   ///
-  /// Specify either [key] or [test].
-  ///
   /// [path]: Path of JoinableDataCollection.
-  /// [key]: The key of the data to compare.
-  /// If the data of this key matches, that data is added to the original data.
-  /// [test]: Callback for comparison.
-  /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
-  Future<JoinableDataCollection> joinFrom(String path,
-      {String key,
-      bool test(IDataDocument newField, IDataDocument oldField),
-      @required Future<IDataCollection> builder(IDataCollection collection)}) {
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinAt(String path,
+      {@required String key,
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) {
     if (this == null) return null;
     return this.then((value) {
       IDataCollection collection = PathMap.get<IDataCollection>(path);
       if (collection is JoinableDataCollection) {
-        return collection.joinFrom(key: key, test: test, builder: builder);
+        return collection.joinAt(key: key, builder: builder, joiner: joiner);
       } else {
         return JoinableDataCollection.from(path, value)
-            ?.joinFrom(key: key, test: test, builder: builder);
+            ?.joinAt(key: key, builder: builder, joiner: joiner);
+      }
+    });
+  }
+
+  /// Add data to the original data.
+  ///
+  /// [path]: Path of JoinableDataCollection.
+  /// [builder]: Callback to get the data.
+  /// [joiner]: Callback for applying data. If not, it overwrites all values.
+  Future<JoinableDataCollection> joinWhere(String path,
+      {@required bool test(IDataDocument newField, IDataDocument oldField),
+      @required Future<IDataCollection> builder(IDataCollection collection),
+      void joiner(String key, DataDocument sourcceDocument,
+          IDataDocument newDocument, IDataCollection newCollection)}) {
+    if (this == null) return null;
+    return this.then((value) {
+      IDataCollection collection = PathMap.get<IDataCollection>(path);
+      if (collection is JoinableDataCollection) {
+        return collection.joinWhere(
+            test: test, builder: builder, joiner: joiner);
+      } else {
+        return JoinableDataCollection.from(path, value)
+            ?.joinWhere(test: test, builder: builder, joiner: joiner);
       }
     });
   }
