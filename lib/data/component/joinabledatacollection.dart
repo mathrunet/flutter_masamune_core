@@ -361,18 +361,28 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// If not specified, if the object being executed is a JoinaableDataCollection,
+  /// the path is as it is, otherwise, joined is added to the beginning of the path.
   /// [key]: The key of the data to compare.
   /// If the data of this key matches, that data is added to the original data.
   /// [builder]: Callback to get the data.
   /// [onFound]: Callback for applying data. If not, it overwrites all values.
   /// [onNotFound]: Processing when no data is found.
-  Future<JoinableDataCollection> joinAt(String path,
-      {@required String key,
+  Future<JoinableDataCollection> joinAt(
+      {String path,
+      @required String key,
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
       void onNotFound(
           String key, DataDocument value, IDataCollection collection)}) {
+    if (isEmpty(path)) {
+      if (this is JoinableDataCollection) {
+        path = this.path;
+      } else {
+        path = "joined/${this.rawPath.path.trimString(Const.slash)}";
+      }
+    }
     IDataCollection collection = PathMap.get<IDataCollection>(path);
     if (collection is JoinableDataCollection) {
       return collection.joinAt(key: key, builder: builder);
@@ -385,18 +395,28 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// If not specified, if the object being executed is a JoinaableDataCollection,
+  /// the path is as it is, otherwise, joined is added to the beginning of the path.
   /// [test]: Callback for comparison.
   /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
   /// [onFound]: Callback for applying data. If not, it overwrites all values.
   /// [onNotFound]: Processing when no data is found.
-  Future<JoinableDataCollection> joinWhere(String path,
-      {@required bool test(IDataDocument newField, IDataDocument oldField),
+  Future<JoinableDataCollection> joinWhere(
+      {String path,
+      @required bool test(IDataDocument newField, IDataDocument oldField),
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
       void onNotFound(
           String key, DataDocument value, IDataCollection collection)}) {
+    if (isEmpty(path)) {
+      if (this is JoinableDataCollection) {
+        path = this.path;
+      } else {
+        path = "joined/${this.rawPath.path.trimString(Const.slash)}";
+      }
+    }
     IDataCollection collection = PathMap.get<IDataCollection>(path);
     if (collection is JoinableDataCollection) {
       return collection.joinWhere(
@@ -420,13 +440,16 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// If not specified, if the object being executed is a JoinaableDataCollection,
+  /// the path is as it is, otherwise, joined is added to the beginning of the path.
   /// [key]: The key of the data to compare.
   /// If the data of this key matches, that data is added to the original data.
   /// [builder]: Callback to get the data.
   /// [onFound]: Callback for applying data. If not, it overwrites all values.
   /// [onNotFound]: Processing when no data is found.
-  Future<JoinableDataCollection> joinAt(String path,
-      {@required String key,
+  Future<JoinableDataCollection> joinAt(
+      {String path,
+      @required String key,
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
@@ -434,6 +457,13 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
           String key, DataDocument value, IDataCollection collection)}) {
     if (this == null) return null;
     return this.then((value) {
+      if (isEmpty(path)) {
+        if (value is JoinableDataCollection) {
+          path = value.path;
+        } else {
+          path = "joined/${value.rawPath.path.trimString(Const.slash)}";
+        }
+      }
       IDataCollection collection = PathMap.get<IDataCollection>(path);
       if (collection is JoinableDataCollection) {
         return collection.joinAt(
@@ -454,13 +484,16 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   /// Add data to the original data.
   ///
   /// [path]: Path of JoinableDataCollection.
+  /// If not specified, if the object being executed is a JoinaableDataCollection,
+  /// the path is as it is, otherwise, joined is added to the beginning of the path.
   /// [test]: Callback for comparison.
   /// If True is returned, the data will be added to the original data.
   /// [builder]: Callback to get the data.
   /// [onFound]: Callback for applying data. If not, it overwrites all values.
   /// [onNotFound]: Processing when no data is found.
-  Future<JoinableDataCollection> joinWhere(String path,
-      {@required bool test(IDataDocument newField, IDataDocument oldField),
+  Future<JoinableDataCollection> joinWhere(
+      {String path,
+      @required bool test(IDataDocument newField, IDataDocument oldField),
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
@@ -468,6 +501,13 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
           String key, DataDocument value, IDataCollection collection)}) {
     if (this == null) return null;
     return this.then((value) {
+      if (isEmpty(path)) {
+        if (value is JoinableDataCollection) {
+          path = value.path;
+        } else {
+          path = "joined/${value.rawPath.path.trimString(Const.slash)}";
+        }
+      }
       IDataCollection collection = PathMap.get<IDataCollection>(path);
       if (collection is JoinableDataCollection) {
         return collection.joinWhere(
