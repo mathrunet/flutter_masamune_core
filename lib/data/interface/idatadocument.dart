@@ -71,6 +71,9 @@ abstract class IDataDocument<TField extends IDataField>
   Map<K, V> getMap<K extends Object, V extends Object>(String key,
       [Map<K, V> defaultValue = const {}]);
 
+  /// Update document data.
+  Future<T> reload<T extends IDataDocument>();
+
   /// Save the data.
   ///
   /// Run if you have a remote or need to save data.

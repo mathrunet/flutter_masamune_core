@@ -126,7 +126,8 @@ class LocalDocument extends Document<DataField>
     }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document != null) {
-      return document.reload();
+      document.reload();
+      return document;
     }
     document = LocalDocument._(path: path);
     document._loadFromPrefs();
@@ -213,9 +214,9 @@ class LocalDocument extends Document<DataField>
   }
 
   /// Update document data.
-  LocalDocument reload() {
+  Future<T> reload<T extends IDataDocument>() async {
     this._loadFromPrefs();
-    return this;
+    return this as T;
   }
 
   void _loadFromPrefs() {

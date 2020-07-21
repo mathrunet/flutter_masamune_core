@@ -122,7 +122,8 @@ class SearchableLocalCollection extends Collection<LocalDocument>
       if (thenBy != OrderBy.none) collection.thenBy = thenBy;
       if (isNotEmpty(orderByKey)) collection.orderByKey = orderByKey;
       if (isNotEmpty(thenByKey)) collection.thenByKey = thenByKey;
-      return collection.reload();
+      collection.reload();
+      return collection;
     }
     collection = SearchableLocalCollection._(
         path: path,
@@ -171,9 +172,9 @@ class SearchableLocalCollection extends Collection<LocalDocument>
   }
 
   /// Update document data.
-  SearchableLocalCollection reload() {
+  Future<T> reload<T extends IDataCollection>() async {
     this._loadFromPrefs();
-    return this;
+    return this as T;
   }
 
   void _loadFromPrefs() {

@@ -52,4 +52,18 @@ abstract class IDataCollection<TDocument extends IDataDocument>
   ///
   /// [key]: Key for retrieving data.
   TDocument operator [](Object key);
+
+  /// Update document data.
+  Future<T> reload<T extends IDataCollection>();
+
+  /// Read the following data.
+  ///
+  /// If you want to check whether the next data can be obtained,
+  /// execute [canNext()].
+  Future<T> next<T extends IDataCollection>();
+
+  /// True if the next data is available.
+  ///
+  /// The next data is acquired by [next()].
+  bool canNext();
 }

@@ -94,7 +94,8 @@ class LocalCollection extends Collection<LocalDocument>
       if (thenBy != OrderBy.none) collection.thenBy = thenBy;
       if (isNotEmpty(orderByKey)) collection.orderByKey = orderByKey;
       if (isNotEmpty(thenByKey)) collection.thenByKey = thenByKey;
-      return collection.reload();
+      collection.reload();
+      return collection;
     }
     collection = LocalCollection._(
         path: path,
@@ -128,9 +129,9 @@ class LocalCollection extends Collection<LocalDocument>
   }
 
   /// Update document data.
-  LocalCollection reload() {
+  Future<T> reload<T extends IDataCollection>() async {
     this._loadFromPrefs();
-    return this;
+    return this as T;
   }
 
   void _loadFromPrefs() {

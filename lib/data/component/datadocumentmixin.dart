@@ -133,6 +133,10 @@ abstract class DataDocumentMixin<TField extends IDataField>
   /// UpdatedTime is output if the field has no value.
   int get time => this.getInt(Const.time, this.updatedTime);
 
+  /// Update document data.
+  Future<T> reload<T extends IDataDocument>() =>
+      Future<T>.delayed(Duration.zero);
+
   /// Save the data.
   ///
   /// Run if you have a remote or need to save data.
