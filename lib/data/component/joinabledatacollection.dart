@@ -450,7 +450,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             if (isEmpty(data.key) || data.value == null) continue;
             String key = data.key;
             if (isNotEmpty(prefix)) key = prefix + key;
-            tmp.value[key] = data.value;
+            tmp.value[key] = data.value.data;
           }
         }
       }
@@ -471,7 +471,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             if (isEmpty(data.key) || data.value == null) continue;
             String key = data.key;
             if (isNotEmpty(prefix)) key = prefix + key;
-            tmp.value[key] = data.value;
+            tmp.value[key] = data.value.data;
           }
         }
       }
@@ -499,7 +499,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             if (isEmpty(data.key) || data.value == null) continue;
             String key = data.key;
             if (isNotEmpty(prefix)) key = prefix + key;
-            tmp.value[key] = data.value;
+            tmp.value[key] = data.value.data;
           }
         }
       }
@@ -517,7 +517,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             if (isEmpty(data.key) || data.value == null) continue;
             String key = data.key;
             if (isNotEmpty(prefix)) key = prefix + key;
-            tmp.value[key] = data.value;
+            tmp.value[key] = data.value.data;
           }
         }
       }
