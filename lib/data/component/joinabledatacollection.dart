@@ -317,7 +317,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           test: test,
           prefix: prefix,
           collection: collection,
-          onFound: onFound));
+          onFound: onFound,
+          onNotFound: onNotFound));
     }
     this._applyCollectionInternal(
         test: test,
