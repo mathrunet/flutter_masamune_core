@@ -285,10 +285,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   /// [onNotFound]: Processing when no data is found.
   /// [prefix]: Prefix key that is prepended to the applied data.
   Future<JoinableDataCollection> joinWhere(
-      {@required
-          bool test(IDataDocument newDocument, IDataDocument oldDocument),
-      @required
-          Future<IDataCollection> builder(IDataCollection collection),
+      {@required bool test(IDataDocument original, IDataDocument additional),
+      @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
       void onNotFound(
@@ -386,7 +384,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   /// [onNotFound]: Processing when no data is found.
   /// [prefix]: Prefix key that is prepended to the applied data.
   Future<JoinableDataCollection> joinDocumentWhere(
-      {bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      {bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document),
       void onNotFound(String key, DataDocument value),
@@ -426,7 +424,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   void _applyCollectionInternal(
       {String key,
       String prefix,
-      bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      bool test(IDataDocument original, IDataDocument additional),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
       void onNotFound(
@@ -481,7 +479,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   void _applyDocumentInternal(
       {String key,
       String prefix,
-      bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      bool test(IDataDocument original, IDataDocument additional),
       void onFound(String key, DataDocument value, IDataDocument document),
       void onNotFound(String key, DataDocument value),
       IDataDocument document}) {
@@ -541,7 +539,7 @@ class _JoinDocumentEntry extends _JoinEntry {
   const _JoinDocumentEntry(
       {String key,
       String prefix,
-      bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      bool test(IDataDocument original, IDataDocument additional),
       this.document,
       this.onFound,
       this.onNotFound})
@@ -557,7 +555,7 @@ class _JoinCollectionEntry extends _JoinEntry {
   const _JoinCollectionEntry(
       {String key,
       String prefix,
-      bool test(IDataDocument newDocument, IDataDocument oldDocument),
+      bool test(IDataDocument original, IDataDocument additional),
       this.collection,
       this.onFound,
       this.onNotFound})
