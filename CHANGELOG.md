@@ -1,3 +1,7 @@
+## [0.3.0] - Update README (2020.07.24)
+
+* Completion of JoinableDataCollection.
+
 ## [0.2.14] - Update README (2020.07.20)
 
 * Add document join function to JoinableDataCollection.
