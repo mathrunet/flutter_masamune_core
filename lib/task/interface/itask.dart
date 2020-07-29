@@ -23,7 +23,6 @@ abstract class ITask
   /// Returns the [Future] class of the task.
   ///
   /// Normally, use it inside a class. Do not use outside the class.
-  @protected
   Future get future;
 
   /// Create a Completer that matches the class.

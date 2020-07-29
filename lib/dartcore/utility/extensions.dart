@@ -321,7 +321,7 @@ extension IterableExtension<T extends Object> on Iterable<T> {
   }
 
   /// Converts the list into a map.
-  /// 
+  ///
   /// [key]: Callback to get the key from the element.
   /// [value]: Callback to get the value from the element.
   Map<K, V> toMap<K extends Object, V extends Object>(

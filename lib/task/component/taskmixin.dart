@@ -15,7 +15,6 @@ abstract class TaskMixin implements ITask {
   /// Returns the [Future] class of the task.
   ///
   /// Normally, use it inside a class. Do not use outside the class.
-  @protected
   Future get future => this._completer?.future;
 
   /// True when the object has finished executing.
