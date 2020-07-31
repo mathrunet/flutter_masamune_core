@@ -217,6 +217,68 @@ extension DateTimeExtension on DateTime {
   /// Gets the time per frame in UnixTime in milliseconds.
   int get frameMillisecondsSinceEpoch =>
       (this.millisecondsSinceEpoch / 30).round() * 30;
+
+  /// True if the specified time or the current time is the same day.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isToday([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year &&
+        this.month == dateTime.month &&
+        this.day == dateTime.day;
+  }
+
+  /// True if the specified time or the current time is the same month.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isThisMonth([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year && this.month == dateTime.month;
+  }
+
+  /// True if the specified time or the current time is the same year.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isThisYear([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year;
+  }
+
+  /// True if the specified time or the current time is the same hour.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isThisHour([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year &&
+        this.month == dateTime.month &&
+        this.day == dateTime.day &&
+        this.hour == dateTime.hour;
+  }
+
+  /// True if the specified time or the current time is the same minute.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isThisMimute([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year &&
+        this.month == dateTime.month &&
+        this.day == dateTime.day &&
+        this.hour == dateTime.hour &&
+        this.minute == dateTime.minute;
+  }
+
+  /// True if the specified time or the current time is the same second.
+  ///
+  /// [dateTime]: Time to compare.
+  bool isThisSecond([DateTime dateTime]) {
+    if (dateTime == null) dateTime = DateTime.now();
+    return this.year == dateTime.year &&
+        this.month == dateTime.month &&
+        this.day == dateTime.day &&
+        this.hour == dateTime.hour &&
+        this.minute == dateTime.minute &&
+        this.second == dateTime.second;
+  }
 }
 
 /// Future extension methods
