@@ -244,11 +244,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (isEmpty(key)) return this;
     this.init();
     IDataCollection collection = await builder(this);
-    assert(collection != null);
-    if (collection == null) {
-      this.error("Could not get the collection.");
-      return this;
-    }
+    if (collection == null) return this;
     assert(collection != this && collection.path != this.path);
     if (collection == this || collection.path == this.path) {
       this.error("Cannot specify yourself for a joined collection.");
@@ -298,11 +294,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (test == null) return this;
     this.init();
     IDataCollection collection = await builder(this);
-    assert(collection != null);
-    if (collection == null) {
-      this.error("Could not get the collection.");
-      return this;
-    }
+    if (collection == null) return this;
     assert(collection != this && collection.path != this.path);
     if (collection == this || collection.path == this.path) {
       this.error("Cannot specify yourself for a joined collection.");
@@ -350,11 +342,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (isEmpty(key)) return this;
     this.init();
     IDataDocument document = await builder(this);
-    assert(document != null);
-    if (document == null) {
-      this.error("Could not get the document.");
-      return this;
-    }
+    if (document == null) return this;
     if (!this._listener.any((entry) =>
         entry is _JoinDocumentEntry &&
         (entry.document == document || entry.document.path == document.path))) {
@@ -396,11 +384,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     if (test == null) return this;
     this.init();
     IDataDocument document = await builder(this);
-    assert(document != null);
-    if (document == null) {
-      this.error("Could not get the document.");
-      return this;
-    }
+    if (document == null) return this;
     if (!this._listener.any((entry) =>
         entry is _JoinDocumentEntry &&
         (entry.document == document || entry.document.path == document.path))) {
