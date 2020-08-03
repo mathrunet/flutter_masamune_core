@@ -126,7 +126,6 @@ class LocalDocument extends Document<DataField>
     }
     LocalDocument document = PathMap.get<LocalDocument>(path);
     if (document != null) {
-      document.reload();
       return document;
     }
     document = LocalDocument._(path: path);

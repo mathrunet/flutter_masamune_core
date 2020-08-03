@@ -308,6 +308,21 @@ extension IterableFutureExtension<T extends Object> on Iterable<Future<T>> {
 
 /// Iterable extension methods.
 extension IterableExtension<T extends Object> on Iterable<T> {
+  /// True if the iterators match.
+  ///
+  /// [other]: Iterator to compare.
+  bool equals(Iterable<T> other) {
+    if (this == other) return true;
+    if (this.length != other.length) return false;
+    for (T tmp in this) {
+      if (!other.contains(tmp)) return false;
+    }
+    return true;
+  }
+
+  /// Remove duplicate values from the list.
+  List<T> distinct() => this?.toSet()?.toList();
+
   /// After replacing the data in the list, delete the null.
   ///
   /// [callback]: Callback function used in map.

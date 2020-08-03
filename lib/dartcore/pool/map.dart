@@ -32,6 +32,19 @@ extension MapPool<K extends Object, V extends Object> on Map<K, V> {
 
 /// Extends the Map class.
 extension MapExtension<K extends Object, V extends Object> on Map<K, V> {
+  /// True if the map match.
+  ///
+  /// [other]: Map to compare.
+  bool equals(Map<K, V> other) {
+    if (this == other) return true;
+    if (this.length != other.length) return false;
+    for (MapEntry<K, V> tmp in this.entries) {
+      if (!other.containsKey(tmp)) return false;
+      if (other[tmp.key] != tmp.value) return false;
+    }
+    return true;
+  }
+
   /// Method indexed forEach.
   ///
   /// The [index] starts at 0 and is incremented by 1.

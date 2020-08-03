@@ -49,6 +49,29 @@ abstract class SortableDataCollectionMixin<T extends IDataDocument>
   set thenByKey(String key) => this._thenByKey = key;
   String _thenByKey;
 
+  /// True if the sort data has changed.
+  bool isChanged(
+      {OrderBy orderBy, OrderBy thenBy, String orderByKey, String thenByKey}) {
+    bool changed = false;
+    if (orderBy != OrderBy.none && orderBy != this.orderBy) {
+      changed = true;
+      this.orderBy = orderBy;
+    }
+    if (thenBy != OrderBy.none && thenBy != this.thenBy) {
+      changed = true;
+      this.thenBy = thenBy;
+    }
+    if (isNotEmpty(orderByKey) && orderByKey != this.orderByKey) {
+      changed = true;
+      this.orderByKey = orderByKey;
+    }
+    if (isNotEmpty(thenByKey) && thenByKey != this.thenByKey) {
+      changed = true;
+      this.thenByKey = thenByKey;
+    }
+    return changed;
+  }
+
   /// Sort according to the sort setting.
   ///
   /// [orderBy] and [orderByKey], [thenBy] and [thenByKey] as the sort contents.
