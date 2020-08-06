@@ -111,6 +111,7 @@ class PathMap {
       return;
     }
     _data[path] = data;
+    CountListener._addCount(path);
     if (data is IChild) {
       String parent = Paths.parent(data.path);
       if (!_data.containsKey(parent) || !(_data[parent] is IParent)) return;
@@ -127,6 +128,7 @@ class PathMap {
     if (!_data.containsKey(path)) return;
     IPath data = _data[path];
     if (data == null || data.group < 0 || !data.isDisposable) return;
+    CountListener._subCount(path);
     _removeInternal(data);
     data.dispose();
     _data.remove(path);

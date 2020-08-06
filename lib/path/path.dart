@@ -22,6 +22,7 @@ part 'component/pathtag.dart';
 part 'component/unit.dart';
 part 'component/document.dart';
 part 'component/collection.dart';
+part 'component/countlistener.dart';
 
 part 'core/path.dart';
 part 'core/protocol.dart';

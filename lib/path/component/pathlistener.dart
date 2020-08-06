@@ -156,17 +156,16 @@ extension PathListenerFutureExtension<T extends IPath> on Future<T> {
 }
 
 class _ListenerPath {
-  String path;
-  Type type;
-  int hash;
-  void Function(IPath path) action;
-  Observer observer;
-  _ListenerPath(String path, Type type, int hash,
-      void Function(IPath path) action, Observer observer) {
-    this.path = path;
-    this.type = type;
-    this.hash = hash;
-    this.action = action;
-    this.observer = observer;
-  }
+  final String path;
+  final Type type;
+  final int hash;
+  final void Function(IPath path) action;
+  final Observer observer;
+  const _ListenerPath(String path, Type type, int hash,
+      void Function(IPath path) action, Observer observer)
+      : this.path = path,
+        this.type = type,
+        this.hash = hash,
+        this.action = action,
+        this.observer = observer;
 }
