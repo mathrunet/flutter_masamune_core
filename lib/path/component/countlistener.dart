@@ -1,45 +1,60 @@
 part of masamune.path;
 
+/// Listener to listen to collection counts and
+/// reflect them in a particular field.
+///
+///
 class CountListener {
   static Map<String, Map<String, _CountListenerPath>> _listener = MapPool.get();
   static Map<String, Map<String, void Function(IPath path)>> _callback =
       MapPool.get();
 
-  static void listen(String path, String target) {
-    if (isEmpty(path) || isEmpty(target)) return;
+  /// Listen to the collection.
+  ///
+  /// The value increases when an element is added to the collection and
+  /// decreases when the element is deleted.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  static void listen(String path, String field) {
+    if (isEmpty(path) || isEmpty(field)) return;
     path = Paths.removeQuery(path);
-    target = Paths.removeQuery(target);
-    if (_listener.containsKey(path) && _listener[path].containsKey(target))
+    field = Paths.removeQuery(field);
+    if (_listener.containsKey(path) && _listener[path].containsKey(field))
       return;
-    IUnit tmp = PathMap.get<IUnit>(target);
+    IUnit tmp = PathMap.get<IUnit>(field);
     if (tmp == null) {
       if (!_callback.containsKey(path)) _callback[path] = MapPool.get();
-      _callback[path][target] = (unit) {
+      _callback[path][field] = (unit) {
         if (unit == null) return;
         if (unit is IUnit) {
           if (!_listener.containsKey(path)) _listener[path] = MapPool.get();
-          _listener[path][target] = _CountListenerPath(path, unit);
+          _listener[path][field] = _CountListenerPath(path, unit);
         }
-        if (_callback[path].containsKey(target))
+        if (_callback[path].containsKey(field))
           Future.delayed(Duration.zero,
-              () => PathListener.unlisten(target, _callback[path][target]));
-        _callback[path].remove(target);
+              () => PathListener.unlisten(field, _callback[path][field]));
+        _callback[path].remove(field);
       };
-      PathListener.listen(target, _callback[path][target]);
+      PathListener.listen(field, _callback[path][field]);
     } else if (tmp is IUnit) {
       if (!_listener.containsKey(path)) _listener[path] = MapPool.get();
-      _listener[path][target] = _CountListenerPath(path, tmp);
+      _listener[path][field] = _CountListenerPath(path, tmp);
     }
   }
 
-  static void unlisten(String path, String target) {
-    if (isEmpty(path) || isEmpty(target)) return;
-    if (_callback.containsKey(path) && _callback[path].containsKey(target)) {
-      PathListener.unlisten(target, _callback[path][target]);
-      _callback[path].remove(target);
+  /// Unlisten to the collection.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  static void unlisten(String path, String field) {
+    if (isEmpty(path) || isEmpty(field)) return;
+    if (_callback.containsKey(path) && _callback[path].containsKey(field)) {
+      PathListener.unlisten(field, _callback[path][field]);
+      _callback[path].remove(field);
     }
-    if (_listener.containsKey(path) && _listener.containsKey(target)) {
-      _listener[path].remove(target);
+    if (_listener.containsKey(path) && _listener.containsKey(field)) {
+      _listener[path].remove(field);
     }
   }
 
@@ -60,6 +75,67 @@ class CountListener {
             (tmp.value.unit.data as double) + value.toDouble();
       }
     }
+  }
+}
+
+/// Collection listener extension methods
+extension CollectionListenerExtension<T extends ICollection> on T {
+  /// Listen to the collection.
+  ///
+  /// The value increases when an element is added to the collection and
+  /// decreases when the element is deleted.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  T counting(String path) {
+    if (isEmpty(path)) return this;
+    if (this == null) return this;
+    CountListener.listen(this.path, path);
+    return this;
+  }
+
+  /// Unlisten to the collection.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  T uncounting(String path) {
+    if (isEmpty(path)) return this;
+    if (this == null) return this;
+    CountListener.unlisten(this.path, path);
+    return this;
+  }
+}
+
+/// Collection listener extension methods
+extension CollectionListenerFutureExtension<T extends ICollection>
+    on Future<T> {
+  /// Listen to the collection.
+  ///
+  /// The value increases when an element is added to the collection and
+  /// decreases when the element is deleted.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  Future<T> counting(String path) {
+    if (isEmpty(path)) return this;
+    if (this == null) return this;
+    return this.then((value) {
+      CountListener.listen(value.path, path);
+      return value;
+    });
+  }
+
+  /// Unlisten to the collection.
+  ///
+  /// [path]: Collection path.
+  /// [field]: Field pass of the counter.
+  Future<T> uncounting(String path) {
+    if (isEmpty(path)) return this;
+    if (this == null) return this;
+    return this.then((value) {
+      CountListener.unlisten(value.path, path);
+      return value;
+    });
   }
 }
 

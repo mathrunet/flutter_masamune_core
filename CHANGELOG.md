@@ -1,3 +1,7 @@
+## [0.3.1] - Update README (2020.08.06)
+
+* Added CountListener.
+
 ## [0.3.0] - Update README (2020.07.24)
 
 * Completion of JoinableDataCollection.
