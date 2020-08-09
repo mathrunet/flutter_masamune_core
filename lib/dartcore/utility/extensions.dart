@@ -279,6 +279,14 @@ extension DateTimeExtension on DateTime {
         this.minute == dateTime.minute &&
         this.second == dateTime.second;
   }
+
+  /// Format and output the date.
+  ///
+  /// [format]: The format to specify.
+  String format(String format) {
+    if (isEmpty(format)) return Const.empty;
+    return DateFormat(format).format(this);
+  }
 }
 
 /// Future extension methods
