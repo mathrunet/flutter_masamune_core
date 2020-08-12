@@ -42,8 +42,8 @@ class Config {
   ///
   /// Task queue and Firebase updates etc.
   ///
-  /// Initial value is 1 sec
-  static Duration periodicExecutionTime = Duration(seconds: 10);
+  /// Initial value is 3 sec
+  static Duration periodicExecutionTime = Duration(seconds: 3);
 
   /// Task queue execution limit.
   ///
