@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:masamune_core/masamune_core.dart';
 
 part 'interface/iasset.dart';
+part 'interface/assettype.dart';
 part 'core/assetunit.dart';
 
 part 'component/csvcollection.dart';
