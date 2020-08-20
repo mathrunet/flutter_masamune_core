@@ -28,3 +28,4 @@ part 'component/taskdocument.dart';
 part 'component/taskcollection.dart';
 part 'component/taskqueue.dart';
 part 'component/taskmixin.dart';
+part 'component/scheduletask.dart';

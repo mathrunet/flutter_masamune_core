@@ -1,3 +1,7 @@
+## [0.4.1] - Update README (2020.08.20)
+
+* Added ScheduleTask.
+
 ## [0.4.0] - Update README (2020.08.07)
 
 * Changed the internal specifications.
