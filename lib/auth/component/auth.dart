@@ -51,8 +51,8 @@ abstract class Auth extends TaskUnit implements IAuth {
   @protected
   T init<T extends IDoable>() {
     super.init();
-    this._uid = null;
-    this._isAuthorized = false;
+    // this._uid = null;
+    // this._isAuthorized = false;
     return this as T;
   }
 
@@ -78,8 +78,8 @@ abstract class Auth extends TaskUnit implements IAuth {
   @protected
   T error<T extends IErrorable>(String message,
       {ErrorLevel errorLevel = ErrorLevel.error}) {
-    this._uid = null;
-    this._isAuthorized = false;
+    // this._uid = null;
+    // this._isAuthorized = false;
     super.error(message, errorLevel: errorLevel);
     return this as T;
   }
@@ -94,8 +94,8 @@ abstract class Auth extends TaskUnit implements IAuth {
   @protected
   T timeout<T extends IErrorable>(String message,
       {ErrorLevel errorLevel = ErrorLevel.error}) {
-    this._uid = null;
-    this._isAuthorized = false;
+    // this._uid = null;
+    // this._isAuthorized = false;
     super.timeout(message, errorLevel: errorLevel);
     return this as T;
   }
