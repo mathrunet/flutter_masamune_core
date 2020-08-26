@@ -58,6 +58,25 @@ extension MapExtension<K extends Object, V extends Object> on Map<K, V> {
     });
   }
 
+  /// Create a map that extracts only the same values compared to a specific map.
+  /// 
+  /// [checkOnlyKey]: If True,
+  /// returns the value contained in the given map if it has the same key.
+  Map<K, V> duplicate(Map<K, V> map, {bool checkOnlyKey = false}) {
+    if (map == null) return this;
+    if (this == null || this.length <= 0) return map;
+    Map<K, V> res = MapPool.get();
+    for (MapEntry<K, V> tmp in map.entries) {
+      if (checkOnlyKey) {
+        if (this.containsKey(tmp.key)) res[tmp.key] = tmp.value;
+      } else {
+        if (this.containsKey(tmp.key) && tmp.value == this[tmp.key])
+          res[tmp.key] = tmp.value;
+      }
+    }
+    return res;
+  }
+
   /// Convert it to a list through [callback].
   ///
   /// [callback]: Callback function.
