@@ -59,7 +59,7 @@ extension MapExtension<K extends Object, V extends Object> on Map<K, V> {
   }
 
   /// Create a map that extracts only the same values compared to a specific map.
-  /// 
+  ///
   /// [checkOnlyKey]: If True,
   /// returns the value contained in the given map if it has the same key.
   Map<K, V> duplicate(Map<K, V> map, {bool checkOnlyKey = false}) {
