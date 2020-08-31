@@ -39,7 +39,13 @@ extension MapExtension<K extends Object, V extends Object> on Map<K, V> {
     if (this == other) return true;
     if (this.length != other.length) return false;
     for (MapEntry<K, V> tmp in this.entries) {
-      if (!other.containsKey(tmp)) return false;
+      if (!other.containsKey(tmp.key)) return false;
+      if (tmp.value is Map &&
+          other[tmp.key] is Map &&
+          (tmp.value as Map).equals(other[tmp.key] as Map)) continue;
+      if (tmp.value is Iterable &&
+          other[tmp.key] is Iterable &&
+          (tmp.value as Iterable).equals(other[tmp.key] as Iterable)) continue;
       if (other[tmp.key] != tmp.value) return false;
     }
     return true;

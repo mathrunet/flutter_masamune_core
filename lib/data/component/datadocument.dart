@@ -21,7 +21,15 @@ class DataDocument extends Document<DataField>
     List<DataField> list = ListPool.get();
     data?.forEach((key, value) {
       if (isEmpty(key) || value == null) return;
-      list.add(DataField(Paths.child(path, key), value));
+      if (value is DataField) {
+        String child = Paths.child(path, key);
+        if (value.path == child)
+          list.add(value);
+        else
+          list.add(value.clone(path: child, isTemporary: false));
+      } else {
+        list.add(DataField(Paths.child(path, key), value));
+      }
     });
     return list;
   }

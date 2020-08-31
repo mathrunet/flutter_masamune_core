@@ -322,8 +322,15 @@ extension IterableExtension<T extends Object> on Iterable<T> {
   bool equals(Iterable<T> other) {
     if (this == other) return true;
     if (this.length != other.length) return false;
-    for (T tmp in this) {
-      if (!other.contains(tmp)) return false;
+    List<T> a = this.toList();
+    List<T> b = other.toList();
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] is Map && b[i] is Map && (a[i] as Map).equals(b[i] as Map))
+        continue;
+      if (a[i] is Iterable &&
+          b[i] is Iterable &&
+          (a[i] as Iterable).equals(b[i] as Iterable)) continue;
+      if (a[i] != b[i]) return false;
     }
     return true;
   }
