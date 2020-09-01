@@ -12,6 +12,24 @@ part of masamune.data;
 ///   ]
 /// );
 /// ```
+///
+///
+/// [MultiDataCollection]
+/// Use multiple collections as one collection.
+///
+/// [JoinableDataCollection]
+/// You can merge the two collections
+/// by requesting a new collection based on the source collection,
+/// much like an SQL outer join.
+///
+/// [UnitaryDataCollection]
+/// Use multiple collections as one collection.
+/// Documents with equal terms can be combined into a single document.
+/// Use this when you want to view and save multiple documents as a single document.
+///
+/// [SearchableMultiDataCollection]
+/// Collections that can combine multiple collections
+/// into a single collection that can be further filtered by search.
 class MultiDataCollection extends Collection<IDataDocument>
     with SortableDataCollectionMixin<IDataDocument>
     implements IDataCollection<IDataDocument> {
