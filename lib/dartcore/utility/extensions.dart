@@ -420,6 +420,29 @@ extension IterableExtension<T extends Object> on Iterable<T> {
       {K key(dynamic e), V value(dynamic e)}) {
     return Map.fromIterable(this, key: key, value: value);
   }
+
+  /// Extract an array with a given range of numbers.
+  ///
+  /// [start]: Starting position.
+  /// [end]: End position.
+  List<T> limit(int start, int end) {
+    if (this == null) return this;
+    if (this is List) {
+      return (this as List).sublist(start, min(this.length, end + 1));
+    } else {
+      return this.toList().sublist(start, min(this.length, end + 1));
+    }
+  }
+
+  /// Extract an array with a given range of numbers.
+  ///
+  /// [start]: Starting position.
+  List<T> limitStart(int start) => this.limit(start, this.length);
+
+  /// Extract an array with a given range of numbers.
+  ///
+  /// [end]: End position.
+  List<T> limitEnd(int end) => this.limit(0, end);
 }
 
 /// List extension methods.
