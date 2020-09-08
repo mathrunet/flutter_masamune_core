@@ -66,4 +66,19 @@ class Config {
     }
     return _uid;
   }
+
+  /// Check the connection status.
+  ///
+  /// [onConnected]: Callbacks on connection.
+  /// [onDisconnected]: Callbacks when you're not connected.
+  static Future<ConnectivityResult> connect(
+      {Function onConnected, Function onDisconnected}) async {
+    ConnectivityResult result = await (Connectivity().checkConnectivity());
+    if (result == ConnectivityResult.none) {
+      if (onDisconnected != null) onDisconnected();
+    } else {
+      if (onConnected != null) onConnected();
+    }
+    return result;
+  }
 }

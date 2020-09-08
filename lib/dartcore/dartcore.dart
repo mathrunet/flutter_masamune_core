@@ -12,6 +12,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:connectivity/connectivity.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -22,6 +23,7 @@ import 'package:stack_trace/stack_trace.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
+export 'package:connectivity/connectivity.dart';
 
 part 'pool/list.dart';
 part 'pool/map.dart';
