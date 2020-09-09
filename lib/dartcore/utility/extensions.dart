@@ -285,7 +285,22 @@ extension DateTimeExtension on DateTime {
   /// [format]: The format to specify.
   String format(String format) {
     if (isEmpty(format)) return Const.empty;
-    return DateFormat(format).format(this);
+    return DateFormat(format)
+        .format(this)
+        .replaceAll("ww", this.weekNumber.toString().padLeft(2, "0"));
+  }
+
+  /// Week number according to ISO 8601.
+  int get weekNumber {
+    final thursday = DateTime.fromMillisecondsSinceEpoch(
+        ((this.millisecondsSinceEpoch - 259200000) / 604800000).ceil() *
+            604800000);
+    final firstDayOfYear = DateTime(thursday.year, 1, 1);
+    return ((thursday.microsecondsSinceEpoch -
+                    firstDayOfYear.millisecondsSinceEpoch) /
+                604800000)
+            .floor() +
+        1;
   }
 }
 
@@ -337,6 +352,19 @@ extension IterableExtension<T extends Object> on Iterable<T> {
 
   /// Remove duplicate values from the list.
   List<T> distinct() => this?.toSet()?.toList();
+
+  /// Index and loop it.
+  ///
+  /// [callback]: Callback function used in index.
+  Iterable<T> index(T callback(T item, int index)) {
+    if (callback == null) return this;
+    int i = 0;
+    for (T tmp in this) {
+      callback(tmp, i);
+      i++;
+    }
+    return this;
+  }
 
   /// After replacing the data in the list, delete the null.
   ///

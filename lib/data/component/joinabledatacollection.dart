@@ -45,7 +45,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   }
 
   IDataCollection _source;
-  List<_JoinEntry> _listener = ListPool.get();
+  List<_CollectionJoinEntry> _listener = ListPool.get();
 
   /// Create a Completer that matches the class.
   ///
@@ -156,9 +156,9 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           source: this._source,
           children: _convertData(this.path, this._source));
     }
-    for (_JoinEntry entry in this._listener) {
+    for (_CollectionJoinEntry entry in this._listener) {
       if (entry == null) continue;
-      if (entry is _JoinDocumentEntry) {
+      if (entry is _CollectionJoinDocumentEntry) {
         if (entry.document == null || entry.document.isDisposed) continue;
         this._applyDocumentInternal(
             key: entry.key,
@@ -166,7 +166,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             prefix: entry.prefix,
             document: entry.document,
             onFound: entry.onFound);
-      } else if (entry is _JoinCollectionEntry) {
+      } else if (entry is _CollectionJoinCollectionEntry) {
         if (entry.collection == null || entry.collection.isDisposed) continue;
         this._applyCollectionInternal(
             key: entry.key,
@@ -223,16 +223,14 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   /// Destroys the object.
   ///
   /// Destroyed objects are not allowed.
-  ///
-  /// Copied from Collection.
   @override
   void dispose() {
     if (this.isDisposed || !this.isDisposable) return;
     if (this._source != null) this._source.unlisten(this._listenUpdate);
     this._listener?.forEach((element) {
-      if (element is _JoinDocumentEntry) {
+      if (element is _CollectionJoinDocumentEntry) {
         element?.document?.unlisten(this._listenUpdate);
-      } else if (element is _JoinCollectionEntry) {
+      } else if (element is _CollectionJoinCollectionEntry) {
         element?.collection?.unlisten(this._listenUpdate);
       }
     });
@@ -269,11 +267,11 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       return this;
     }
     if (!this._listener.any((entry) =>
-        entry is _JoinCollectionEntry &&
+        entry is _CollectionJoinCollectionEntry &&
         (entry.collection == collection ||
             entry.collection.path == collection.path))) {
       collection.listen(this._listenUpdate);
-      this._listener.add(_JoinCollectionEntry(
+      this._listener.add(_CollectionJoinCollectionEntry(
           key: key,
           prefix: prefix,
           collection: collection,
@@ -319,11 +317,11 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       return this;
     }
     if (!this._listener.any((entry) =>
-        entry is _JoinCollectionEntry &&
+        entry is _CollectionJoinCollectionEntry &&
         (entry.collection == collection ||
             entry.collection.path == collection.path))) {
       collection.listen(this._listenUpdate);
-      this._listener.add(_JoinCollectionEntry(
+      this._listener.add(_CollectionJoinCollectionEntry(
           test: test,
           prefix: prefix,
           collection: collection,
@@ -362,10 +360,10 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     IDataDocument document = await builder(this);
     if (document == null) return this;
     if (!this._listener.any((entry) =>
-        entry is _JoinDocumentEntry &&
+        entry is _CollectionJoinDocumentEntry &&
         (entry.document == document || entry.document.path == document.path))) {
       document.listen(this._listenUpdate);
-      this._listener.add(_JoinDocumentEntry(
+      this._listener.add(_CollectionJoinDocumentEntry(
           key: key,
           prefix: prefix,
           document: document,
@@ -404,10 +402,10 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     IDataDocument document = await builder(this);
     if (document == null) return this;
     if (!this._listener.any((entry) =>
-        entry is _JoinDocumentEntry &&
+        entry is _CollectionJoinDocumentEntry &&
         (entry.document == document || entry.document.path == document.path))) {
       document.listen(this._listenUpdate);
-      this._listener.add(_JoinDocumentEntry(
+      this._listener.add(_CollectionJoinDocumentEntry(
           test: test,
           prefix: prefix,
           document: document,
@@ -526,20 +524,19 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   }
 }
 
-abstract class _JoinEntry {
+abstract class _CollectionJoinEntry {
   final String key;
   final String prefix;
-  final bool Function(IDataDocument newDocument, IDataDocument oldDocument)
-      test;
-  const _JoinEntry({this.key, this.prefix, this.test});
+  final bool Function(IDataDocument original, IDataDocument additional) test;
+  const _CollectionJoinEntry({this.key, this.prefix, this.test});
 }
 
-class _JoinDocumentEntry extends _JoinEntry {
+class _CollectionJoinDocumentEntry extends _CollectionJoinEntry {
   final void Function(String key, DataDocument value, IDataDocument document)
       onFound;
   final void Function(String key, DataDocument value) onNotFound;
   final IDataDocument document;
-  const _JoinDocumentEntry(
+  const _CollectionJoinDocumentEntry(
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
@@ -549,13 +546,13 @@ class _JoinDocumentEntry extends _JoinEntry {
       : super(key: key, prefix: prefix, test: test);
 }
 
-class _JoinCollectionEntry extends _JoinEntry {
+class _CollectionJoinCollectionEntry extends _CollectionJoinEntry {
   final void Function(String key, DataDocument value, IDataDocument document,
       IDataCollection collection) onFound;
   final void Function(
       String key, DataDocument value, IDataCollection collection) onNotFound;
   final IDataCollection collection;
-  const _JoinCollectionEntry(
+  const _CollectionJoinCollectionEntry(
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
@@ -626,7 +623,7 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   Future<JoinableDataCollection> joinWhere(
       {String path,
       String prefix,
-      @required bool test(IDataDocument newField, IDataDocument oldField),
+      @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
@@ -714,7 +711,7 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
   Future<JoinableDataCollection> joinDocumentWhere(
       {String path,
       String prefix,
-      @required bool test(IDataDocument newField, IDataDocument oldField),
+      @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document),
       void onNotFound(String key, DataDocument value)}) {
@@ -809,7 +806,7 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   Future<JoinableDataCollection> joinWhere(
       {String path,
       String prefix,
-      @required bool test(IDataDocument newField, IDataDocument oldField),
+      @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataCollection> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document,
           IDataCollection collection),
@@ -903,7 +900,7 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
   Future<JoinableDataCollection> joinDocumentWhere(
       {String path,
       String prefix,
-      @required bool test(IDataDocument newField, IDataDocument oldField),
+      @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
       void onFound(String key, DataDocument value, IDataDocument document),
       void onNotFound(String key, DataDocument value)}) {

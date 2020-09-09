@@ -31,4 +31,5 @@ part 'component/multidatacollection.dart';
 part 'component/searchablemultidatacollection.dart';
 part 'component/datadocumentmixin.dart';
 part 'component/joinabledatacollection.dart';
+part 'component/joinabledatadocument.dart';
 part 'component/multidatadocument.dart';
