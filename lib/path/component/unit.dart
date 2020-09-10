@@ -184,6 +184,8 @@ abstract class Unit<TValue extends Object>
       return Json.encode(this.data as List);
     } else if (this.data is Map) {
       return Json.encode(this.data as Map);
+    } else if (this.data is IPath) {
+      return (this.data is IPath)?.runtimeType?.toString();
     } else {
       return (this.data?.toString());
     }

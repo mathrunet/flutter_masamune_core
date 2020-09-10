@@ -132,9 +132,9 @@ class JoinableDataDocument extends TaskDocument<DataField>
     if (this._source != null) {
       this._source.forEach((key, value) {
         if (this.data.containsKey(key)) {
-          this.data[key].data = value;
+          this.data[key].data = value.data;
         } else {
-          DataField(Paths.child(path, key), value);
+          DataField(Paths.child(path, key), value.data);
         }
       });
       this
@@ -361,7 +361,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
           if (isEmpty(data.key) || data.value == null) continue;
           String key = data.key;
           if (isNotEmpty(prefix)) key = prefix + key;
-          this.data[key] = data.value.data;
+          this[key] = data.value.data;
         }
       }
     } else if (test != null) {
@@ -378,7 +378,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
           if (isEmpty(data.key) || data.value == null) continue;
           String key = data.key;
           if (isNotEmpty(prefix)) key = prefix + key;
-          this.data[key] = data.value.data;
+          this[key] = data.value.data;
         }
       }
     }
@@ -395,7 +395,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
         if (isEmpty(data.key) || data.value == null) continue;
         String key = data.key;
         if (isNotEmpty(prefix)) key = prefix + key;
-        this.data[key] = data.value.data;
+        this[key] = data.value.data;
       }
     }
   }

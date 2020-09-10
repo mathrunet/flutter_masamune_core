@@ -296,7 +296,7 @@ extension DateTimeExtension on DateTime {
         ((this.millisecondsSinceEpoch - 259200000) / 604800000).ceil() *
             604800000);
     final firstDayOfYear = DateTime(thursday.year, 1, 1);
-    return ((thursday.microsecondsSinceEpoch -
+    return ((thursday.millisecondsSinceEpoch -
                     firstDayOfYear.millisecondsSinceEpoch) /
                 604800000)
             .floor() +
