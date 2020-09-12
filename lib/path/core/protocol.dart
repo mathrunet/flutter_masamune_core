@@ -8,6 +8,9 @@ class Protocol {
   /// The data.
   static const String data = "data";
 
+  /// The model.
+  static const String model = "model";
+
   /// The widget.
   static const String widget = "widget";
 

@@ -138,7 +138,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     return collection;
   }
 
-  void _listenUpdate(IPath collection) {
+  void _listenUpdate(IPath collection) async {
     if (this._source != null) {
       this._source.forEach((value) {
         if (this.data.containsKey(value.id)) {
@@ -159,6 +159,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
     for (_CollectionJoinEntry entry in this._listener) {
       if (entry == null) continue;
       if (entry is _CollectionJoinDocumentEntry) {
+        await entry.rebuild(this, this._listenUpdate);
         if (entry.document == null || entry.document.isDisposed) continue;
         this._applyDocumentInternal(
             key: entry.key,
@@ -167,6 +168,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
             document: entry.document,
             onFound: entry.onFound);
       } else if (entry is _CollectionJoinCollectionEntry) {
+        await entry.rebuild(this, this._listenUpdate);
         if (entry.collection == null || entry.collection.isDisposed) continue;
         this._applyCollectionInternal(
             key: entry.key,
@@ -275,6 +277,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           key: key,
           prefix: prefix,
           collection: collection,
+          builder: builder,
           onFound: onFound,
           onNotFound: onNotFound));
     }
@@ -324,6 +327,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       this._listener.add(_CollectionJoinCollectionEntry(
           test: test,
           prefix: prefix,
+          builder: builder,
           collection: collection,
           onFound: onFound,
           onNotFound: onNotFound));
@@ -367,6 +371,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           key: key,
           prefix: prefix,
           document: document,
+          builder: builder,
           onFound: onFound,
           onNotFound: onNotFound));
     }
@@ -409,6 +414,7 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
           test: test,
           prefix: prefix,
           document: document,
+          builder: builder,
           onFound: onFound,
           onNotFound: onNotFound));
     }
@@ -528,22 +534,33 @@ abstract class _CollectionJoinEntry {
   final String key;
   final String prefix;
   final bool Function(IDataDocument original, IDataDocument additional) test;
-  const _CollectionJoinEntry({this.key, this.prefix, this.test});
+  _CollectionJoinEntry({this.key, this.prefix, this.test});
 }
 
 class _CollectionJoinDocumentEntry extends _CollectionJoinEntry {
   final void Function(String key, DataDocument value, IDataDocument document)
       onFound;
   final void Function(String key, DataDocument value) onNotFound;
-  final IDataDocument document;
-  const _CollectionJoinDocumentEntry(
+  IDataDocument document;
+  final Future<IDataDocument> Function(IDataCollection collection) builder;
+  _CollectionJoinDocumentEntry(
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
       this.document,
+      this.builder,
       this.onFound,
       this.onNotFound})
       : super(key: key, prefix: prefix, test: test);
+  Future<IDataDocument> rebuild(
+      IDataCollection collection, void Function(IDataDocument) callback) async {
+    IDataDocument res = await builder(collection);
+    if (res == null) return this.document;
+    this.document?.unlisten(callback);
+    res.listen(callback);
+    this.document = res;
+    return this.document;
+  }
 }
 
 class _CollectionJoinCollectionEntry extends _CollectionJoinEntry {
@@ -551,15 +568,26 @@ class _CollectionJoinCollectionEntry extends _CollectionJoinEntry {
       IDataCollection collection) onFound;
   final void Function(
       String key, DataDocument value, IDataCollection collection) onNotFound;
-  final IDataCollection collection;
-  const _CollectionJoinCollectionEntry(
+  IDataCollection collection;
+  final Future<IDataCollection> Function(IDataCollection collection) builder;
+  _CollectionJoinCollectionEntry(
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
       this.collection,
+      this.builder,
       this.onFound,
       this.onNotFound})
       : super(key: key, prefix: prefix, test: test);
+  Future<IDataCollection> rebuild(IDataCollection collection,
+      void Function(IDataCollection) callback) async {
+    IDataCollection res = await builder(collection);
+    if (res == null) return this.collection;
+    this.collection?.unlisten(callback);
+    res.listen(callback);
+    this.collection = res;
+    return this.collection;
+  }
 }
 
 /// Class that extends IDataCollection.

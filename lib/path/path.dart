@@ -20,6 +20,7 @@ part 'component/pathlistener.dart';
 part 'component/pathlist.dart';
 part 'component/pathtag.dart';
 part 'component/unit.dart';
+part 'component/model.dart';
 part 'component/document.dart';
 part 'component/collection.dart';
 part 'component/countlistener.dart';
