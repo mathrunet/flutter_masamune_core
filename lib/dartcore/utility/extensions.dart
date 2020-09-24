@@ -376,6 +376,17 @@ extension IterableExtension<T extends Object> on Iterable<T> {
     return list;
   }
 
+  /// After replacing the data in the list, delete the null.
+  ///
+  /// [callback]: Callback function used in expand.
+  List<TCast> expandAndRemoveEmpty<TCast extends Object>(
+      Iterable<TCast> callback(T item)) {
+    List<TCast> list = this?.expand<TCast>(callback)?.toList();
+    if (list == null) return ListPool.get();
+    list.removeWhere((tmp) => tmp == null);
+    return list;
+  }
+
   /// If the iterator value is empty, delete the element.
   List<T> removeEmpty() {
     List<T> list = this?.toList();

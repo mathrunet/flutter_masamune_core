@@ -5,6 +5,7 @@ part of masamune.path;
 /// Please implement and use.
 abstract class IPath
     implements
+        IModel,
         IGroupable,
         IDisposable,
         IOrderable,

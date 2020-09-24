@@ -1,38 +1,46 @@
 part of masamune.path;
 
 /// Abstract class of the path model.
-abstract class Model<T extends Object> implements IPath {
+abstract class Model<T extends IPath> implements IPath {
   /// Model context.
   @protected
   ModelContext<T> get context => this._context;
   ModelContext<T> _context;
 
   /// The data output from the model.
-  @protected
   T get data => this.context._data;
 
   /// The abstract class of the path model.
   @mustCallSuper
-  Model() {
-    String path = this.runtimeType.hashCode.toString();
+  Model([String path]) {
+    if (isEmpty(path)) path = this.runtimeType.hashCode.toString();
     Model model = PathMap.get<Model>(path);
     if (model != null) {
       this._context = model.context;
     } else {
       this._context = ModelContext<T>._(path);
       FutureOr<T> res = this.build(this.context);
-      if (res is Future<T>)
-        res.then((value) => this.context._data = value);
-      else if (res is T) this.context._data = res;
+      if (res is Future<T>) {
+        res.then((value) {
+          this.context._data = value;
+          value.listen(this._listner);
+        });
+      } else if (res is T) {
+        this.context._data = res;
+        res.listen(this._listner);
+      }
       PathMap.add(this);
     }
+  }
+  void _listner(IPath path) {
+    this.notifyUpdate();
   }
 
   /// Method for building.
   ///
   /// [context]: ModelContext.
   @protected
-  FutureOr<T> build(ModelContext context);
+  FutureOr<T> build(ModelContext<T> context);
 
   /// Load the data again.
   Future<T> load() async {
@@ -80,7 +88,6 @@ abstract class Model<T extends Object> implements IPath {
   final int group = 0;
 
   /// Get the path.
-  @protected
   String get path => this.rawPath.url;
 
   /// Get ID.
