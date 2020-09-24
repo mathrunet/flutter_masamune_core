@@ -33,6 +33,7 @@ class LocalDocument extends Document<DataField>
   static Map<String, dynamic> __root;
   static Timer _timer;
   static Queue<LocalDocument> _updateStack = QueuePool.get();
+  static Map<String, Set<LocalCollection>> _parentList = MapPool.get();
   static void _startUpdate() {
     if (_timer != null) return;
     _timer = Timer.periodic(Config.periodicExecutionTime, (timer) async {
@@ -62,6 +63,36 @@ class LocalDocument extends Document<DataField>
     applied.release();
     update.release();
     _save();
+  }
+
+  static void _registerParent(LocalCollection collection) {
+    String path = Paths.removeQuery(collection.path);
+    if (_parentList.containsKey(path)) {
+      _parentList[path].add(collection);
+    } else {
+      _parentList[path] = {collection};
+    }
+  }
+
+  static void _addChild(LocalDocument document) {
+    String path = Paths.removeQuery(Paths.parent(document.path));
+    if (!_parentList.containsKey(path)) return;
+    _parentList[path].forEach((element) => element._addChildInternal(document));
+  }
+
+  static void _removeChild(LocalDocument document) {
+    String path = Paths.removeQuery(Paths.parent(document.path));
+    if (!_parentList.containsKey(path)) return;
+    _parentList[path].forEach((element) {
+      if (!element.containsPath(document.path)) return;
+      element._removeChildInternal(document);
+    });
+  }
+
+  static void _unregisterParent(LocalCollection collection) {
+    String path = Paths.removeQuery(collection.path);
+    if (!_parentList.containsKey(path)) return;
+    _parentList[path].remove(collection);
   }
 
   /// Process to create a new instance.
@@ -240,6 +271,19 @@ class LocalDocument extends Document<DataField>
     }
   }
 
+  /// Set the data.
+  ///
+  /// Protected data.
+  ///
+  /// [children]: List of data.
+  @override
+  @protected
+  void set(Iterable<DataField> children) {
+    super.set(children);
+    if (this.isTemporary) return;
+    _addChild(this);
+  }
+
   void _setInternal(Map<String, dynamic> data) {
     if (data == null) return;
     data.forEach((key, value) {
@@ -258,6 +302,7 @@ class LocalDocument extends Document<DataField>
   @override
   Future<T> save<T extends IDataDocument>() {
     if (this.isDisposed) return Future.delayed(Duration.zero);
+    this.registerUntemporary();
     Map<String, dynamic> data = MapPool.get();
     for (MapEntry<String, DataField> tmp in this.data.entries) {
       if (isEmpty(tmp.key) || tmp.value == null || tmp.value.data == null)
@@ -267,6 +312,9 @@ class LocalDocument extends Document<DataField>
     _root.writeToPath(this.path, data);
     if (_timer == null) _startUpdate();
     _updateStack.add(this);
+    if (!this.isTemporary) {
+      _addChild(this);
+    }
     return this.asFuture();
   }
 
@@ -280,6 +328,15 @@ class LocalDocument extends Document<DataField>
     _save();
     this.dispose();
     return Future.delayed(Duration.zero);
+  }
+
+  /// Destroys the object.
+  ///
+  /// Destroyed objects are not allowed.
+  @override
+  void dispose() {
+    super.dispose();
+    _removeChild(this);
   }
 
   /// Get the protocol of the path.

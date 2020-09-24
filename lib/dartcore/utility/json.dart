@@ -18,9 +18,7 @@ class Json {
   static dynamic decode(String json, [dynamic defaultValue]) {
     try {
       return jsonDecode(json);
-    } catch (e) {
-      Log.error(e.toString());
-    }
+    } catch (e) {}
     return defaultValue;
   }
 
@@ -34,9 +32,7 @@ class Json {
       [Map<String, T> defaultValue]) {
     try {
       return (jsonDecode(json) as Map<String, dynamic>).cast<String, T>();
-    } catch (e) {
-      Log.error(e.toString());
-    }
+    } catch (e) {}
     return defaultValue ?? <String, T>{};
   }
 
@@ -50,9 +46,7 @@ class Json {
       [List<T> defaultValue]) {
     try {
       return (jsonDecode(json) as List).cast<T>();
-    } catch (e) {
-      Log.error(e.toString());
-    }
+    } catch (e) {}
     return defaultValue ?? <T>[];
   }
 
@@ -65,9 +59,7 @@ class Json {
   static String encode(Object value, [String defaultValue = ""]) {
     try {
       return jsonEncode(value);
-    } catch (e) {
-      Log.error(e.toString());
-    }
+    } catch (e) {}
     return defaultValue;
   }
 }

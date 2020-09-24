@@ -30,8 +30,12 @@ class PathTag {
   /// [key]: Key to set.
   /// [value]: Value to set.
   static void set(String key, String value) {
-    if (isEmpty(key) || isEmpty(value)) return;
-    _builder[Const.bracketStart + key + Const.bracketEnd] = value;
+    if (isEmpty(key)) return;
+    if (isEmpty(value)) {
+      _builder.remove(Const.bracketStart + key + Const.bracketEnd);
+    } else {
+      _builder[Const.bracketStart + key + Const.bracketEnd] = value;
+    }
   }
 }
 

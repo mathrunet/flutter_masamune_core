@@ -127,6 +127,7 @@ class LocalCollection extends Collection<LocalDocument>
     this.thenBy = thenBy;
     this.orderByKey = orderByKey;
     this.thenByKey = thenByKey;
+    LocalDocument._registerParent(this);
   }
 
   /// Update document data.
@@ -189,7 +190,31 @@ class LocalCollection extends Collection<LocalDocument>
     this.clear();
   }
 
+  /// Destroys the object.
+  ///
+  /// Destroyed objects are not allowed.
+  @override
+  void dispose() {
+    super.dispose();
+    LocalDocument._unregisterParent(this);
+  }
+
   /// Get the protocol of the path.
   @override
   String get protocol => Protocol.local;
+
+  void _addChildInternal(LocalDocument document) {
+    if (document == null) return;
+    if (!this.data.containsKey(document.id)) this.data[document.id] = document;
+    this.sort();
+    this.notifyUpdate();
+  }
+
+  void _removeChildInternal(LocalDocument document) {
+    if (document == null) return;
+    if (!document.isDisposable) return;
+    if (!this.data.containsKey(document.id)) return;
+    this.data.remove(document.id);
+    this.notifyUpdate();
+  }
 }
