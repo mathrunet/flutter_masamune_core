@@ -90,13 +90,16 @@ class LocalCollection extends Collection<LocalDocument>
     }
     LocalCollection collection = PathMap.get<LocalCollection>(path);
     if (collection != null) {
-      return (collection.isChanged(
-              orderBy: orderBy,
-              thenBy: thenBy,
-              orderByKey: orderByKey,
-              thenByKey: thenByKey))
-          ? collection.reload()
-          : collection;
+      if (collection.isChanged(
+          orderBy: orderBy,
+          thenBy: thenBy,
+          orderByKey: orderByKey,
+          thenByKey: thenByKey)) {
+        collection._loadFromPrefs();
+        return collection;
+      } else {
+        return collection;
+      }
     }
     collection = LocalCollection._(
         path: path,
