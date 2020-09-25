@@ -24,6 +24,8 @@ part 'interface/sortabledatacollectionmixin.dart';
 part 'component/datafield.dart';
 part 'component/datadocument.dart';
 part 'component/datacollection.dart';
+part 'component/runtimedocument.dart';
+part 'component/runtimecollection.dart';
 part 'component/temporaryfield.dart';
 part 'component/temporarydocument.dart';
 part 'component/temporarycollection.dart';

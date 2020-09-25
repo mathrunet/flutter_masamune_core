@@ -1,5 +1,10 @@
 part of masamune.dartcore;
 
+/// Get UUID.
+///
+/// A 32-byte string without hyphens is output.
+String get uuid => Texts.uuid;
+
 /// Text-related utility classes.
 class Texts {
   static const String _passwordChars =
