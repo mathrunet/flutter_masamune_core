@@ -69,8 +69,16 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   /// );
   /// for( TemporaryDocument document in colletion ){ ... }
   /// ```
-  factory TemporaryCollection() {
-    return TemporaryCollection._();
+  factory TemporaryCollection(
+      {OrderBy orderBy = OrderBy.none,
+      OrderBy thenBy = OrderBy.none,
+      String orderByKey,
+      String thenByKey}) {
+    return TemporaryCollection._(
+        orderBy: orderBy,
+        orderByKey: orderByKey,
+        thenBy: thenBy,
+        thenByKey: thenByKey);
   }
 
   /// Collection class for storing temporary data.
@@ -102,11 +110,23 @@ class TemporaryCollection extends Collection<TemporaryDocument>
     dynamic data = Json.decode(jsonData);
     switch (data?.runtimeType) {
       case List:
-        return TemporaryCollection.fromList(data as List);
+        return TemporaryCollection.fromList(data as List,
+            orderBy: orderBy,
+            orderByKey: orderByKey,
+            thenBy: thenBy,
+            thenByKey: thenByKey);
       case Map:
-        return TemporaryCollection.fromMap(data as Map);
+        return TemporaryCollection.fromMap(data as Map,
+            orderBy: orderBy,
+            orderByKey: orderByKey,
+            thenBy: thenBy,
+            thenByKey: thenByKey);
       default:
-        return TemporaryCollection();
+        return TemporaryCollection(
+            orderBy: orderBy,
+            orderByKey: orderByKey,
+            thenBy: thenBy,
+            thenByKey: thenByKey);
     }
   }
 
