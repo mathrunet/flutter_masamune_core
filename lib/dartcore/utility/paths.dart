@@ -97,6 +97,11 @@ class Paths {
     return null;
   }
 
+  /// Get the [path] extension.
+  ///
+  /// [path]: Path to use.
+  static String extension(String path) => last(path, separator: Const.dot);
+
   /// Path of one parent of [path].
   ///
   /// By entering [separator], it can be used for purposes other than paths.
