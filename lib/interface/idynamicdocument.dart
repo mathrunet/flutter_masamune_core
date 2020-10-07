@@ -4,7 +4,17 @@ part of masamune.interface;
 ///
 /// At the time of input, you can enter the data in any direction,
 /// and use the [get] method to get the data at the time of output.
-abstract class IDynamicalDataMap {
+abstract class IDynamicDocument {
+  /// Get the UID of the document.
+  ///
+  /// If there is no value in the field, id will be output.
+  String get uid;
+
+  /// Get time.
+  ///
+  /// UpdatedTime is output if the field has no value.
+  int get time;
+
   /// Get the data.
   ///
   /// Do not use from external class.

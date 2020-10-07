@@ -3,7 +3,7 @@ part of masamune.data;
 /// Mixin for setting up data documents.
 ///
 /// Override the [createField] method after using it as a [createField].
-abstract class DataDocumentMixin<TField extends IDataField>
+mixin DataDocumentMixin<TField extends IDataField> on IDocument<TField>
     implements IDataDocument<TField> {
   /// Create a new field.
   ///

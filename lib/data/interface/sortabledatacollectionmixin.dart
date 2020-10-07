@@ -3,7 +3,7 @@ part of masamune.data;
 /// Abstract class for mixin that gives sorting function to collection that handles DataDocument.
 ///
 /// Please mix in and use.
-abstract class SortableDataCollectionMixin<T extends IDataDocument>
+mixin SortableDataCollectionMixin<T extends IDataDocument> on ICollection<T>
     implements IDataCollection<T> {
   /// Order for sorting.
   OrderBy get orderBy => this._orderBy;

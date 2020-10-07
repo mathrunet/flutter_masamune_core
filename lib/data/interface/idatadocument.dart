@@ -6,17 +6,7 @@ part of masamune.data;
 ///
 /// Please implement and use.
 abstract class IDataDocument<TField extends IDataField>
-    implements IDocument<TField>, IDynamicalDataMap {
-  /// Get the UID of the document.
-  ///
-  /// If there is no value in the field, id will be output.
-  String get uid;
-
-  /// Get time.
-  ///
-  /// UpdatedTime is output if the field has no value.
-  int get time;
-
+    implements IDocument<TField>, IDynamicDocument {
   /// Update document data.
   Future<T> reload<T extends IDataDocument>();
 

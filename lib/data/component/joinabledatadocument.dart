@@ -229,7 +229,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
   Future<JoinableDataDocument> joinCollectionAt(
       {@required String key,
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(JoinableDataDocument value, IDataCollection collection),
       String prefix}) async {
@@ -274,7 +274,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
   Future<JoinableDataDocument> joinCollectionWhere(
       {@required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(JoinableDataDocument value, IDataCollection collection),
       String prefix}) async {
@@ -316,7 +316,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
   Future<JoinableDataDocument> joinAt(
       {String prefix,
       @required Future<IDataDocument> builder(IDataDocument document),
-      void onApply(JoinableDataDocument value, IDataDocument document)}) async {
+      void onApply(JoinableDataDocument original, IDataDocument additional)}) async {
     assert(builder != null);
     if (builder == null) return this;
     this.init();
@@ -347,7 +347,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(JoinableDataDocument value, IDataCollection collection),
       IDataCollection collection}) {
@@ -393,7 +393,7 @@ class JoinableDataDocument extends TaskDocument<DataField>
 
   void _applyDocumentInternal(
       {String prefix,
-      void onApply(JoinableDataDocument value, IDataDocument document),
+      void onApply(JoinableDataDocument original, IDataDocument additional),
       IDataDocument document}) {
     if (onApply != null) {
       onApply(this, document);
@@ -414,7 +414,7 @@ abstract class _DocumentJoinEntry {
 }
 
 class _DocumentJoinDocumentEntry extends _DocumentJoinEntry {
-  final void Function(JoinableDataDocument value, IDataDocument document)
+  final void Function(JoinableDataDocument original, IDataDocument additional)
       onApply;
   IDataDocument document;
   final Future<IDataDocument> Function(IDataDocument document) builder;
@@ -435,7 +435,7 @@ class _DocumentJoinDocumentEntry extends _DocumentJoinEntry {
 class _DocumentJoinCollectionEntry extends _DocumentJoinEntry {
   final String key;
   final bool Function(IDataDocument original, IDataDocument additional) test;
-  final void Function(JoinableDataDocument value, IDataDocument document,
+  final void Function(JoinableDataDocument original, IDataDocument additional,
       IDataCollection collection) onFound;
   final void Function(JoinableDataDocument value, IDataCollection collection)
       onNotFound;
@@ -479,7 +479,7 @@ extension JoinableDataDocumentExtension<T extends IDataDocument> on T {
       String prefix,
       @required String key,
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(
           JoinableDataDocument value, IDataCollection collection)}) {
@@ -524,7 +524,7 @@ extension JoinableDataDocumentExtension<T extends IDataDocument> on T {
       String prefix,
       @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(
           JoinableDataDocument value, IDataCollection collection)}) {
@@ -566,7 +566,7 @@ extension JoinableDataDocumentExtension<T extends IDataDocument> on T {
       {String path,
       String prefix,
       @required Future<IDataDocument> builder(IDataDocument document),
-      void onApply(JoinableDataDocument value, IDataDocument document)}) {
+      void onApply(JoinableDataDocument original, IDataDocument additional)}) {
     if (isEmpty(path)) {
       if (this is JoinableDataDocument) {
         path = this.path;
@@ -604,7 +604,7 @@ extension FutureJoinableDataDocumentExtension<T extends IDataDocument>
       String prefix,
       @required String key,
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(
           JoinableDataDocument value, IDataCollection collection)}) {
@@ -652,7 +652,7 @@ extension FutureJoinableDataDocumentExtension<T extends IDataDocument>
       String prefix,
       @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataCollection> builder(IDataDocument document),
-      void onFound(JoinableDataDocument value, IDataDocument document,
+      void onFound(JoinableDataDocument original, IDataDocument additional,
           IDataCollection collection),
       void onNotFound(
           JoinableDataDocument value, IDataCollection collection)}) {
@@ -696,7 +696,7 @@ extension FutureJoinableDataDocumentExtension<T extends IDataDocument>
       {String path,
       String prefix,
       @required Future<IDataDocument> builder(IDataDocument document),
-      void onApply(JoinableDataDocument value, IDataDocument document)}) {
+      void onApply(JoinableDataDocument original, IDataDocument additional)}) {
     if (this == null) return null;
     return this.then((value) {
       if (isEmpty(path)) {

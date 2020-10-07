@@ -3,7 +3,7 @@ part of masamune.task;
 /// Mixin class to add processing for task.
 ///
 /// Please mix in and use.
-abstract class TaskMixin implements ITask {
+mixin TaskMixin on IPath implements ITask {
   Completer _completer;
 
   /// Create a Completer that matches the class.

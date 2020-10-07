@@ -353,8 +353,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   Future<JoinableDataCollection> joinDocumentAt(
       {@required String key,
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value),
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original),
       String prefix}) async {
     assert(isNotEmpty(key));
     assert(builder != null);
@@ -396,8 +396,8 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
   Future<JoinableDataCollection> joinDocumentWhere(
       {bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value),
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original),
       String prefix}) async {
     assert(test != null);
     assert(builder != null);
@@ -487,18 +487,18 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       {String key,
       String prefix,
       bool test(IDataDocument original, IDataDocument additional),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value),
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original),
       IDataDocument document}) {
     if (isNotEmpty(key)) {
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null || !tmp.value.containsKey(key)) continue;
         if (!document.containsKey(key) || tmp.value[key] != document[key]) {
-          if (onNotFound != null) onNotFound(tmp.key, tmp.value);
+          if (onNotFound != null) onNotFound(tmp.value);
           continue;
         }
         if (onFound != null) {
-          onFound(tmp.key, tmp.value, document);
+          onFound(tmp.value, document);
         } else {
           for (MapEntry<String, IDataField> data in document.entries) {
             if (isEmpty(data.key) || data.value == null) continue;
@@ -512,11 +512,11 @@ class JoinableDataCollection extends TaskCollection<DataDocument>
       for (MapEntry<String, DataDocument> tmp in this.data.entries) {
         if (tmp.value == null) continue;
         if (!test(tmp.value, document)) {
-          if (onNotFound != null) onNotFound(tmp.key, tmp.value);
+          if (onNotFound != null) onNotFound(tmp.value);
           continue;
         }
         if (onFound != null) {
-          onFound(tmp.key, tmp.value, document);
+          onFound(tmp.value, document);
         } else {
           for (MapEntry<String, IDataField> data in document.entries) {
             if (isEmpty(data.key) || data.value == null) continue;
@@ -538,9 +538,9 @@ abstract class _CollectionJoinEntry {
 }
 
 class _CollectionJoinDocumentEntry extends _CollectionJoinEntry {
-  final void Function(String key, DataDocument value, IDataDocument document)
+  final void Function(DataDocument original, IDataDocument document)
       onFound;
-  final void Function(String key, DataDocument value) onNotFound;
+  final void Function(DataDocument originals) onNotFound;
   IDataDocument document;
   final Future<IDataDocument> Function(IDataCollection collection) builder;
   _CollectionJoinDocumentEntry(
@@ -698,8 +698,8 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
       String prefix,
       @required String key,
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value)}) {
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original)}) {
     if (isEmpty(path)) {
       if (this is JoinableDataCollection) {
         path = this.path;
@@ -741,8 +741,8 @@ extension JoinableDataCollectionExtension<T extends IDataCollection> on T {
       String prefix,
       @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value)}) {
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original)}) {
     if (isEmpty(path)) {
       if (this is JoinableDataCollection) {
         path = this.path;
@@ -884,8 +884,8 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
       String prefix,
       @required String key,
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value)}) {
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument additional)}) {
     if (this == null) return null;
     return this.then((value) {
       if (isEmpty(path)) {
@@ -930,8 +930,8 @@ extension FutureJoinableDataCollectionExtension<T extends IDataCollection>
       String prefix,
       @required bool test(IDataDocument original, IDataDocument additional),
       @required Future<IDataDocument> builder(IDataCollection collection),
-      void onFound(String key, DataDocument value, IDataDocument document),
-      void onNotFound(String key, DataDocument value)}) {
+      void onFound(DataDocument original, IDataDocument additional),
+      void onNotFound(DataDocument original)}) {
     if (this == null) return null;
     return this.then((value) {
       if (isEmpty(path)) {
