@@ -538,8 +538,7 @@ abstract class _CollectionJoinEntry {
 }
 
 class _CollectionJoinDocumentEntry extends _CollectionJoinEntry {
-  final void Function(DataDocument original, IDataDocument document)
-      onFound;
+  final void Function(DataDocument original, IDataDocument document) onFound;
   final void Function(DataDocument originals) onNotFound;
   IDataDocument document;
   final Future<IDataDocument> Function(IDataCollection collection) builder;

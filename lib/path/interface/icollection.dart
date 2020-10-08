@@ -61,7 +61,7 @@ abstract class ICollection<TChild extends IChild>
   /// Remove a value.
   ///
   /// [value]: Value to remove.
-  Collection<TChild> operator -(TChild value);
+  ICollection<TChild> operator -(TChild value);
 
   /// Remove data from collection.
   ///

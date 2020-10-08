@@ -316,7 +316,8 @@ class JoinableDataDocument extends TaskDocument<DataField>
   Future<JoinableDataDocument> joinAt(
       {String prefix,
       @required Future<IDataDocument> builder(IDataDocument document),
-      void onApply(JoinableDataDocument original, IDataDocument additional)}) async {
+      void onApply(
+          JoinableDataDocument original, IDataDocument additional)}) async {
     assert(builder != null);
     if (builder == null) return this;
     this.init();

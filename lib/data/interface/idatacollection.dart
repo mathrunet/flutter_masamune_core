@@ -17,7 +17,7 @@ abstract class IDataCollection<TDocument extends IDataDocument>
   /// Order for sorting.
   ///
   /// [orderBy]: Order type.
-  set orderBy(OrderBy orderBy);
+  // set orderBy(OrderBy orderBy);
 
   /// Order for sorting.
   ///
@@ -29,7 +29,7 @@ abstract class IDataCollection<TDocument extends IDataDocument>
   /// Apply when the first sort is equivalent.
   ///
   /// [orderBy]: Order type.
-  set thenBy(OrderBy orderBy);
+  // set thenBy(OrderBy orderBy);
 
   /// Compare key for sorting.
   String get orderByKey;
@@ -37,7 +37,7 @@ abstract class IDataCollection<TDocument extends IDataDocument>
   /// Compare key for sorting.
   ///
   /// [key]: Key for sorting.
-  set orderByKey(String key);
+  // set orderByKey(String key);
 
   /// Compare key for sorting.
   ///
@@ -49,7 +49,7 @@ abstract class IDataCollection<TDocument extends IDataDocument>
   /// Apply when the first sort is equivalent.
   ///
   /// [key]: Key for sorting.
-  set thenByKey(String key);
+  // set thenByKey(String key);
 
   /// Get the data.
   ///
