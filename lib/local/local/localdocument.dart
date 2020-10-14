@@ -300,16 +300,19 @@ class LocalDocument extends Document<DataField>
 
   /// Apply the changed document data to the local database.
   @override
-  Future<T> save<T extends IDataDocument>() {
+  Future<T> save<T extends IDataDocument>(
+      {Map<String, dynamic> data, void builder(T document)}) {
     if (this.isDisposed) return Future.delayed(Duration.zero);
     this.registerUntemporary();
-    Map<String, dynamic> data = MapPool.get();
+    data?.forEach((key, value) => this[key] = value);
+    builder?.call(this as T);
+    Map<String, dynamic> map = MapPool.get();
     for (MapEntry<String, DataField> tmp in this.data.entries) {
       if (isEmpty(tmp.key) || tmp.value == null || tmp.value.data == null)
         continue;
-      data[tmp.key] = tmp.value.data;
+      map[tmp.key] = tmp.value.data;
     }
-    _root.writeToPath(this.path, data);
+    _root.writeToPath(this.path, map);
     if (_timer == null) _startUpdate();
     _updateStack.add(this);
     if (!this.isTemporary) {

@@ -7,10 +7,7 @@ part of masamune.data;
 ///
 /// Please implement and use.
 abstract class IDataCollection<TDocument extends IDataDocument>
-    implements
-        ICollection<TDocument>,
-        IDynamicCollection<TDocument>,
-        ISortable {
+    implements ICollection<TDocument>, ISortable {
   /// Order for sorting.
   OrderBy get orderBy;
 

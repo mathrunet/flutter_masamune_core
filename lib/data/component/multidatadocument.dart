@@ -203,7 +203,8 @@ class MultiDataDocument extends Document<IDataField>
   /// Save the data.
   ///
   /// Run if you have a remote or need to save data.
-  Future<T> save<T extends IDataDocument>() async {
+  Future<T> save<T extends IDataDocument>(
+      {Map<String, dynamic> data, void builder(T document)}) async {
     List<Future> task = ListPool.get();
     for (IDataDocument doc in this._collection) {
       if (this.scope != null && !this.scope._check(doc)) continue;
@@ -211,7 +212,7 @@ class MultiDataDocument extends Document<IDataField>
         if (isEmpty(tmp.key) || tmp.value == null) continue;
         doc[tmp.key] = tmp.value.data;
       }
-      task.add(doc.save());
+      task.add(doc.save(data: data, builder: builder));
     }
     if (task.length > 0) await Future.wait(task);
     return this as T;

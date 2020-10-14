@@ -30,5 +30,3 @@ part 'iwaitable.dart';
 part 'isearchable.dart';
 part 'isortable.dart';
 part 'imodel.dart';
-part 'idynamicdocument.dart';
-part 'idynamiccollection.dart';

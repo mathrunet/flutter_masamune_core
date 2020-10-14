@@ -140,7 +140,9 @@ mixin DataDocumentMixin<TField extends IDataField> on IDocument<TField>
   /// Save the data.
   ///
   /// Run if you have a remote or need to save data.
-  Future<T> save<T extends IDataDocument>() => Future<T>.delayed(Duration.zero);
+  Future<T> save<T extends IDataDocument>(
+          {Map<String, dynamic> data, void builder(T document)}) =>
+      Future<T>.delayed(Duration.zero);
 
   /// Delete the data.
   ///
