@@ -15,6 +15,7 @@ import 'package:masamune_core/masamune_core.dart';
 import 'package:masamune_core/path/path.dart';
 
 part 'core/orderby.dart';
+part 'core/geodata.dart';
 
 part 'interface/idatafield.dart';
 part 'interface/idatadocument.dart';
