@@ -36,4 +36,9 @@ abstract class IDataField implements IUnit {
   /// [defaultValue]: Initial value if there is no value.
   Map<K, V> getMap<K extends Object, V extends Object>(
       [Map<K, V> defaultValue]);
+
+  /// Gets value as GeoData.
+  ///
+  /// [defaultValue]: Initial value if there is no value.
+  T getGeo<T extends GeoData>([T defaultValue]);
 }

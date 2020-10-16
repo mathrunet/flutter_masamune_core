@@ -85,6 +85,13 @@ abstract class IDataDocument<TField extends IDataField>
   Map<K, V> getMap<K extends Object, V extends Object>(String key,
       [Map<K, V> defaultValue = const {}]);
 
+  /// Obtain location data.
+  ///
+  /// [key]: Key for retrieving data.
+  /// [defaultValue]: Initial value if there is no value.
+  T getGeo<T extends GeoData>(String key,
+      [GeoData defaultValue = const GeoData()]);
+
   /// Get number of documents.
   int get length;
 

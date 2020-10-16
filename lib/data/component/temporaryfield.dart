@@ -129,6 +129,16 @@ class TemporaryField extends Unit implements IDataField {
     return defaultValue;
   }
 
+  /// Gets value as GeoData.
+  ///
+  /// [defaultValue]: Initial value if there is no value.
+  @override
+  T getGeo<T extends GeoData>([T defaultValue]) {
+    if (this.data == null) return defaultValue;
+    if (this.data is T) return this.data;
+    return defaultValue;
+  }
+
   /// Gets value as String.
   ///
   /// [defaultValue]: Initial value if there is no value.
