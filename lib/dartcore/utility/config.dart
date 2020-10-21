@@ -36,14 +36,14 @@ class Config {
   /// Frame interval for updating etc.
   ///
   /// Initial value is 10ms
-  static Duration frameTime = Duration(milliseconds: 30);
+  static Duration frameTime = const Duration(milliseconds: 30);
 
   /// Interval for executing the regularly executed process.
   ///
   /// Task queue and Firebase updates etc.
   ///
   /// Initial value is 3 sec
-  static Duration periodicExecutionTime = Duration(seconds: 3);
+  static Duration periodicExecutionTime = const Duration(seconds: 3);
 
   /// Task queue execution limit.
   ///
