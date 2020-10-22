@@ -41,6 +41,18 @@ abstract class Auth extends TaskUnit implements IAuth {
   @protected
   void authorized(String uid) {
     this._uid = uid;
+    if (isEmpty(this._uid)) this._uid = Config.uid;
+    this._isAuthorized = true;
+    this.done();
+  }
+
+  /// To delete the credentials after logging out.
+  ///
+  /// Do not use from external class.
+  @protected
+  void unauthorized() {
+    this._uid = null;
+    this._isAuthorized = false;
     this.done();
   }
 
@@ -63,8 +75,6 @@ abstract class Auth extends TaskUnit implements IAuth {
   @protected
   T done<T extends IDoable>() {
     if (this.isDone) return this as T;
-    if (isEmpty(this._uid)) this._uid = Config.uid;
-    this._isAuthorized = true;
     super.done();
     return this as T;
   }
