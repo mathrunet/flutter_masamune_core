@@ -33,7 +33,6 @@ class GeoData {
   /// Returns a string representation of this object.
   @override
   String toString() {
-    if (isNotEmpty(this.name)) return this.name;
-    return "$latitude,$longitude";
+    return "${this.name ?? ""}[$latitude° N,$longitude° E]";
   }
 }
