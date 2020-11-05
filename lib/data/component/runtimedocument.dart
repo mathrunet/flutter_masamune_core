@@ -43,7 +43,7 @@ class RuntimeDocument extends Document<DataField>
   @override
   @protected
   T createInstance<T extends IClonable>(String path, bool isTemporary) =>
-      DataDocument._(path: path, isTemporary: isTemporary) as T;
+      RuntimeDocument._(path: path, isTemporary: isTemporary) as T;
 
   /// Document that stores [DataField] with Key.
   ///

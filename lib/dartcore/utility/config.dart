@@ -10,6 +10,7 @@ class Config {
   static final String _uidKey = "DeviceUniqueIdentifier".toSHA1();
   static String _uid;
   static Directory _temporaryDirectory;
+  static Directory _libraryDirectory;
   static Directory _documentDirectory;
 
   /// Initialize the configuration.
@@ -21,6 +22,9 @@ class Config {
       _uid = Prefs.getString(_uidKey);
     _temporaryDirectory = await getTemporaryDirectory();
     _documentDirectory = await getApplicationDocumentsDirectory();
+    _libraryDirectory = isAndroid
+        ? await getExternalStorageDirectory()
+        : await getLibraryDirectory();
     _isInitialized = true;
   }
 
@@ -55,6 +59,9 @@ class Config {
 
   /// The directory where you want to save the document file.
   static Directory get documentDirectory => _documentDirectory;
+
+  /// The directory where you want to save the library file.
+  static Directory get libraryDirectory => _libraryDirectory;
 
   /// Get the UniqueID of the device.
   static String get uid {
