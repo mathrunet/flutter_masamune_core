@@ -9,6 +9,7 @@
 library masamune.data;
 
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:masamune_core/dartcore/dartcore.dart';
 import 'package:masamune_core/masamune_core.dart';
