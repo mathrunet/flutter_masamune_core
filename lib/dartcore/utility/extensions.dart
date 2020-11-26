@@ -504,6 +504,26 @@ extension ListExtension<T extends Object> on List<T> {
     return this;
   }
 
+  /// Insert the element at the index.
+  ///
+  /// [index]: Index to insert.
+  /// [element]: The element to insert.
+  List<T> insertAt(int index, T element) {
+    if (element == null || index == null || this.length <= index) return this;
+    this.insert(index, element);
+    return this;
+  }
+
+  /// Insert the all elements at the index.
+  ///
+  /// [index]: Index to insert.
+  /// [elements]: The elements to insert.
+  List<T> insertAllAt(int index, Iterable<T> elements) {
+    if (elements == null || index == null || this.length <= index) return this;
+    this.insertAll(index, elements);
+    return this;
+  }
+
   /// Inserts an element at the element's position if True with a test.
   ///
   /// [insert]: The element to insert.
