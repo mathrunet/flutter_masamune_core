@@ -20,11 +20,13 @@ class Config {
       Prefs.set(_uidKey, _uid = Texts.uuid);
     else
       _uid = Prefs.getString(_uidKey);
-    _temporaryDirectory = await getTemporaryDirectory();
-    _documentDirectory = await getApplicationDocumentsDirectory();
-    _libraryDirectory = isAndroid
-        ? await getExternalStorageDirectory()
-        : await getLibraryDirectory();
+    if (!isWeb) {
+      _temporaryDirectory = await getTemporaryDirectory();
+      _documentDirectory = await getApplicationDocumentsDirectory();
+      _libraryDirectory = isAndroid
+          ? await getExternalStorageDirectory()
+          : await getLibraryDirectory();
+    }
     _isInitialized = true;
   }
 
