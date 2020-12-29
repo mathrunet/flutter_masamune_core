@@ -302,7 +302,7 @@ class LocalDocument extends Document<DataField>
   @override
   Future<T> save<T extends IDataDocument>(
       {Map<String, dynamic> data, void builder(T document)}) {
-    if (this.isDisposed) return Future.delayed(Duration.zero);
+    // if (this.isDisposed) return Future.delayed(Duration.zero);
     this.registerUntemporary();
     data?.forEach((key, value) => this[key] = value);
     builder?.call(this as T);
