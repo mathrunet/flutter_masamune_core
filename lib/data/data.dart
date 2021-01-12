@@ -10,6 +10,9 @@ library masamune.data;
 
 import 'dart:async';
 import 'dart:math';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
 import 'package:masamune_core/dartcore/dartcore.dart';
 import 'package:masamune_core/masamune_core.dart';
@@ -37,3 +40,5 @@ part 'component/datadocumentmixin.dart';
 part 'component/joinabledatacollection.dart';
 part 'component/joinabledatadocument.dart';
 part 'component/multidatadocument.dart';
+part 'component/apidocument.dart';
+part 'component/apicollection.dart';

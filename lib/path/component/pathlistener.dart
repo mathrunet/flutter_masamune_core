@@ -38,6 +38,19 @@ class PathListener {
   /// [path]: Path to monitor.
   /// [onUpdate]: Callback executed when [path] changes.
   /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
+  static void watch<T extends IPath>(String path, void onUpdate(T path),
+          {Observer observer}) =>
+      listen<T>(path, onUpdate, observer: observer);
+
+  /// Start monitoring for path changes.
+  ///
+  /// If there is a change in [path], [onUpdate] is called.
+  ///
+  /// If [observer] is set, monitoring will automatically end when [observer] is deleted.
+  ///
+  /// [path]: Path to monitor.
+  /// [onUpdate]: Callback executed when [path] changes.
+  /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
   static void listen<T extends IPath>(String path, void onUpdate(T path),
       {Observer observer}) {
     if (isEmpty(path) || onUpdate == null) return;
@@ -50,6 +63,13 @@ class PathListener {
     map[hash] =
         _ListenerPath(path, type, hash, (r) => onUpdate(r as T), observer);
   }
+
+  /// Stop monitoring a specific path.
+  ///
+  /// [path]: Path to monitor.
+  /// [onUpdate]: Processing to stop monitoring. Exit only matches.
+  static void unwatch<T extends IPath>(String path, void onUpdate(T path)) =>
+      unlisten<T>(path, onUpdate);
 
   /// Stop monitoring a specific path.
   ///
@@ -109,11 +129,27 @@ extension PathListenerExtension<T extends IPath> on T {
   ///
   /// [onUpdate]: Callback executed when [path] changes.
   /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
+  T watch(void onUpdate(T path), {Observer observer}) =>
+      listen(onUpdate, observer: observer);
+
+  /// Start monitoring for path changes.
+  ///
+  /// If there is a change in [path], [onUpdate] is called.
+  ///
+  /// If [observer] is set, monitoring will automatically end when [observer] is deleted.
+  ///
+  /// [onUpdate]: Callback executed when [path] changes.
+  /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
   T listen(void onUpdate(T path), {Observer observer}) {
     if (this == null) return this;
     PathListener.listen(this.path, onUpdate, observer: observer);
     return this;
   }
+
+  /// Stop monitoring a specific path.
+  ///
+  /// [onUpdate]: Processing to stop monitoring. Exit only matches.
+  T unwatch(void onUpdate(T path)) => unlisten(onUpdate);
 
   /// Stop monitoring a specific path.
   ///
@@ -135,6 +171,17 @@ extension PathListenerFutureExtension<T extends IPath> on Future<T> {
   ///
   /// [onUpdate]: Callback executed when [path] changes.
   /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
+  Future<T> watch(void onUpdate(T path), {Observer observer}) =>
+      listen(onUpdate, observer: observer);
+
+  /// Start monitoring for path changes.
+  ///
+  /// If there is a change in [path], [onUpdate] is called.
+  ///
+  /// If [observer] is set, monitoring will automatically end when [observer] is deleted.
+  ///
+  /// [onUpdate]: Callback executed when [path] changes.
+  /// [observer]: Monitoring object. If this is deleted, monitoring will automatically end.
   Future<T> listen(void onUpdate(T path), {Observer observer}) {
     return this.then((p) {
       if (p == null) return p;
@@ -142,6 +189,11 @@ extension PathListenerFutureExtension<T extends IPath> on Future<T> {
       return p;
     });
   }
+
+  /// Stop monitoring a specific path.
+  ///
+  /// [onUpdate]: Processing to stop monitoring. Exit only matches.
+  Future<T> unwatch(void onUpdate(T path)) => unlisten(onUpdate);
 
   /// Stop monitoring a specific path.
   ///
