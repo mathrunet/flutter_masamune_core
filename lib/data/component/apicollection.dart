@@ -28,7 +28,7 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
   /// Create a Completer that matches the class.
   /// Do not use from external class
   @override
-  Completer createCompleter() => Completer<ApiDocument>();
+  Completer createCompleter() => Completer<ApiCollection>();
 
   /// Process to create a new instance.
   ///
@@ -90,7 +90,7 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
   /// [orderByKey]: Key for sorting.
   /// [thenBy]: Sort order when the first sort has the same value.
   /// [thenByKey]: Sort key when the first sort has the same value.
-  static Future<ApiDocument> load(String path,
+  static Future<ApiCollection> load(String path,
       {String url,
       Map<String, String> headers,
       String requestBody,
