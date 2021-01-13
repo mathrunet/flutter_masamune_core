@@ -22,6 +22,7 @@ class ApiDocument extends TaskDocument<DataField>
   /// Request header.
   Map<String, String> get headers => this._headers;
   Map<String, String> _headers;
+  Map<String, dynamic> _mockup;
   Map<String, dynamic> Function(String response) _builder;
 
   /// Create a Completer that matches the class.
@@ -53,6 +54,7 @@ class ApiDocument extends TaskDocument<DataField>
           requestBody: this._requestBody,
           postData: this._postData,
           headers: this._headers,
+          mockup: this._mockup,
           builder: this._builder) as T;
 
   /// Get the protocol of the path.
@@ -90,12 +92,14 @@ class ApiDocument extends TaskDocument<DataField>
   /// [requestBody]: Request body.
   /// [postData]: Request post data.
   /// [builder]: Callback for constructing data from a response.
+  /// [mockup]: Define a mockup of the data.
   static Future<ApiDocument> load(String path,
       {String url,
       Map<String, String> headers,
       String requestBody,
       Map<String, String> postData,
-      Map<String, dynamic> builder(String response)}) {
+      Map<String, dynamic> builder(String response),
+      Map<String, dynamic> mockup}) {
     path = path?.applyTags();
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
@@ -129,12 +133,14 @@ class ApiDocument extends TaskDocument<DataField>
       Map<String, String> headers,
       String requestBody,
       Map<String, String> postData,
-      Map<String, dynamic> builder(String response)})
+      Map<String, dynamic> builder(String response),
+      Map<String, dynamic> mockup})
       : this._url = url,
         this._requestBody = requestBody,
         this._headers = headers,
         this._postData = postData,
         this._builder = builder,
+        this._mockup = mockup,
         super(path: path, isTemporary: isTemporary);
 
   void _processInternal() async {
@@ -153,7 +159,10 @@ class ApiDocument extends TaskDocument<DataField>
         final res = await http.post(this.url,
             body: this.postData, headers: this.headers);
         if (res.statusCode == 200) {
-          _setInternal(res.body);
+          this._setInternal(res.body);
+          this.done();
+        } else if (this._mockup != null && this._mockup.length > 0) {
+          this._setMockup();
           this.done();
         } else {
           this.error(res.body);
@@ -161,7 +170,10 @@ class ApiDocument extends TaskDocument<DataField>
       } else {
         final res = await http.get(this.url, headers: this.headers);
         if (res.statusCode == 200) {
-          _setInternal(res.body);
+          this._setInternal(res.body);
+          this.done();
+        } else if (this._mockup != null && this._mockup.length > 0) {
+          this._setMockup();
           this.done();
         } else {
           this.error(res.body);
@@ -172,10 +184,20 @@ class ApiDocument extends TaskDocument<DataField>
     }
   }
 
+  void _setMockup() {
+    if (this._mockup == null || this._mockup.length <= 0) return;
+    for (MapEntry<String, dynamic> tmp in this._mockup.entries) {
+      if (isEmpty(tmp.key) || tmp.value == null) continue;
+      this[tmp.key] = tmp.value;
+    }
+    this.notifyUpdate();
+  }
+
   void _setInternal(String response) {
     if (isEmpty(response)) return;
     try {
       this.clear();
+      this._setMockup();
       Map<String, dynamic> json = this._builder != null
           ? this._builder(response)
           : jsonDecode(response);

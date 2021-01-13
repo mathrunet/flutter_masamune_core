@@ -22,6 +22,7 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
   /// Request header.
   Map<String, String> get headers => this._headers;
   Map<String, String> _headers;
+  List<Map<String, dynamic>> _mockup;
   List<Map<String, dynamic>> Function(String response) _builder;
 
   /// Create a Completer that matches the class.
@@ -98,7 +99,8 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
       OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
-      String thenByKey}) {
+      String thenByKey,
+      List<Map<String, dynamic>> mockup}) {
     path = path?.applyTags();
     assert(isNotEmpty(path));
     if (isEmpty(path)) {
@@ -122,7 +124,12 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
         builder: builder,
         headers: headers,
         requestBody: requestBody,
-        postData: postData);
+        postData: postData,
+        mockup: mockup,
+        orderBy: orderBy,
+        thenBy: thenBy,
+        orderByKey: orderByKey,
+        thenByKey: thenByKey);
     col._processInternal();
     return col.future;
   }
@@ -144,12 +151,14 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
       OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
-      String thenByKey})
+      String thenByKey,
+      List<Map<String, dynamic>> mockup})
       : this._url = url,
         this._requestBody = requestBody,
         this._headers = headers,
         this._postData = postData,
         this._builder = builder,
+        this._mockup = mockup,
         super(path: path, isTemporary: isTemporary) {
     this.orderBy = orderBy;
     this.orderByKey = orderByKey;
@@ -174,7 +183,10 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
         final res = await http.post(this.url,
             body: this.postData, headers: this.headers);
         if (res.statusCode == 200) {
-          _setInternal(res.body);
+          this._setInternal(res.body);
+          this.done();
+        } else if (this._mockup != null && this._mockup.length > 0) {
+          this._setMockup();
           this.done();
         } else {
           this.error(res.body);
@@ -182,7 +194,10 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
       } else {
         final res = await http.get(this.url, headers: this.headers);
         if (res.statusCode == 200) {
-          _setInternal(res.body);
+          this._setInternal(res.body);
+          this.done();
+        } else if (this._mockup != null && this._mockup.length > 0) {
+          this._setMockup();
           this.done();
         } else {
           this.error(res.body);
@@ -193,10 +208,23 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
     }
   }
 
+  void _setMockup() {
+    if (this._mockup == null || this._mockup.length <= 0) return;
+    for (Map<String, dynamic> tmp in this._mockup) {
+      if (tmp == null) continue;
+      RuntimeDocument doc =
+          RuntimeDocument.fromMap(Paths.child(this.path, uuid), tmp);
+      this.add(doc);
+    }
+    this.sort();
+    this.notifyUpdate();
+  }
+
   void _setInternal(String response) {
     if (isEmpty(response)) return;
     try {
       this.clear();
+      this._setMockup();
       dynamic json = this._builder != null
           ? this._builder(response)
           : jsonDecode(response);
