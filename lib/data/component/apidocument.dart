@@ -114,6 +114,7 @@ class ApiDocument extends TaskDocument<DataField>
         url: url,
         builder: builder,
         headers: headers,
+        mockup: mockup,
         requestBody: requestBody,
         postData: postData);
     doc._processInternal();
@@ -180,7 +181,12 @@ class ApiDocument extends TaskDocument<DataField>
         }
       }
     } catch (e) {
-      this.error(e.toString());
+      if (this._mockup != null && this._mockup.length > 0) {
+        this._setMockup();
+        this.done();
+      } else {
+        this.error(e.toString());
+      }
     }
   }
 

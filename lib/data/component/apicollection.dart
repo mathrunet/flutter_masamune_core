@@ -204,7 +204,12 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
         }
       }
     } catch (e) {
-      this.error(e.toString());
+      if (this._mockup != null && this._mockup.length > 0) {
+        this._setMockup();
+        this.done();
+      } else {
+        this.error(e.toString());
+      }
     }
   }
 
