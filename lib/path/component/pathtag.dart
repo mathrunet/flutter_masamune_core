@@ -1,5 +1,16 @@
 part of masamune.path;
 
+/// Returns the path with a specific tag added and replaced.
+///
+/// To set a specific value to the path, use the [set()] method.
+///
+/// If the path is described as [key], it will be replaced with the value specified for key.
+///
+/// [path]: The path to apply.
+String tag(String path) {
+  return PathTag.apply("[$path]");
+}
+
 /// Class to set path tag.
 ///
 /// By setting a key, you can replace the path value in the form of [Key].
