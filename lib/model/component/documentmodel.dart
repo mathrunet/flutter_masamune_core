@@ -26,6 +26,29 @@ abstract class DocumentModel extends Model<Map<String, dynamic>, IDataDocument>
         PathModelMixin<Map<String, dynamic>, IDataDocument>,
         ClonableModelMixin<Map<String, dynamic>, IDataDocument>
     implements IDataDocument {
+  /// Create a data model that treats the data as a document.
+  ///
+  /// Please inherit and use it.
+  ///
+  /// ```
+  /// class TestDocument extends DocumentModel {
+  ///   TestDocument() : super("document");
+  ///   FutureOr build(ModelContext context) {
+  ///     return {
+  ///       "name": "Name",
+  ///       "age": 19,
+  ///       "sex": "female"
+  ///     };
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Document is a data structure that works like a Key-Value-Pair [Map].
+  /// You can specify [IDataField] for Value, and the content of the data is a value such as [String] or [int], but you can get it with the specified type by methods such as [getString].
+  ///
+  /// You can use the [save] method to save the data you have stored in the document.
+  DocumentModel(String path) : super(path);
+
   /// Get the UID of the document.
   ///
   /// If there is no value in the field, id will be output.
@@ -49,26 +72,29 @@ abstract class DocumentModel extends Model<Map<String, dynamic>, IDataDocument>
     if (createdValue is Future) {
       return createdValue.then((value) {
         if (value is IDataDocument) {
-          return value;
+          if (value.path == this.path) {
+            return value;
+          } else {
+            return value.clone(path: this.path);
+          }
         } else if (value is Map<String, dynamic>) {
-          return TempDocument.fromMap(value);
+          return RuntimeDocument.fromMap(this.path, value);
         } else {
-          return TempDocument.fromMap(<String, dynamic>{});
+          return RuntimeDocument.fromMap(this.path, <String, dynamic>{});
         }
       });
     } else if (createdValue is IDataDocument) {
-      return createdValue;
+      if (createdValue.path == this.path) {
+        return createdValue;
+      } else {
+        return createdValue.clone(path: this.path);
+      }
     } else if (createdValue is Map<String, dynamic>) {
-      return TempDocument.fromMap(createdValue);
+      return RuntimeDocument.fromMap(this.path, createdValue);
     } else {
-      return TempDocument.fromMap(<String, dynamic>{});
+      return RuntimeDocument.fromMap(this.path, <String, dynamic>{});
     }
   }
-
-  /// If no object is found, an empty object is created.
-  @override
-  @protected
-  IDataDocument emptyValue() => TempDocument();
 
   /// Get the value corresponding to [key] from the document.
   dynamic operator [](Object key) {

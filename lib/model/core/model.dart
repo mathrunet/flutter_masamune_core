@@ -9,7 +9,9 @@ part of masamune.model;
 /// If you want to use your newly created data structures, you may want to extend this class to create your own models.
 abstract class Model<Created extends Object, Exposed extends IPath> {
   ModelContext _context;
-  Exposed _exposedValue;
+
+  /// Get the path.
+  final String path;
 
   /// The base class of the model.
   ///
@@ -19,14 +21,16 @@ abstract class Model<Created extends Object, Exposed extends IPath> {
   ///
   /// If you want to use your newly created data structures, you may want to extend this class to create your own models.
   @mustCallSuper
-  Model() {
+  Model(this.path)
+      : assert(isNotEmpty(path),
+            "Please specify the path. path cannot be blank.") {
     this._context = ModelContext._(this);
     this._buildInternal();
   }
 
   void _buildInternal() async {
-    this._exposedValue = await this.exposeValue(
-      await this.build(this._context),
+    await this.exposeValue(
+      this.build(this._context),
     );
   }
 
@@ -34,7 +38,7 @@ abstract class Model<Created extends Object, Exposed extends IPath> {
   ///
   /// Returns itself after being rebuilt.
   Future<TModel> rebuild<TModel extends Model>([Created createdValue]) async {
-    this._exposedValue = await this.exposeValue(
+    await this.exposeValue(
       createdValue ?? (await this.build(this._context)),
     );
     return this as TModel;
@@ -57,25 +61,14 @@ abstract class Model<Created extends Object, Exposed extends IPath> {
   @protected
   FutureOr<Exposed> exposeValue(FutureOr createdValue);
 
-  /// If no object is found, an empty object is created.
-  @protected
-  Exposed emptyValue();
-
-  /// Get the path.
-  String get path => this._exposedValue?.path;
-
   /// Retrieve the data obtained from the model.
   ///
   /// Normally, you will get the data from the [build] method.
   @protected
-  Exposed get state {
-    if (this._exposedValue != null) return this._exposedValue;
-    return this._exposedValue = this.emptyValue();
-  }
+  Exposed get state => PathMap.get<Exposed>(this.path);
 
   /// Discard the model.
   void dispose() {
-    this._exposedValue = null;
     this._context?._dispose();
   }
 }

@@ -42,16 +42,38 @@ abstract class CollectionModel
 
   /// Create a data model that treats the data as a collection.
   ///
-  /// By specifying [path], you can get data from [PathMap] as well, and you can get the data even outside of the build timing.
+  /// Please inherit and use it.
   ///
-  /// You can sort by specifying [orderBy], [orderByKey].
-  /// You can also specify [thenBy] and [thenByKey] to further sort the elements in the same order in the first sort.
-  CollectionModel(
+  /// ```
+  /// class TestCollection extends CollectionModel {
+  ///   TestCollection() : super("collection");
+  ///   FutureOr build(ModelContext context) {
+  ///     return [
+  ///       {
+  ///         "name": "Name",
+  ///         "age": 19,
+  ///         "sex": "female",
+  ///       },
+  ///       {
+  ///         "name": "Name",
+  ///         "age": 19,
+  ///         "sex": "female"
+  ///       }
+  ///     ];
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Collections have an ordered array of data structures, such as [List].
+  /// Basically, you can use [for] statements and various [Iterable] methods to retrieve data.
+  ///
+  /// In the [build] method of a widget, you can use [map] or [expand] in combination with [ListView], [Column], [Row] and other widgets to create a more visible structure.
+  CollectionModel(String path,
       {this.orderBy = OrderBy.none,
       this.orderByKey,
       this.thenBy = OrderBy.none,
       this.thenByKey})
-      : super();
+      : super(path);
 
   /// Converts a value to an object in path format.
   ///
@@ -65,26 +87,30 @@ abstract class CollectionModel
     if (createdValue is Future) {
       return createdValue.then((value) {
         if (value is IDataCollection) {
-          return value;
+          if (value.path == this.path) {
+            return value;
+          } else {
+            return value.clone(path: this.path);
+          }
         } else if (value is List<Map<String, dynamic>>) {
-          return TempCollection.fromList(value);
+          return RuntimeCollection.fromList(this.path, value);
         } else {
-          return TempCollection.fromList(<Map<String, dynamic>>[]);
+          return RuntimeCollection.fromList(
+              this.path, <Map<String, dynamic>>[]);
         }
       });
     } else if (createdValue is IDataCollection) {
-      return createdValue;
+      if (createdValue.path == this.path) {
+        return createdValue;
+      } else {
+        return createdValue.clone(path: this.path);
+      }
     } else if (createdValue is List<Map<String, dynamic>>) {
-      return TempCollection.fromList(createdValue);
+      return RuntimeCollection.fromList(this.path, createdValue);
     } else {
-      return TempCollection.fromList(<Map<String, dynamic>>[]);
+      return RuntimeCollection.fromList(this.path, <Map<String, dynamic>>[]);
     }
   }
-
-  /// If no object is found, an empty object is created.
-  @override
-  @protected
-  IDataCollection emptyValue() => TempCollection();
 
   /// Get the iterator of the collection.
   @override
