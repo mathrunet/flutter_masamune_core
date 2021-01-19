@@ -125,7 +125,10 @@ class DataDocument extends Document<DataField>
     }
     DataDocument document = PathMap.get<DataDocument>(path);
     if (document != null) {
-      if (mapData != null) document.set(_convertData(path, mapData));
+      if (mapData != null) {
+        document.clear();
+        document.set(_convertData(path, mapData));
+      }
       return document;
     }
     return DataDocument._(path: path, children: _convertData(path, mapData));

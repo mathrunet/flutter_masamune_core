@@ -7,7 +7,7 @@ part of masamune.data;
 /// ```
 /// TemporaryField data = TemporaryField( "text" );
 /// ```
-class TemporaryField extends Unit implements IDataField {
+class TempField extends Unit implements IDataField {
   /// Process to create a new instance.
   ///
   /// Do not use from outside the class.
@@ -17,7 +17,7 @@ class TemporaryField extends Unit implements IDataField {
   @override
   @protected
   T createInstance<T extends IClonable>(String path, bool isTemporary) =>
-      TemporaryField._() as T;
+      TempField._() as T;
 
   /// Unit for storing temporary data.
   ///
@@ -28,13 +28,13 @@ class TemporaryField extends Unit implements IDataField {
   /// ```
   ///
   /// [value]: Data value.
-  factory TemporaryField([dynamic value]) {
-    return TemporaryField._(value: value);
+  factory TempField([dynamic value]) {
+    return TempField._(value: value);
   }
-  TemporaryField._({String path, dynamic value})
+  TempField._({String path, dynamic value})
       : super(path, value: value, isTemporary: true);
-  factory TemporaryField._withKey([String path, dynamic value]) {
-    return TemporaryField._(path: path, value: value);
+  factory TempField._withKey([String path, dynamic value]) {
+    return TempField._(path: path, value: value);
   }
 
   /// Register the temporary data in the path map.

@@ -1,3 +1,7 @@
+## [0.6.1] - Update README (2020.01.18)
+
+* Added the concept of models to make it easier to build.
+
 ## [0.6.0] - Update README (2020.01.07)
 
 * Hook and InheritWidget are integrated.

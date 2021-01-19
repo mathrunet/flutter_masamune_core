@@ -171,7 +171,10 @@ class DataCollection extends Collection<DataDocument>
       if (thenBy != OrderBy.none) collection.thenBy = thenBy;
       if (isNotEmpty(orderByKey)) collection.orderByKey = orderByKey;
       if (isNotEmpty(thenByKey)) collection.thenByKey = thenByKey;
-      if (mapData != null) collection.set(_convertDataFromMap(path, mapData));
+      if (mapData != null) {
+        collection.clear();
+        collection.set(_convertDataFromMap(path, mapData));
+      }
       return collection;
     }
     return DataCollection._(
@@ -222,8 +225,10 @@ class DataCollection extends Collection<DataDocument>
       if (thenBy != OrderBy.none) collection.thenBy = thenBy;
       if (isNotEmpty(orderByKey)) collection.orderByKey = orderByKey;
       if (isNotEmpty(thenByKey)) collection.thenByKey = thenByKey;
-      if (listData != null)
+      if (listData != null) {
+        collection.clear();
         collection.set(_convertDataFromList(path, listData));
+      }
       return collection;
     }
     return DataCollection._(

@@ -2,39 +2,37 @@ part of masamune.data;
 
 /// Collection class for storing temporary data.
 ///
-/// Can store TemporaryDocument.
+/// Can store TempDocument.
 ///
 /// Since it has the same structure as FireStore, it can be used without discomfort.
 ///
-/// [Iterable<TemporaryDocument>] is available in the for statement because it is MixIn.
+/// [Iterable<TempDocument>] is available in the for statement because it is MixIn.
 ///
 /// ```
-/// TemporaryCollection collection = TemporaryCollection();
+/// TempCollection collection = TempCollection();
 /// collection.add(
-///   TemporaryDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
+///   TempDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
 /// );
-/// for( TemporaryDocument document in colletion ){ ... }
+/// for( TempDocument document in colletion ){ ... }
 /// ```
-class TemporaryCollection extends Collection<TemporaryDocument>
-    with SortableDataCollectionMixin<TemporaryDocument>
-    implements IDataCollection<TemporaryDocument> {
-  static Iterable<TemporaryDocument> _convertDataFromMap(
-      Map<String, dynamic> data) {
-    List<TemporaryDocument> list = ListPool.get();
+class TempCollection extends Collection<TempDocument>
+    with SortableDataCollectionMixin<TempDocument>
+    implements IDataCollection<TempDocument> {
+  static Iterable<TempDocument> _convertDataFromMap(Map<String, dynamic> data) {
+    List<TempDocument> list = ListPool.get();
     data?.forEach((key, value) {
       if (isEmpty(key) || value == null) return;
       if (!(value is Map)) return;
-      list.add(TemporaryDocument._fromMapWithKey(key, value as Map));
+      list.add(TempDocument._fromMapWithKey(key, value as Map));
     });
     return list;
   }
 
-  static Iterable<TemporaryDocument> _convertDataFromList(
-      Iterable<dynamic> data) {
-    List<TemporaryDocument> list = ListPool.get();
+  static Iterable<TempDocument> _convertDataFromList(Iterable<dynamic> data) {
+    List<TempDocument> list = ListPool.get();
     data?.forEachIndex((value, i) {
       if (value == null || !(value is Map)) return;
-      list.add(TemporaryDocument.fromMap(value as Map));
+      list.add(TempDocument.fromMap(value as Map));
     });
     return list;
   }
@@ -48,7 +46,7 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   @override
   @protected
   T createInstance<T extends IClonable>(String path, bool isTemporary) =>
-      TemporaryCollection._(
+      TempCollection._(
           orderBy: this.orderBy,
           orderByKey: this.orderByKey,
           thenBy: this.thenBy,
@@ -60,21 +58,21 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   ///
   /// Since it has the same structure as FireStore, it can be used without discomfort.
   ///
-  /// [Iterable<TemporaryDocument>] is available in the for statement because it is MixIn.
+  /// [Iterable<TempDocument>] is available in the for statement because it is MixIn.
   ///
   /// ```
-  /// TemporaryCollection collection = TemporaryCollection();
+  /// TempCollection collection = TempCollection();
   /// collection.add(
-  ///   TemporaryDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
+  ///   TempDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
   /// );
-  /// for( TemporaryDocument document in colletion ){ ... }
+  /// for( TempDocument document in colletion ){ ... }
   /// ```
-  factory TemporaryCollection(
+  factory TempCollection(
       {OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
       String thenByKey}) {
-    return TemporaryCollection._(
+    return TempCollection._(
         orderBy: orderBy,
         orderByKey: orderByKey,
         thenBy: thenBy,
@@ -83,18 +81,18 @@ class TemporaryCollection extends Collection<TemporaryDocument>
 
   /// Collection class for storing temporary data.
   ///
-  /// Can store TemporaryDocument.
+  /// Can store TempDocument.
   ///
   /// Since it has the same structure as FireStore, it can be used without discomfort.
   ///
-  /// [Iterable<TemporaryDocument>] is available in the for statement because it is MixIn.
+  /// [Iterable<TempDocument>] is available in the for statement because it is MixIn.
   ///
   /// ```
-  /// TemporaryCollection collection = TemporaryCollection();
+  /// TempCollection collection = TempCollection();
   /// collection.add(
-  ///   TemporaryDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
+  ///   TempDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
   /// );
-  /// for( TemporaryDocument document in colletion ){ ... }
+  /// for( TempDocument document in colletion ){ ... }
   /// ```
   ///
   /// [jsonData]: Json string representing Map.
@@ -102,7 +100,7 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   /// [orderByKey]: Key for sorting.
   /// [thenBy]: Sort order when the first sort has the same value.
   /// [thenByKey]: Sort key when the first sort has the same value.
-  factory TemporaryCollection.fromJson(String jsonData,
+  factory TempCollection.fromJson(String jsonData,
       {OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
@@ -110,19 +108,19 @@ class TemporaryCollection extends Collection<TemporaryDocument>
     dynamic data = Json.decode(jsonData);
     switch (data?.runtimeType) {
       case List:
-        return TemporaryCollection.fromList(data as List,
+        return TempCollection.fromList(data as List,
             orderBy: orderBy,
             orderByKey: orderByKey,
             thenBy: thenBy,
             thenByKey: thenByKey);
       case Map:
-        return TemporaryCollection.fromMap(data as Map,
+        return TempCollection.fromMap(data as Map,
             orderBy: orderBy,
             orderByKey: orderByKey,
             thenBy: thenBy,
             thenByKey: thenByKey);
       default:
-        return TemporaryCollection(
+        return TempCollection(
             orderBy: orderBy,
             orderByKey: orderByKey,
             thenBy: thenBy,
@@ -132,18 +130,18 @@ class TemporaryCollection extends Collection<TemporaryDocument>
 
   /// Collection class for storing temporary data.
   ///
-  /// Can store TemporaryDocument.
+  /// Can store TempDocument.
   ///
   /// Since it has the same structure as FireStore, it can be used without discomfort.
   ///
-  /// [Iterable<TemporaryDocument>] is available in the for statement because it is MixIn.
+  /// [Iterable<TempDocument>] is available in the for statement because it is MixIn.
   ///
   /// ```
-  /// TemporaryCollection collection = TemporaryCollection();
+  /// TempCollection collection = TempCollection();
   /// collection.add(
-  ///   TemporaryDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
+  ///   TempDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
   /// );
-  /// for( TemporaryDocument document in colletion ){ ... }
+  /// for( TempDocument document in colletion ){ ... }
   /// ```
   ///
   /// [mapData]: Map data to be stored.
@@ -151,12 +149,12 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   /// [orderByKey]: Key for sorting.
   /// [thenBy]: Sort order when the first sort has the same value.
   /// [thenByKey]: Sort key when the first sort has the same value.
-  factory TemporaryCollection.fromMap(Map<String, dynamic> mapData,
+  factory TempCollection.fromMap(Map<String, dynamic> mapData,
       {OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
       String thenByKey}) {
-    return TemporaryCollection._(
+    return TempCollection._(
         children: _convertDataFromMap(mapData),
         orderBy: orderBy,
         orderByKey: orderByKey,
@@ -166,18 +164,18 @@ class TemporaryCollection extends Collection<TemporaryDocument>
 
   /// Collection class for storing temporary data.
   ///
-  /// Can store TemporaryDocument.
+  /// Can store TempDocument.
   ///
   /// Since it has the same structure as FireStore, it can be used without discomfort.
   ///
-  /// [Iterable<TemporaryDocument>] is available in the for statement because it is MixIn.
+  /// [Iterable<TempDocument>] is available in the for statement because it is MixIn.
   ///
   /// ```
-  /// TemporaryCollection collection = TemporaryCollection();
+  /// TempCollection collection = TempCollection();
   /// collection.add(
-  ///   TemporaryDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
+  ///   TempDocument.fromMap( {"A": "Data is A", "B": "Data is B"} )
   /// );
-  /// for( TemporaryDocument document in colletion ){ ... }
+  /// for( TempDocument document in colletion ){ ... }
   /// ```
   ///
   /// [listData]: List data to be stored.
@@ -185,20 +183,20 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   /// [orderByKey]: Key for sorting.
   /// [thenBy]: Sort order when the first sort has the same value.
   /// [thenByKey]: Sort key when the first sort has the same value.
-  factory TemporaryCollection.fromList(Iterable<dynamic> listData,
+  factory TempCollection.fromList(Iterable<dynamic> listData,
       {OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
       String thenByKey}) {
-    return TemporaryCollection._(
+    return TempCollection._(
         children: _convertDataFromList(listData),
         orderBy: orderBy,
         orderByKey: orderByKey,
         thenBy: thenBy,
         thenByKey: thenByKey);
   }
-  TemporaryCollection._(
-      {Iterable<TemporaryDocument> children,
+  TempCollection._(
+      {Iterable<TempDocument> children,
       OrderBy orderBy = OrderBy.none,
       OrderBy thenBy = OrderBy.none,
       String orderByKey,
@@ -217,11 +215,11 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   ///
   /// [value]: Value to set.
   @protected
-  void setInternal(TemporaryDocument value) {
+  void setInternal(TempDocument value) {
     if (value == null) return;
     String key = value.id;
     if (isEmpty(key)) key = Texts.uuid;
-    TemporaryDocument exist =
+    TempDocument exist =
         this.data.firstWhere((k, v) => v == value, orElse: () => null);
     if (exist != null) {
       if (exist != value) value.copyTo(exist);
@@ -237,7 +235,7 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   ///
   /// [value]: The value to remove.
   @protected
-  void unsetInternal(TemporaryDocument child) {
+  void unsetInternal(TempDocument child) {
     if (child == null) return;
     if (!this.data.containsKey(child.id)) return;
     child?.dispose();
@@ -264,7 +262,7 @@ class TemporaryCollection extends Collection<TemporaryDocument>
   /// Get the data.
   ///
   /// [key]: Key for retrieving data.
-  TemporaryDocument operator [](Object key) {
+  TempDocument operator [](Object key) {
     if (key is int) {
       if (key < 0 || this.data.length <= key) return null;
       return this.data[key];

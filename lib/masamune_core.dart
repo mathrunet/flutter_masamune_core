@@ -12,6 +12,7 @@ export 'package:masamune_localize/masamune_localize.dart';
 
 export 'dartcore/dartcore.dart';
 export 'interface/interface.dart';
+export 'model/model.dart';
 export 'path/path.dart';
 export 'data/data.dart';
 export 'task/task.dart';

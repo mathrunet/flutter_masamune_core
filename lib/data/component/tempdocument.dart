@@ -1,26 +1,26 @@
 part of masamune.data;
 
-/// Document that stores [TemporaryField] with Key
+/// Document that stores [TempField] with Key
 ///
-/// Users do n’t really [TemporaryField].
+/// Users do n’t really [TempField].
 ///
 /// Normal, Can be treated as if the data were handled [Map<String, dynamic>].
 ///
 /// ```
-/// TemporaryDocument document = TemporaryDocument.fromMap(
+/// TempDocument document = TempDocument.fromMap(
 ///   {"A": "Data is A", "B": "Data is B"}
 /// );
 /// document["A"] // Data is A;
 /// document["C"] = "Data is C";
 /// ```
-class TemporaryDocument extends Document<TemporaryField>
-    with DataDocumentMixin<TemporaryField>
-    implements IDataDocument<TemporaryField> {
-  static Iterable<TemporaryField> _convertData(Map<String, dynamic> data) {
-    List<TemporaryField> list = ListPool.get();
+class TempDocument extends Document<TempField>
+    with DataDocumentMixin<TempField>
+    implements IDataDocument<TempField> {
+  static Iterable<TempField> _convertData(Map<String, dynamic> data) {
+    List<TempField> list = ListPool.get();
     data?.forEach((key, value) {
       if (isEmpty(key) || value == null) return;
-      list.add(TemporaryField._withKey(key, value));
+      list.add(TempField._withKey(key, value));
     });
     return list;
   }
@@ -34,33 +34,33 @@ class TemporaryDocument extends Document<TemporaryField>
   @override
   @protected
   T createInstance<T extends IClonable>(String path, bool isTemporary) =>
-      TemporaryDocument._() as T;
+      TempDocument._() as T;
 
-  /// Document that stores [TemporaryField] with Key
+  /// Document that stores [TempField] with Key
   ///
-  /// Users do n’t really [TemporaryField].
+  /// Users do n’t really [TempField].
   ///
   /// Normal, Can be treated as if the data were handled [Map<String, dynamic>].
   ///
   /// ```
-  /// TemporaryDocument document = TemporaryDocument.fromMap(
+  /// TempDocument document = TempDocument.fromMap(
   ///   {"A": "Data is A", "B": "Data is B"}
   /// );
   /// document["A"] // Data is A;
   /// document["C"] = "Data is C";
   /// ```
-  factory TemporaryDocument() {
-    return TemporaryDocument._();
+  factory TempDocument() {
+    return TempDocument._();
   }
 
-  /// Document that stores [TemporaryField] with Key
+  /// Document that stores [TempField] with Key
   ///
-  /// Users do n’t really [TemporaryField].
+  /// Users do n’t really [TempField].
   ///
   /// Normal, Can be treated as if the data were handled [Map<String, dynamic>].
   ///
   /// ```
-  /// TemporaryDocument document = TemporaryDocument.fromMap(
+  /// TempDocument document = TempDocument.fromMap(
   ///   {"A": "Data is A", "B": "Data is B"}
   /// );
   /// document["A"] // Data is A;
@@ -68,19 +68,19 @@ class TemporaryDocument extends Document<TemporaryField>
   /// ```
   ///
   /// [jsonData]: Json string representing Map.
-  factory TemporaryDocument.fromJson(String jsonData) {
+  factory TempDocument.fromJson(String jsonData) {
     Map<String, dynamic> data = Json.decodeAsMap(jsonData);
-    return TemporaryDocument.fromMap(data);
+    return TempDocument.fromMap(data);
   }
 
-  /// Document that stores [TemporaryField] with Key
+  /// Document that stores [TempField] with Key
   ///
-  /// Users do n’t really [TemporaryField].
+  /// Users do n’t really [TempField].
   ///
   /// Normal, Can be treated as if the data were handled [Map<String, dynamic>].
   ///
   /// ```
-  /// TemporaryDocument document = TemporaryDocument.fromMap(
+  /// TempDocument document = TempDocument.fromMap(
   ///   {"A": "Data is A", "B": "Data is B"}
   /// );
   /// document["A"] // Data is A;
@@ -88,14 +88,14 @@ class TemporaryDocument extends Document<TemporaryField>
   /// ```
   ///
   /// [mapData]: Map data to be stored.
-  factory TemporaryDocument.fromMap(Map<String, dynamic> mapData) {
-    return TemporaryDocument._(children: _convertData(mapData));
+  factory TempDocument.fromMap(Map<String, dynamic> mapData) {
+    return TempDocument._(children: _convertData(mapData));
   }
-  factory TemporaryDocument._fromMapWithKey(
+  factory TempDocument._fromMapWithKey(
       String path, Map<String, dynamic> mapData) {
-    return TemporaryDocument._(path: path, children: _convertData(mapData));
+    return TempDocument._(path: path, children: _convertData(mapData));
   }
-  TemporaryDocument._({String path, Iterable<TemporaryField> children})
+  TempDocument._({String path, Iterable<TempField> children})
       : super(null, children: children, isTemporary: true);
 
   /// Processing to set a value.
@@ -104,7 +104,7 @@ class TemporaryDocument extends Document<TemporaryField>
   ///
   /// [value]: Value to set.
   @protected
-  void setInternal(TemporaryField value) {
+  void setInternal(TempField value) {
     if (value == null) return;
     String key = value.id;
     if (isEmpty(key)) key = Texts.uuid;
@@ -122,7 +122,7 @@ class TemporaryDocument extends Document<TemporaryField>
   ///
   /// [value]: The value to remove.
   @protected
-  void unsetInternal(TemporaryField value) {
+  void unsetInternal(TempField value) {
     if (value == null) return;
     if (!this.data.containsKey(value.id)) return;
     value?.dispose();
@@ -151,6 +151,6 @@ class TemporaryDocument extends Document<TemporaryField>
   /// [path]: Field path.
   /// [value]: Field value.
   @override
-  TemporaryField createField([String path, value]) =>
-      TemporaryField._withKey(path, value);
+  TempField createField([String path, value]) =>
+      TempField._withKey(path, value);
 }
