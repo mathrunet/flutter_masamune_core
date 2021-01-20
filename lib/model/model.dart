@@ -14,11 +14,18 @@ import 'package:flutter/widgets.dart';
 import 'package:masamune_core/dartcore/dartcore.dart';
 import 'package:masamune_core/data/data.dart';
 import 'package:masamune_core/interface/interface.dart';
+import 'package:masamune_core/local/local.dart';
 import 'package:masamune_core/path/path.dart';
 
 part 'core/model.dart';
 part 'core/modelcontext.dart';
 part 'core/pathmodelmixin.dart';
-part 'component/fieldmodel.dart';
-part 'component/documentmodel.dart';
-part 'component/collectionmodel.dart';
+part 'core/fieldmodel.dart';
+part 'core/documentmodel.dart';
+part 'core/collectionmodel.dart';
+
+part 'component/localcollectionmodel.dart';
+part 'component/localdocumentmodel.dart';
+part 'component/searchablelocalcollectionmodel.dart';
+part 'component/apidocumentmodel.dart';
+part 'component/apicollectionmodel.dart';
