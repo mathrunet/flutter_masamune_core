@@ -190,7 +190,7 @@ abstract class CollectionModel
   void addAll(Iterable<IDataDocument> children) {
     final state = this.state;
     if (state == null) return;
-    state.addAll(children);
+    children?.forEach((element) => this.add(element));
   }
 
   @override
@@ -247,7 +247,7 @@ abstract class CollectionModel
   void removeAll(Iterable<IDataDocument<IDataField>> children) {
     final state = this.state;
     if (state == null) return;
-    state.removeAll(children);
+    children?.forEach((element) => this.remove(element));
   }
 
   @override

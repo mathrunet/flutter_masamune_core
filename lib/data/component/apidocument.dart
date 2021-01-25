@@ -107,7 +107,34 @@ class ApiDocument extends TaskDocument<DataField>
       return Future.delayed(Duration.zero);
     }
     ApiDocument doc = PathMap.get<ApiDocument>(path);
-    if (doc != null) return doc.reload();
+    if (doc != null) {
+      bool reload = false;
+      if (headers != doc.headers) {
+        reload = true;
+        doc._headers = headers;
+      }
+      if (requestBody != doc.requestBody) {
+        reload = true;
+        doc._requestBody = requestBody;
+      }
+      if (postData != doc.postData) {
+        reload = true;
+        doc._postData = postData;
+      }
+      if (builder != doc._builder) {
+        reload = true;
+        doc._builder = builder;
+      }
+      if (url != doc._url) {
+        reload = true;
+        doc._url = url;
+      }
+      if (mockup != doc._mockup) {
+        reload = true;
+        doc._mockup = mockup;
+      }
+      return reload ? doc.reload() : doc;
+    }
     doc = ApiDocument._(
         path: path,
         isTemporary: false,

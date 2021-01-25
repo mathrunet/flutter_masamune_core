@@ -110,6 +110,30 @@ class ApiCollection extends TaskCollection<RuntimeDocument>
     ApiCollection col = PathMap.get<ApiCollection>(path);
     if (col != null) {
       bool reload = false;
+      if (headers != col.headers) {
+        reload = true;
+        col._headers = headers;
+      }
+      if (requestBody != col.requestBody) {
+        reload = true;
+        col._requestBody = requestBody;
+      }
+      if (postData != col.postData) {
+        reload = true;
+        col._postData = postData;
+      }
+      if (builder != col._builder) {
+        reload = true;
+        col._builder = builder;
+      }
+      if (url != col._url) {
+        reload = true;
+        col._url = url;
+      }
+      if (mockup != col._mockup) {
+        reload = true;
+        col._mockup = mockup;
+      }
       if (col.isChanged(
           orderBy: orderBy,
           thenBy: thenBy,
